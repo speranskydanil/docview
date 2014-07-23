@@ -13,37 +13,37 @@ Docview is a tool for displaying images.
 
 ##### Basic
 
-<div class="galery"></div>
-
-new Docview({
-  div: $('.galery'),
-  pages: [
-    { id: 0, w: 1146, h: 1540 },
-    { id: 1, w: 1146, h: 1540 },
-    { id: 2, w: 1146, h: 1540 },
-    { id: 3, w: 1146, h: 1540 },
-    { id: 4, w: 1146, h: 1540 },
-    { id: 5, w: 1146, h: 1540 },
-    { id: 6, w: 1146, h: 1540 },
-    { id: 7, w: 1146, h: 1540 },
-    { id: 8, w: 1146, h: 1540 },
-    { id: 9, w: 1146, h: 1540 }
-  ],
-  zooms: {
-    0: 82,
-    1: 164,
-    2: 328,
-    3: 492,
-    4: 656,
-    5: 818,
-    6: 984,
-    7: 1146
-  },
-  maxZoom: 8,
-  pageUrl: function(id, zoom) {
-    return ['/pages', id, zoom].join('/') + '.jpg';
-  }
-});
+    <div class="galery"></div>
+    
+    new Docview({
+      div: $('.galery'),
+      pages: [
+        { id: 0, w: 1146, h: 1540 },
+        { id: 1, w: 1146, h: 1540 },
+        { id: 2, w: 1146, h: 1540 },
+        { id: 3, w: 1146, h: 1540 },
+        { id: 4, w: 1146, h: 1540 },
+        { id: 5, w: 1146, h: 1540 },
+        { id: 6, w: 1146, h: 1540 },
+        { id: 7, w: 1146, h: 1540 },
+        { id: 8, w: 1146, h: 1540 },
+        { id: 9, w: 1146, h: 1540 }
+      ],
+      zooms: {
+        0: 82,
+        1: 164,
+        2: 328,
+        3: 492,
+        4: 656,
+        5: 818,
+        6: 984,
+        7: 1146
+      },
+      maxZoom: 8,
+      pageUrl: function(id, zoom) {
+        return ['/pages', id, zoom].join('/') + '.jpg';
+      }
+    });
 
 ##### Params
 
