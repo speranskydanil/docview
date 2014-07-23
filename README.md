@@ -19,6 +19,8 @@ Docview is a tool for displaying images.
 * Dim the lights (adds `dark` class to body).
 * Next and Prev buttons, setting current page.
 * Rotating (in the Inspect mode).
+* Intellectual loading of images, determining the viewport, and loading only what you are looking at.
+* Nice UX.
 
 ### Usage
 
