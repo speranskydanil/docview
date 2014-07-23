@@ -13,6 +13,9 @@ Docview is a tool for displaying images.
 
 ##### Basic
 
+    <link rel="stylesheet" href="docview.css">
+    <script src="docview.js"></script>
+
     <div class="galery"></div>
     
     new Docview({
@@ -46,6 +49,71 @@ Docview is a tool for displaying images.
     });
 
 ##### Params
+
+**div** - div in which the Docview will be placed.<br>
+`div: $('.galery')`
+
+**env** - those elements which will be toggled when clicking on 'Fullscreen'.<br>
+`env: $('.page-header, .page-footer')`
+
+**theme** - the look, possible values: 'classic', 'mini', 'dark'; 'classic' - is the default value.<br>
+`theme: 'classic'`
+
+**translation** - you can change text for tooltips, the default values are written below.
+
+    translation: {
+      grid: 'Grid',
+      filmstrip: 'Filmstrip',
+      inspect: 'Inspect',
+      flipBook: 'Flip-book',
+      fullscreen: 'Fullscreen',
+      zoomOut: 'Zoom out',
+      zoomIn: 'Zoom in',
+      dimTheLights: 'Dim the lights',
+      prevPage: 'Previous page',
+      nextPage: 'Next page',
+      rotateLeft: 'Rotate left',
+      rotateRight: 'Rotate right',
+      viewDetails: 'View details'
+    }
+
+
+**pages** - pages to display; id, width and height should be specified.
+
+      pages: [
+        { id: 0, w: 1146, h: 1540 },
+        { id: 1, w: 1146, h: 1540 },
+        { id: 2, w: 1146, h: 1540 },
+        { id: 3, w: 1146, h: 1540 },
+        { id: 4, w: 1146, h: 1540 },
+        { id: 5, w: 1146, h: 1540 },
+        { id: 6, w: 1146, h: 1540 },
+        { id: 7, w: 1146, h: 1540 },
+        { id: 8, w: 1146, h: 1540 },
+        { id: 9, w: 1146, h: 1540 }
+      ]
+
+**zooms** - possible zooms; key - number of a zoom, value - width of the zoom.
+
+      zooms: {
+        0: 82,
+        1: 164,
+        2: 328,
+        3: 492,
+        4: 656,
+        5: 818,
+        6: 984,
+        7: 1146
+      }
+
+**maxZoom** - the allowed max zoom; event `docview-access-denied` will be sent when trying to access a zoom greater then that.<br>
+`maxZoom: 8`
+
+**pageUrl** - function which should return url for a page by it's id and zoom.
+
+    pageUrl: function(id, zoom) {
+      return ['./data', parseInt(id) % 10, zoom + '.jpg'].join('/');
+    }
 
 ### Screenshots
 
