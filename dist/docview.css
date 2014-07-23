@@ -1,0 +1,449 @@
+/* docview -> common */
+
+.docview {
+  margin-bottom: 20px;
+}
+
+.docview * {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+       -o-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.docview .clear {
+  clear: both;
+}
+
+.docview > .wrapper {
+  margin-top: 10px;
+}
+
+.docview > .wrapper > .top-scrollbar {
+  margin: 20px 0px 10px 0px;
+}
+
+.docview .view-details {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: -200px;
+  margin: 0px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.docview .view-details:hover {
+  background: #eee;
+  border-color: #bbb;
+  text-decoration: none;
+}
+
+/* docview -> toolbar -> common */
+
+.docview .toolbar {
+  top: 0px;
+  width: 517px;
+  height: 34px;
+  margin-top: 10px;
+  padding: 4px 8px;
+  border: 1px solid black;
+  background: none;
+  z-index: 950;
+}
+
+.docview .toolbar > .delimiter {
+  float: left;
+  width: 1px;
+  height: 24px;
+  margin-right: 8px;
+  background: black;
+}
+
+/* docview -> toolbar -> buttons */
+
+.docview .toolbar .modes,
+.docview .toolbar .zoom {
+  float: left;
+}
+
+.docview .toolbar a {
+  display: block;
+  float: left;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  padding: 0px;
+  background: url(docview.png) no-repeat scroll 0px 0px transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.docview .toolbar .grid {
+  background-position: 0px 0px;
+}
+
+.docview .toolbar .filmstrip {
+  background-position: -24px 0px;
+}
+
+.docview .toolbar .inspect {
+  background-position: -48px 0px;
+}
+
+.docview .toolbar .flip-book {
+  background-position: -72px 0px;
+}
+
+.docview .toolbar .fullscreen {
+  background-position: -96px 0px;
+}
+
+.docview .toolbar .zoom-out {
+  background-position: -120px 0px;
+}
+
+.docview .toolbar .zoom-in {
+  background-position: -144px 0px;
+}
+
+.docview .toolbar .dim {
+  background-position: -168px 0px;
+}
+
+.docview .toolbar .grid:hover,
+.docview.grid .toolbar .grid {
+  background-position: 0px -24px;
+}
+
+.docview .toolbar .filmstrip:hover,
+.docview.filmstrip .toolbar .filmstrip {
+  background-position: -24px -24px;
+}
+
+.docview .toolbar .inspect:hover,
+.docview.inspect .toolbar .inspect {
+  background-position: -48px -24px;
+}
+
+.docview .toolbar .flip-book:hover,
+.docview.flip-book .toolbar .flip-book {
+  background-position: -72px -24px;
+}
+
+.docview .toolbar .fullscreen:hover {
+  background-position: -96px -24px;
+}
+
+.docview .toolbar .zoom-out:hover {
+  background-position: -120px -24px;
+}
+
+.docview .toolbar .zoom-in:hover {
+  background-position: -144px -24px;
+}
+
+.docview .toolbar .dim:hover {
+  background-position: -168px -24px;
+}
+
+/* docview -> toolbar -> paginator */
+
+.docview .toolbar .paginator {
+  float: left;
+  width: 132px;
+  margin-right: 8px;
+}
+
+.docview .toolbar .paginator .cur {
+  float: left;
+  width: 80px;
+  height: 20px;
+  margin: 2px;
+  padding: 2px 0px;
+  border: 1px solid black;
+  font-size: 13px;
+  line-height: 20px;
+  color: black;
+  text-align: center;
+  outline: none;
+}
+
+.docview .toolbar .paginator a {
+  margin: 0px;
+}
+
+.docview .toolbar .paginator span {
+  display: none;
+  margin-top: 3px;
+  font-size: 13px;
+  line-height: 20px;
+  color: black;
+  text-align: center;
+}
+
+.docview .toolbar .paginator .prev {
+  background-position: -192px 0px;
+}
+
+.docview .toolbar .paginator .prev:hover {
+  background-position: -192px -24px;
+}
+
+.docview .toolbar .paginator .next {
+  background-position: -216px 0px;
+}
+
+.docview .toolbar .paginator .next:hover {
+  background-position: -216px -24px;
+}
+
+.docview.grid .toolbar .paginator .cur,
+.docview.grid .toolbar .paginator a {
+  display: none;
+}
+
+.docview.grid .toolbar .paginator span {
+  display: block;
+}
+
+/* docview -> toolbar -> rotator */
+
+.docview .toolbar .rotator {
+  float: left;
+  width: 56px;
+}
+
+.docview .toolbar .rotator .left {
+  display: none;
+  background-position: -312px 0px;
+}
+
+.docview .toolbar .rotator .left:hover {
+  background-position: -312px -24px;
+}
+
+.docview .toolbar .rotator .right {
+  display: none;
+  margin-right: 0px;
+  background-position: -336px 0px;
+}
+
+.docview .toolbar .rotator .right:hover {
+  background-position: -336px -24px;
+}
+
+.docview .toolbar .rotator span {
+  display: block;
+  margin-top: 3px;
+  font-size: 13px;
+  line-height: 20px;
+  color: black;
+  text-align: center;
+}
+
+.docview.inspect .toolbar .rotator a {
+  display: block;
+}
+
+.docview.inspect .toolbar .rotator span {
+  display: none;
+}
+
+/* docview -> viewport */
+
+.docview .viewport {
+  padding-bottom: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.docview .viewport .wrapper {
+  position: relative;
+  margin: 0px auto;
+}
+
+.docview .viewport .page {
+  position: relative;
+  float: left;
+  margin: 0px 3px 3px 0px;
+  border: 2px solid transparent;
+
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+       -o-box-sizing: content-box;
+      -ms-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+.docview .viewport .page.current {
+  border-color: black;
+}
+
+.docview .viewport .page img {
+  position: absolute;
+}
+
+.docview.flip-book .page {
+  margin: 0px;
+  border: none;
+}
+
+/* docview -> theme -> classic */
+
+.docview.classic .toolbar {
+  border: 1px solid #bbb;
+  background: #e5e5e5;
+
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+     -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.docview.classic .toolbar > .delimiter {
+  background: #bbb;
+}
+
+.docview.classic .toolbar .paginator .cur {
+  border: 1px solid #bbb;
+  color: #555;
+
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+.docview.classic .toolbar .paginator span {
+  color: #999;
+}
+
+.docview.classic .toolbar .rotator span {
+  color: #999;
+}
+
+.classic .viewport .page.current {
+  border-color: #3ad;
+
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+
+.docview.classic .page img {
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+
+/* docview -> theme -> mini */
+
+.docview.mini .toolbar {
+  border: 1px solid #ccc;
+  background: #eee;
+
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+.docview.mini .toolbar > .delimiter {
+  background: #ccc;
+}
+
+.docview.mini .toolbar .paginator .cur {
+  border: 1px solid #ccc;
+  color: #555;
+
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+.docview.mini .toolbar .paginator span {
+  color: #aaa;
+}
+
+.docview.mini .toolbar .rotator span {
+  color: #aaa;
+}
+
+.mini .viewport .page.current {
+  border-color: #7ac;
+
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+
+.docview.mini .page img {
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+
+/* docview -> theme -> dark */
+
+.docview.dark .toolbar {
+  border: 1px solid #666;
+  background: #444;
+
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
+.docview.dark .toolbar > .delimiter {
+  background: #666;
+}
+
+.docview.dark .toolbar .paginator .cur {
+  border: 1px solid #666;
+  color: #555555;
+
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+.docview.dark .toolbar .paginator span {
+  color: #666;
+}
+
+.docview.dark .toolbar .rotator span {
+  color: #666;
+}
+
+.dark .viewport .page.current {
+  border-color: #a33;
+
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+
+.docview.dark .page img {
+  -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+          border-radius: 2px;
+}
+
