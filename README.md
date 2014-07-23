@@ -2,6 +2,8 @@
 
 Docview is a tool for displaying images.
 
+## [DEMO](http://speranskydanil.github.io/docview)
+
 ### Dependencies
 
 * [jQuery](http://jquery.com/)
