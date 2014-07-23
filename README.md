@@ -9,6 +9,15 @@ Docview is a tool for displaying images.
 * [jqueryrotate](http://code.google.com/p/jqueryrotate/)
 * [jquery-top-scrollbar](https://github.com/speranskydanil/jquery-top-scrollbar)
 
+### Features
+
+* Grid, Filmstrip, Inspect, Flip-Book modes are available.
+* Fullscreen.
+* Zooming.
+* Dim the lights (adds `dark` class to body).
+* Next and Prev buttons, setting current page.
+* Rotating (in the Inspect mode).
+
 ### Usage
 
 ##### Basic
@@ -77,6 +86,14 @@ Docview is a tool for displaying images.
       viewDetails: 'View details'
     }
 
+**index** - initial page; default value: 0.<br>
+`index: 0`
+
+**mode** - initial mode; possible values: 'grid', 'filmstrip', 'inspect', 'flip-book'; default value: 'grid'.<br>
+`mode: 'grid'`
+
+**zoom** - initial zoom; default value: 0.<br>
+`zoom: 0`
 
 **pages** - pages to display; id, width and height should be specified.
 
