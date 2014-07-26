@@ -26,11 +26,11 @@ Docview.Mode = new Docview.Class({
   setValidZoom: function () {
     var self = this;
 
-    var difs = $.map(this.zoomNums, function (v) { return Math.abs(self.zoom - v); });
+    var zooms = $.grep(this.zoomNums, function (v) { return v <= self.maxZoom; });
 
-    var min = Math.min.apply(Math, difs);
+    var difs = $.map(zooms, function (v) { return Math.abs(self.zoom - v); });
 
-    this.zoom = this.zoomNums[difs.indexOf(min)];
+    this.zoom = this.zoomNums[difs.indexOf(Math.min.apply(Math, difs))];
   },
 
   canZoom: function () {
