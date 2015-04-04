@@ -2,7 +2,7 @@
 
 Docview is a tool for displaying images.
 
-## [DEMO](http://speranskydanil.github.io/docview)
+[DEMO](http://speranskydanil.github.io/docview)
 
 ### Dependencies
 
@@ -19,6 +19,7 @@ Docview is a tool for displaying images.
 * Dim the lights (adds `dark` class to body).
 * Next and Prev buttons, setting current page.
 * Rotating (in the Inspect mode).
+* Download and Print buttons (in the Inspect mode).
 * Intellectual loading of images, determining the viewport, and loading only what you are looking at.
 * Nice UX.
 
@@ -66,11 +67,8 @@ Docview is a tool for displaying images.
 **div** - div in which the Docview will be placed.<br>
 `div: $('.galery')`
 
-**env** - those elements which will be toggled when clicking on 'Fullscreen'.<br>
-`env: $('.page-header, .page-footer')`
-
-**theme** - the look, possible values: 'classic', 'mini', 'dark'; 'classic' - is the default value.<br>
-`theme: 'classic'`
+**theme** - the look, possible values: 'standard', 'simple', 'dark'; 'standard' - is the default value.<br>
+`theme: 'standard'`
 
 **translation** - you can change text for tooltips, the default values are written below.
 
@@ -87,7 +85,8 @@ Docview is a tool for displaying images.
       nextPage: 'Next page',
       rotateLeft: 'Rotate left',
       rotateRight: 'Rotate right',
-      viewDetails: 'View details'
+      download: 'Download',
+      print: 'Print'
     }
 
 **index** - initial page; default value: 0.<br>
