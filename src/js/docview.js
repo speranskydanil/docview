@@ -18,7 +18,7 @@ var Docview = (function () {
   var Docview = new Class({
     init: function (params) {
       var defaultParams = {
-        theme: 'classic',
+        theme: 'standard',
         translation: {
           grid: 'Grid',
           filmstrip: 'Filmstrip',
