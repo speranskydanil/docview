@@ -11,7 +11,7 @@ Docview.Mode = new Docview.Class({
         id: data.id,
         h: data.h,
         w: data.w,
-        map: data.map,
+        downloadUrl: data.downloadUrl,
         index: index
       });
     });
@@ -34,7 +34,7 @@ Docview.Mode = new Docview.Class({
   },
 
   canZoom: function () {
-    return (this.incrementedZoom() || this.zoom) < this.maxZoom;
+    return (this.incrementedZoom() || this.zoom) <= this.maxZoom;
   },
 
   incZoom: function () {
@@ -90,6 +90,13 @@ Docview.Mode = new Docview.Class({
 
   curPage: function () {
     return this.pages[this.index];
+  },
+
+  downloadUrl: function () {
+    var self = this;
+    var zoom = $.grep(this.zoomNums, function (v) { return v <= self.maxZoom; }).slice(-1)[0];
+
+    return this.curPage().downloadUrl || this.curPage().url(zoom);
   }
 });
 

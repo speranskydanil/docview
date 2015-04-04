@@ -17,12 +17,6 @@ Docview.Mode.Inspect = new Docview.Class({
 
     this.curPage().obj.show();
 
-    this.dom.viewDetails.click(function () {
-      window.location.replace('/pages/' + self.curPage().id + '/map');
-    });
-
-    this.dom.viewDetails.toggle(this.curPage().map == true);
-
     this.redraw();
   },
 
@@ -30,11 +24,11 @@ Docview.Mode.Inspect = new Docview.Class({
     this.queue.clear();
 
     this.dom.pages.unbind('click').show();
-    this.dom.viewDetails.unbind('click').hide();
 
     this.dom.wrapper.css({ width: '100%', height: 'auto' });
 
     this.dom.images.rotate(0);
+    this.dom.images.css('top', 'auto');
 
     this.dom.viewport.top_scrollbar(false);
   },
@@ -68,20 +62,37 @@ Docview.Mode.Inspect = new Docview.Class({
 
   rotateLeft: function () {
     var img = this.curPage().img;
+    var self = this;
 
     img.rotate({
       animateTo: Math.round(img.getRotateAngle() / 90) * 90 - 90,
-      duration: 500
+      duration: 500,
+      callback: function () { self.fitIntoTheFrame() }
     });
   },
 
   rotateRight: function () {
     var img = this.curPage().img;
+    var self = this;
 
     img.rotate({
       animateTo: Math.round(img.getRotateAngle() / 90) * 90 + 90,
-      duration: 500
+      duration: 500,
+      callback: function () { self.fitIntoTheFrame() }
     });
+  },
+
+  fitIntoTheFrame: function () {
+    var img = this.curPage().img;
+
+    var horizontal = this.curPage().w > this.curPage().h;
+    var turned = Math.abs(Math.round(img.getRotateAngle() / 90)) % 2 == 1;
+
+    if (horizontal && turned) {
+      img.animate({ 'top': (img.width() - img.height()) / 2 }, 200);
+    } else {
+      img.animate({ 'top': 0 }, 200);
+    }
   },
 
   animationIsInProgress: false,
@@ -106,8 +117,6 @@ Docview.Mode.Inspect = new Docview.Class({
 
       this.index = index;
 
-      this.dom.viewDetails.toggle(this.curPage().map == true);
-
       this.queue.clear();
       this.load();
     }
@@ -117,6 +126,7 @@ Docview.Mode.Inspect = new Docview.Class({
     this.queue.clear();
     this.resize();
     this.load();
+    this.fitIntoTheFrame()
   },
 
   resize: function () {
@@ -124,7 +134,7 @@ Docview.Mode.Inspect = new Docview.Class({
 
     this.dom.wrapper.css({
       width: this.pageWidthWithIndent(),
-      height: this.pageHeightWithIndent()
+      height: Math.max(this.pageWidthWithIndent(), this.pageHeightWithIndent())
     });
 
     this.dom.viewport.top_scrollbar();

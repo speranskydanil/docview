@@ -8,7 +8,7 @@ Docview.Page = new Docview.Class({
     this.img = this.obj.find('img');
   },
 
-  url: function(zoom) {
+  url: function (zoom) {
     if (zoom == undefined) {
       return this.img.attr('src');
     } else {

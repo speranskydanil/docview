@@ -32,7 +32,8 @@ var Docview = (function () {
           nextPage: 'Next page',
           rotateLeft: 'Rotate left',
           rotateRight: 'Rotate right',
-          viewDetails: 'View details'
+          download: 'Download',
+          print: 'Print'
         },
         index: 0,
         mode: 'grid',
@@ -53,41 +54,47 @@ var Docview = (function () {
 
       html =
         "<div class='docview " + params.theme + "'>" +
-          "<div class='toolbar'>" +
-            "<div class='modes'>" +
-              "<a class='grid' title='" + t.grid + "'></a>" +
-              "<a class='filmstrip' title='" + t.filmstrip + "'></a>" +
-              "<a class='inspect' title='" + t.inspect + "'></a>" +
-              "<a class='flip-book' title='" + t.flipBook + "'></a>" +
+          "<div class='toolbar-wrapper'>" +
+            "<div class='toolbar'>" +
+              "<div class='modes'>" +
+                "<a class='grid' title='" + t.grid + "'></a>" +
+                "<a class='filmstrip' title='" + t.filmstrip + "'></a>" +
+                "<a class='inspect' title='" + t.inspect + "'></a>" +
+                "<a class='flip-book' title='" + t.flipBook + "'></a>" +
+              "</div>" +
+              "<div class='delimiter'></div>" +
+              "<a class='fullscreen' title='" + t.fullscreen + "'></a>" +
+              "<div class='delimiter'></div>" +
+              "<div class='zoom'>" +
+                "<a class='zoom-out' title='" + t.zoomOut + "'></a>" +
+                "<a class='zoom-in' title='" + t.zoomIn + "'></a>" +
+              "</div>" +
+              "<div class='delimiter'></div>" +
+              "<a class='dim' title='" + t.dimTheLights + "'></a>" +
+              "<div class='delimiter delimiter-after-dim'></div>" +
+              "<div class='paginator'>" +
+                "<a class='prev' title='" + t.prevPage + "'></a>" +
+                "<input class='cur' type='text'>" +
+                "<a class='next' title='" + t.nextPage + "'></a>" +
+              "</div>" +
+              "<div class='delimiter delimiter-after-paginator'></div>" +
+              "<div class='rotator'>" +
+                "<a class='left' title='" + t.rotatLeft + "'></a>" +
+                "<a class='right' title='" + t.rotateRight + "'></a>" +
+              "</div>" +
+              "<div class='delimiter delimiter-after-rotator'></div>" +
+              "<a class='download' title='" + t.download + "' target='_blank' download></a>" +
+              "<a class='print' title='" + t.print + "'></a>" +
             "</div>" +
-            "<div class='delimiter'></div>" +
-            "<a class='fullscreen' title='" + t.fullscreen + "'></a>" +
-            "<div class='delimiter'></div>" +
-            "<div class='zoom'>" +
-              "<a class='zoom-out' title='" + t.zoomOut + "'></a>" +
-              "<a class='zoom-in' title='" + t.zoomIn + "'></a>" +
+            "<div class='toolbar-buttons'>" +
+              (params.buttons || '') +
             "</div>" +
-            "<div class='delimiter'></div>" +
-            "<a class='dim' title='" + t.dimTheLights + "'></a>" +
-            "<div class='delimiter'></div>" +
-            "<div class='paginator'>" +
-              "<a class='prev' title='" + t.prevPage + "'></a>" +
-              "<input class='cur' type='text'>" +
-              "<a class='next' title='" + t.nextPage + "'></a>" +
-              "<span>&ndash; &ndash; &ndash; &ndash; &ndash; &ndash; &ndash; &ndash;</span>" +
-            "</div>" +
-            "<div class='delimiter'></div>" +
-            "<div class='rotator'>" +
-              "<a class='left' title='" + t.rotatLeft + "'></a>" +
-              "<a class='right' title='" + t.rotateRight + "'></a>" +
-              "<span>&ndash; &ndash; &ndash; &ndash;</span>" +
-            "</div>" +
+            "<div class='clear'></div>" +
           "</div>" +
           "<div class='wrapper'>" +
             "<div class='viewport'>" +
               "<div class='wrapper'>" +
                 "htmlPages" +
-                "<a class='view-details'>" + t.viewDetails + "</a>" +
                 "<div class='clear'></div>" +
               "</div>" +
             "</div>" +
@@ -109,6 +116,7 @@ var Docview = (function () {
 
       this.dom = {
         docview: $('.docview'),
+        toolbarWrapper: $('.docview .toolbar-wrapper'),
         toolbar: $('.docview .toolbar'),
         modes: $('.docview .toolbar .modes a'),
         fullscreen: $('.docview .toolbar .fullscreen'),
@@ -120,12 +128,13 @@ var Docview = (function () {
         next: $('.docview .toolbar .paginator .next'),
         rotateLeft: $('.docview .toolbar .rotator .left'),
         rotateRight: $('.docview .toolbar .rotator .right'),
+        download: $('.docview .toolbar .download'),
+        print: $('.docview .toolbar .print'),
+        toolbarButtons: $('.docview .toolbar-buttons'),
         viewport: $('.viewport'),
         wrapper: $('.viewport .wrapper'),
         pages: $('.viewport .page'),
-        images: $('.viewport .page img'),
-        viewDetails: $('.viewport .view-details'),
-        env: params.env
+        images: $('.viewport .page img')
       };
 
       this.dom.docview.find('*:not(input)')
@@ -162,11 +171,28 @@ var Docview = (function () {
         self.changeMode($(this).attr('class'));
       });
 
-      var visibility = true;
+      var fullscreen = false;
+      var docview = this.dom.docview;
+      var parent = docview.parent();
 
       this.dom.fullscreen.click(function(e) {
         e.preventDefault();
-        (visibility = !visibility) ? self.dom.env.show() : self.dom.env.hide();
+
+        if (!fullscreen) {
+          $('body > *').each(function () {
+            $(this).data('docview-display-cache', $(this).css('display'));
+            $(this).css('display', 'none');
+          });
+          docview.appendTo('body').show();
+        } else {
+          $('body > *').each(function () {
+            $(this).css('display', $(this).data('docview-display-cache'));
+            $(this).removeData('docview-display-cache');
+          });
+          docview.appendTo(parent);
+        }
+
+        fullscreen = !fullscreen;
       });
 
       this.dom.zoomIn.click(function (e) {
@@ -207,6 +233,12 @@ var Docview = (function () {
         e.preventDefault();
         self.mode.rotateRight();
       });
+
+      this.dom.print.click(function (e) {
+        e.preventDefault();
+        var w = window.open(self.mode.downloadUrl());
+        $(w).ready(function () { w.print(); });
+      });
     },
 
     bindModeEvents: function () {
@@ -228,6 +260,7 @@ var Docview = (function () {
 
           if (self.mode.name == 'inspect') {
             self.dom.cur.val(self.mode.index + 1);
+            self.dom.download.attr('href', self.mode.downloadUrl());
           } else if (self.mode.name == 'flip-book') {
             if (self.mode.index == 0) {
               self.dom.cur.val(1);
@@ -259,8 +292,7 @@ var Docview = (function () {
           viewport: this.dom.viewport,
           wrapper: this.dom.wrapper,
           pages: this.dom.pages,
-          images: this.dom.images,
-          viewDetails: this.dom.viewDetails
+          images: this.dom.images
         },
 
         pages: params.pages,
@@ -322,10 +354,16 @@ var Docview = (function () {
     },
 
     moveToolbar: function () {
-      if ($(window).scrollTop() > this.dom.docview.offset().top) {
-        this.dom.toolbar.css({ 'position': 'fixed' });
+      var scroll = $(window).scrollTop();
+      var offset = this.dom.docview.offset().top;
+      var height = this.dom.docview.height();
+
+      if (scroll > offset && scroll < offset + height) {
+        this.dom.docview.css('padding-top', this.dom.toolbarWrapper.outerHeight(true));
+        this.dom.toolbarWrapper.css({ 'position': 'fixed' });
       } else {
-        this.dom.toolbar.css({ 'position': 'relative' });
+        this.dom.docview.css('padding-top', 0);
+        this.dom.toolbarWrapper.css({ 'position': 'relative' });
       }
     }
   });

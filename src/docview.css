@@ -24,48 +24,34 @@
   margin: 20px 0px 10px 0px;
 }
 
-.docview .view-details {
-  display: none;
-  position: absolute;
+/* docview -> toolbar-wrapper -> common */
+
+.docview .toolbar-wrapper {
   top: 0px;
-  left: -200px;
-  margin: 0px;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  background: #fff;
-  font-size: 14px;
-  line-height: 20px;
-  color: #333;
-  cursor: pointer;
-  text-align: center;
-  vertical-align: middle;
-
-  -webkit-border-radius: 5px;
-     -moz-border-radius: 5px;
-          border-radius: 5px;
-
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-}
-
-.docview .view-details:hover {
-  background: #eee;
-  border-color: #bbb;
-  text-decoration: none;
+  width: 1020px;
+  margin-top: 10px;
+  z-index: 950;
 }
 
 /* docview -> toolbar -> common */
 
 .docview .toolbar {
-  top: 0px;
-  width: 517px;
+  float: left;
+  width: 600px;
   height: 34px;
-  margin-top: 10px;
+  margin-right: 10px;
   padding: 4px 8px;
   border: 1px solid black;
   background: none;
-  z-index: 950;
+}
+
+.docview.grid .toolbar {
+  width: 305px;
+}
+
+.docview.filmstrip .toolbar,
+.docview.flip-book .toolbar {
+  width: 455px;
 }
 
 .docview .toolbar > .delimiter {
@@ -189,15 +175,6 @@
   margin: 0px;
 }
 
-.docview .toolbar .paginator span {
-  display: none;
-  margin-top: 3px;
-  font-size: 13px;
-  line-height: 20px;
-  color: black;
-  text-align: center;
-}
-
 .docview .toolbar .paginator .prev {
   background-position: -192px 0px;
 }
@@ -214,24 +191,24 @@
   background-position: -216px -24px;
 }
 
-.docview.grid .toolbar .paginator .cur,
-.docview.grid .toolbar .paginator a {
+.docview.grid .toolbar .paginator,
+.docview.grid .toolbar .delimiter-after-paginator {
   display: none;
-}
-
-.docview.grid .toolbar .paginator span {
-  display: block;
 }
 
 /* docview -> toolbar -> rotator */
 
 .docview .toolbar .rotator {
+  display: none;
   float: left;
-  width: 56px;
+  width: 64px;
+}
+
+.docview .toolbar .delimiter-after-rotator {
+  display: none;
 }
 
 .docview .toolbar .rotator .left {
-  display: none;
   background-position: -312px 0px;
 }
 
@@ -240,8 +217,6 @@
 }
 
 .docview .toolbar .rotator .right {
-  display: none;
-  margin-right: 0px;
   background-position: -336px 0px;
 }
 
@@ -249,21 +224,51 @@
   background-position: -336px -24px;
 }
 
-.docview .toolbar .rotator span {
-  display: block;
-  margin-top: 3px;
-  font-size: 13px;
-  line-height: 20px;
-  color: black;
-  text-align: center;
-}
-
-.docview.inspect .toolbar .rotator a {
+.docview.inspect .toolbar .rotator,
+.docview.inspect .toolbar .delimiter-after-rotator {
   display: block;
 }
 
-.docview.inspect .toolbar .rotator span {
+/* docview -> toolbar -> download and print */
+
+.docview .toolbar .download {
   display: none;
+  background-position: -384px 0px;
+}
+
+.docview .toolbar .download:hover {
+  background-position: -384px -24px;
+}
+
+.docview.inspect .toolbar .download {
+  display: block;
+}
+
+.docview .toolbar .print {
+  display: none;
+  background-position: -360px 0px;
+}
+
+.docview .toolbar .print:hover {
+  background-position: -360px -24px;
+}
+
+.docview.inspect .toolbar .print {
+  display: block;
+}
+
+/* docview -> toolbar -> other rules */
+
+.docview.grid .toolbar .delimiter-after-dim,
+.docview.filmstrip .toolbar .delimiter-after-paginator,
+.docview.flip-book .toolbar .delimiter-after-paginator {
+  display: none;
+}
+
+/* docview -> toolbar-buttons */
+
+.docview .toolbar-buttons {
+  float: left;
 }
 
 /* docview -> viewport */
@@ -298,6 +303,7 @@
 
 .docview .viewport .page img {
   position: absolute;
+  max-width: none;
 }
 
 .docview.flip-book .page {
@@ -305,27 +311,27 @@
   border: none;
 }
 
-/* docview -> theme -> classic */
+/* docview -> theme -> standard */
 
-.docview.classic .toolbar {
-  border: 1px solid #bbb;
-  background: #e5e5e5;
+.docview.standard .toolbar {
+  border: 1px solid #d0d0d0;
+  background: #eee;
 
   -webkit-border-radius: 5px;
      -moz-border-radius: 5px;
           border-radius: 5px;
 
-  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-     -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-          box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+     -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+          box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
-.docview.classic .toolbar > .delimiter {
-  background: #bbb;
+.docview.standard .toolbar > .delimiter {
+  background: #d0d0d0;
 }
 
-.docview.classic .toolbar .paginator .cur {
-  border: 1px solid #bbb;
+.docview.standard .toolbar .paginator .cur {
+  border: 1px solid #d0d0d0;
   color: #555;
 
   -webkit-border-radius: 5px;
@@ -333,32 +339,24 @@
           border-radius: 5px;
 }
 
-.docview.classic .toolbar .paginator span {
-  color: #999;
-}
-
-.docview.classic .toolbar .rotator span {
-  color: #999;
-}
-
-.classic .viewport .page.current {
-  border-color: #3ad;
+.docview.standard .viewport .page.current {
+  border-color: #5be;
 
   -webkit-border-radius: 2px;
      -moz-border-radius: 2px;
           border-radius: 2px;
 }
 
-.docview.classic .page img {
+.docview.standard .page img {
   -webkit-border-radius: 2px;
      -moz-border-radius: 2px;
           border-radius: 2px;
 }
 
-/* docview -> theme -> mini */
+/* docview -> theme -> simple */
 
-.docview.mini .toolbar {
-  border: 1px solid #ccc;
+.docview.simple .toolbar {
+  border: 1px solid #d0d0d0;
   background: #eee;
 
   -webkit-border-radius: 5px;
@@ -366,12 +364,12 @@
           border-radius: 5px;
 }
 
-.docview.mini .toolbar > .delimiter {
-  background: #ccc;
+.docview.simple .toolbar > .delimiter {
+  background: #d0d0d0;
 }
 
-.docview.mini .toolbar .paginator .cur {
-  border: 1px solid #ccc;
+.docview.simple .toolbar .paginator .cur {
+  border: 1px solid #d0d0d0;
   color: #555;
 
   -webkit-border-radius: 5px;
@@ -379,23 +377,15 @@
           border-radius: 5px;
 }
 
-.docview.mini .toolbar .paginator span {
-  color: #aaa;
-}
-
-.docview.mini .toolbar .rotator span {
-  color: #aaa;
-}
-
-.mini .viewport .page.current {
-  border-color: #7ac;
+docview.simple .viewport .page.current {
+  border-color: #5be;
 
   -webkit-border-radius: 2px;
      -moz-border-radius: 2px;
           border-radius: 2px;
 }
 
-.docview.mini .page img {
+.docview.simple .page img {
   -webkit-border-radius: 2px;
      -moz-border-radius: 2px;
           border-radius: 2px;
@@ -404,8 +394,8 @@
 /* docview -> theme -> dark */
 
 .docview.dark .toolbar {
-  border: 1px solid #666;
-  background: #444;
+  border: 1px solid #d0d0d0;
+  background: #eee;
 
   -webkit-border-radius: 3px;
      -moz-border-radius: 3px;
@@ -413,27 +403,19 @@
 }
 
 .docview.dark .toolbar > .delimiter {
-  background: #666;
+  background: #d0d0d0;
 }
 
 .docview.dark .toolbar .paginator .cur {
-  border: 1px solid #666;
-  color: #555555;
+  border: 1px solid #d0d0d0;
+  color: #555;
 
   -webkit-border-radius: 5px;
      -moz-border-radius: 5px;
           border-radius: 5px;
 }
 
-.docview.dark .toolbar .paginator span {
-  color: #666;
-}
-
-.docview.dark .toolbar .rotator span {
-  color: #666;
-}
-
-.dark .viewport .page.current {
+docview.dark .viewport .page.current {
   border-color: #a33;
 
   -webkit-border-radius: 2px;
