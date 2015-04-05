@@ -4,14 +4,14 @@ Docview is a tool for displaying images.
 
 [DEMO](http://speranskydanil.github.io/docview)
 
-### Dependencies
+## Dependencies
 
 * [jQuery](http://jquery.com/)
 * [jQuery Mouse Wheel Plugin](https://github.com/brandonaaron/jquery-mousewheel)
 * [jqueryrotate](http://code.google.com/p/jqueryrotate/)
 * [jquery-top-scrollbar](https://github.com/speranskydanil/jquery-top-scrollbar)
 
-### Features
+## Features
 
 * Grid, Filmstrip, Inspect, Flip-Book modes are available.
 * Fullscreen.
@@ -23,46 +23,50 @@ Docview is a tool for displaying images.
 * Intellectual loading of images, determining the viewport, and loading only what you are looking at.
 * Nice UX.
 
-### Usage
+## Usage
 
-##### Basic
+### Basic
 
-    <link rel="stylesheet" href="docview.css">
-    <script src="docview.js"></script>
+```html
+<link rel="stylesheet" href="docview.css">
+<script src="docview.js"></script>
 
-    <div class="galery"></div>
-    
-    new Docview({
-      div: $('.galery'),
-      pages: [
-        { id: 0, w: 1146, h: 1540 },
-        { id: 1, w: 1146, h: 1540 },
-        { id: 2, w: 1146, h: 1540 },
-        { id: 3, w: 1146, h: 1540 },
-        { id: 4, w: 1146, h: 1540 },
-        { id: 5, w: 1146, h: 1540 },
-        { id: 6, w: 1146, h: 1540 },
-        { id: 7, w: 1146, h: 1540 },
-        { id: 8, w: 1146, h: 1540 },
-        { id: 9, w: 1146, h: 1540 }
-      ],
-      zooms: {
-        0: 82,
-        1: 164,
-        2: 328,
-        3: 492,
-        4: 656,
-        5: 818,
-        6: 984,
-        7: 1146
-      },
-      maxZoom: 8,
-      pageUrl: function(id, zoom) {
-        return ['/pages', id, zoom].join('/') + '.jpg';
-      }
-    });
+<div class="galery"></div>
+```
 
-##### Params
+```javascript
+new Docview({
+  div: $('.galery'),
+  pages: [
+    { id: 0, w: 1146, h: 1540 },
+    { id: 1, w: 1146, h: 1540 },
+    { id: 2, w: 1146, h: 1540 },
+    { id: 3, w: 1146, h: 1540 },
+    { id: 4, w: 1146, h: 1540 },
+    { id: 5, w: 1146, h: 1540 },
+    { id: 6, w: 1146, h: 1540 },
+    { id: 7, w: 1146, h: 1540 },
+    { id: 8, w: 1146, h: 1540 },
+    { id: 9, w: 1146, h: 1540 }
+  ],
+  zooms: {
+    0: 82,
+    1: 164,
+    2: 328,
+    3: 492,
+    4: 656,
+    5: 818,
+    6: 984,
+    7: 1146
+  },
+  maxZoom: 8,
+  pageUrl: function(id, zoom) {
+    return ['/pages', id, zoom].join('/') + '.jpg';
+  }
+});
+```
+
+### Params
 
 **div** - div in which the Docview will be placed.<br>
 `div: $('.galery')`
@@ -135,7 +139,7 @@ Docview is a tool for displaying images.
       return ['./data', parseInt(id) % 10, zoom + '.jpg'].join('/');
     }
 
-### Screenshots
+## Screenshots
 
 ![screen](https://raw.github.com/speranskydanil/docview/master/screen-1.png)
 
