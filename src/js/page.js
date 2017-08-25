@@ -1,33 +1,29 @@
-import Class from './class.js'
+export default class Page {
+  constructor(params) {
+    Object.assign(this, params)
+    this.ratio = this.h / this.w
+    this.obj = $('#page-' + this.id)
+    this.img = this.obj.find('img')
+  }
 
-export default new Class({
-  init: function(params) {
-    for (var i in params) this[i] = params[i];
-
-    this.ratio = this.h / this.w;
-
-    this.obj = $('#page-' + this.id);
-    this.img = this.obj.find('img');
-  },
-
-  url: function(zoom) {
+  url(zoom) {
     if (zoom == undefined) {
-      return this.img.attr('src');
+      return this.img.attr('src')
     } else {
-      return this.schema(this.id, zoom);
-    }
-  },
-
-  load: function(type, zoom, callback) {
-    if (type == 'fast') {
-      this.img.bind('load', callback).attr('src', this.url(zoom));
-    } else {
-      var self = this;
-
-      $('<img>').bind('load', function() {
-        self.img.attr('src', $(this).attr('src'));
-        callback();
-      }).attr('src', this.url(zoom));
+      return this.schema(this.id, zoom)
     }
   }
-});
+
+  load(type, zoom, callback) {
+    if (type == 'fast') {
+      return this.img.bind('load', callback).attr('src', this.url(zoom))
+    }
+
+    var self = this
+
+    $('<img>').bind('load', function() {
+      self.img.attr('src', $(this).attr('src'))
+      callback()
+    }).attr('src', this.url(zoom))
+  }
+}

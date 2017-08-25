@@ -1,13 +1,12 @@
-import Class from './class.js'
 import Page from './page.js'
 
-export default new Class({
-  configurate: function(params) {
-    this.dom     = params.dom;
-    this.zooms   = params.zooms;
-    this.maxZoom = params.maxZoom;
+export default class Mode {
+  configurate(params) {
+    this.dom     = params.dom
+    this.zooms   = params.zooms
+    this.maxZoom = params.maxZoom
 
-    Page.prototype.schema = params.pageUrl;
+    Page.prototype.schema = params.pageUrl
 
     this.pages = $.map(params.pages, function(data, index) {
       return new Page({
@@ -16,89 +15,89 @@ export default new Class({
         w: data.w,
         downloadUrl: data.downloadUrl,
         index: index
-      });
-    });
+      })
+    })
 
     this.zoomNums = $.map(this.zooms, function(v, k) { return parseInt(k); })
-                     .sort(function(a, b) { return a - b; });
+                     .sort(function(a, b) { return a - b; })
 
-    this.zoomMin = this.zoomNums[0];
-    this.zoomMax = this.zoomNums.slice(-1)[0];
-  },
+    this.zoomMin = this.zoomNums[0]
+    this.zoomMax = this.zoomNums.slice(-1)[0]
+  }
 
-  setValidZoom: function() {
-    var self = this;
+  setValidZoom() {
+    var self = this
 
-    var zooms = $.grep(this.zoomNums, function(v) { return v <= self.maxZoom; });
+    var zooms = $.grep(this.zoomNums, function(v) { return v <= self.maxZoom; })
 
-    var difs = $.map(zooms, function(v) { return Math.abs(self.zoom - v); });
+    var difs = $.map(zooms, function(v) { return Math.abs(self.zoom - v); })
 
-    this.zoom = this.zoomNums[difs.indexOf(Math.min.apply(Math, difs))];
-  },
+    this.zoom = this.zoomNums[difs.indexOf(Math.min.apply(Math, difs))]
+  }
 
-  canZoom: function() {
-    return (this.incrementedZoom() || this.zoom) <= this.maxZoom;
-  },
+  canZoom() {
+    return (this.incrementedZoom() || this.zoom) <= this.maxZoom
+  }
 
-  incZoom: function() {
-    this.zoom = this.incrementedZoom();
-  },
+  incZoom() {
+    this.zoom = this.incrementedZoom()
+  }
 
-  incrementedZoom: function() {
-    return this.zoomNums[this.zoomNums.indexOf(this.zoom) + 1];
-  },
+  incrementedZoom() {
+    return this.zoomNums[this.zoomNums.indexOf(this.zoom) + 1]
+  }
 
-  decZoom: function() {
-    this.zoom = this.decrementedZoom();
-  },
+  decZoom() {
+    this.zoom = this.decrementedZoom()
+  }
 
-  decrementedZoom: function() {
-    return this.zoomNums[this.zoomNums.indexOf(this.zoom) - 1];
-  },
+  decrementedZoom() {
+    return this.zoomNums[this.zoomNums.indexOf(this.zoom) - 1]
+  }
 
-  resizePages: function() {
+  resizePages() {
     this.dom.pages.css({
       width: this.pageWidth(),
       height: this.pageHeight()
-    });
+    })
 
-    this.dom.images.css('width', this.pageWidth());
-  },
+    this.dom.images.css('width', this.pageWidth())
+  }
 
-  pageWidth: function() {
-    return this.zooms[this.zoom];
-  },
+  pageWidth() {
+    return this.zooms[this.zoom]
+  }
 
-  pageWidthWithIndent: function() {
-    return this.pageWidth() + 7;
-  },
+  pageWidthWithIndent() {
+    return this.pageWidth() + 7
+  }
 
-  pageHeight: function() {
+  pageHeight() {
     if (!this.cachedMaxPageRatio) {
-      var pageRatio = 0;
+      var pageRatio = 0
 
       for (var i in this.pages) {
-        pageRatio = Math.max(pageRatio, this.pages[i].ratio);
+        pageRatio = Math.max(pageRatio, this.pages[i].ratio)
       }
 
-      this.cachedMaxPageRatio = pageRatio;
+      this.cachedMaxPageRatio = pageRatio
     }
 
-    return Math.ceil(this.cachedMaxPageRatio * this.pageWidth());
-  },
-
-  pageHeightWithIndent: function() {
-    return this.pageHeight() + 7;
-  },
-
-  curPage: function() {
-    return this.pages[this.index];
-  },
-
-  downloadUrl: function() {
-    var self = this;
-    var zoom = $.grep(this.zoomNums, function(v) { return v <= self.maxZoom; }).slice(-1)[0];
-
-    return this.curPage().downloadUrl || this.curPage().url(zoom);
+    return Math.ceil(this.cachedMaxPageRatio * this.pageWidth())
   }
-});
+
+  pageHeightWithIndent() {
+    return this.pageHeight() + 7
+  }
+
+  curPage() {
+    return this.pages[this.index]
+  }
+
+  downloadUrl() {
+    var self = this
+    var zoom = $.grep(this.zoomNums, function(v) { return v <= self.maxZoom; }).slice(-1)[0]
+
+    return this.curPage().downloadUrl || this.curPage().url(zoom)
+  }
+}

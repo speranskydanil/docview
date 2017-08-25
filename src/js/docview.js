@@ -1,11 +1,10 @@
-import Class from './class.js'
 import ModeGrid from './mode-grid.js'
 import ModeInspect from './mode-inspect.js'
 import ModeFlipBook from './mode-flipbook.js'
 import ModeFilmstrip from './mode-filmstrip.js'
 
-window.Docview = new Class({
-  init: function(params) {
+window.Docview = class Docview {
+  constructor(params) {
     var defaultParams = {
       theme: 'standard',
       translation: {
@@ -30,16 +29,16 @@ window.Docview = new Class({
       maxZoom: 0
     }
 
-    params = $.extend(true, defaultParams, params);
+    params = $.extend(true, defaultParams, params)
 
-    this.buildDom(params);
-    this.bindEvents(params);
-    this.initializeModes(params);
-    this.activateMode(params);
-  },
+    this.buildDom(params)
+    this.bindEvents(params)
+    this.initializeModes(params)
+    this.activateMode(params)
+  }
 
-  buildDom: function(params) {
-    var t = params.translation;
+  buildDom(params) {
+    var t = params.translation
 
     var html =
       "<div class='docview " + params.theme + "'>" +
@@ -88,20 +87,20 @@ window.Docview = new Class({
             "</div>" +
           "</div>" +
         "</div>" +
-      "</div>";
+      "</div>"
 
-    var htmlPages = '';
+    var htmlPages = ''
 
     for (var i = 0, l = params.pages.length; i < l; i += 1) {
       htmlPages +=
         "<div class='page' id='page-" + params.pages[i].id + "'>" +
           "<img src='' oncontextmenu='return false' title='' alt=''>" +
-        "</div>";
+        "</div>"
     }
 
-    html = html.replace('htmlPages', htmlPages);
+    html = html.replace('htmlPages', htmlPages)
 
-    params.div.html(html);
+    params.div.html(html)
 
     this.dom = {
       docview: $('.docview'),
@@ -124,160 +123,160 @@ window.Docview = new Class({
       wrapper: $('.viewport .wrapper'),
       pages: $('.viewport .page'),
       images: $('.viewport .page img')
-    };
+    }
 
     this.dom.docview.find('*:not(input)')
       .attr('unselectable', 'on')
       .css('user-select', 'none')
-      .on('selectstart', false);
-  },
+      .on('selectstart', false)
+  }
 
-  bindEvents: function(params) {
-    this.bindCommonEvents();
-    this.bindToolbarEvents();
-    this.bindModeEvents();
-  },
+  bindEvents(params) {
+    this.bindCommonEvents()
+    this.bindToolbarEvents()
+    this.bindModeEvents()
+  }
 
-  bindCommonEvents: function() {
-    var self = this;
+  bindCommonEvents() {
+    var self = this
 
     $(window).scroll(function() {
-      self.moveToolbar();
-    });
+      self.moveToolbar()
+    })
 
     // trick for case of zooming
 
     setInterval(function() {
-      self.mode.load();
-    }, 2000);
-  },
+      self.mode.load()
+    }, 2000)
+  }
 
-  bindToolbarEvents: function() {
-    var self = this;
+  bindToolbarEvents() {
+    var self = this
 
     this.dom.modes.click(function(e) {
-      e.preventDefault();
-      self.changeMode($(this).attr('class'));
-    });
+      e.preventDefault()
+      self.changeMode($(this).attr('class'))
+    })
 
-    var fullscreen = false;
-    var docview = this.dom.docview;
-    var parent = docview.parent();
+    var fullscreen = false
+    var docview = this.dom.docview
+    var parent = docview.parent()
 
     this.dom.fullscreen.click(function(e) {
-      e.preventDefault();
+      e.preventDefault()
 
       if (!fullscreen) {
         $('body > *').each(function() {
-          $(this).data('docview-display-cache', $(this).css('display'));
-          $(this).css('display', 'none');
-        });
-        docview.appendTo('body').show();
+          $(this).data('docview-display-cache', $(this).css('display'))
+          $(this).css('display', 'none')
+        })
+        docview.appendTo('body').show()
       } else {
         $('body > *').each(function() {
-          $(this).css('display', $(this).data('docview-display-cache'));
-          $(this).removeData('docview-display-cache');
-        });
-        docview.appendTo(parent);
+          $(this).css('display', $(this).data('docview-display-cache'))
+          $(this).removeData('docview-display-cache')
+        })
+        docview.appendTo(parent)
       }
 
-      fullscreen = !fullscreen;
-    });
+      fullscreen = !fullscreen
+    })
 
     this.dom.zoomIn.click(function(e) {
-      e.preventDefault();
-      self.mode.zoomIn();
-    });
+      e.preventDefault()
+      self.mode.zoomIn()
+    })
 
     this.dom.zoomOut.click(function(e) {
-      e.preventDefault();
-      self.mode.zoomOut();
-    });
+      e.preventDefault()
+      self.mode.zoomOut()
+    })
 
     this.dom.dim.click(function(e) {
-      e.preventDefault();
-      $('body').toggleClass('dark');
-    });
+      e.preventDefault()
+      $('body').toggleClass('dark')
+    })
 
     this.dom.prev.click(function(e) {
-      e.preventDefault();
-      self.mode.prev();
-    });
+      e.preventDefault()
+      self.mode.prev()
+    })
 
     this.dom.cur.focus(function() {
-      $(this).val('');
-    });
+      $(this).val('')
+    })
 
     this.dom.cur.focusout(function() {
-      $(window).trigger('docview-mode-changed');
-    });
+      $(window).trigger('docview-mode-changed')
+    })
 
     this.dom.cur.change(function() {
-      self.mode.setCurPage(parseInt($(this).val()) - 1);
-    });
+      self.mode.setCurPage(parseInt($(this).val()) - 1)
+    })
 
     this.dom.next.click(function(e) {
-      e.preventDefault();
-      self.mode.next();
-    });
+      e.preventDefault()
+      self.mode.next()
+    })
 
     this.dom.rotateLeft.click(function(e) {
-      e.preventDefault();
-      self.mode.rotateLeft();
-    });
+      e.preventDefault()
+      self.mode.rotateLeft()
+    })
 
     this.dom.rotateRight.click(function(e) {
-      e.preventDefault();
-      self.mode.rotateRight();
-    });
+      e.preventDefault()
+      self.mode.rotateRight()
+    })
 
     this.dom.print.click(function(e) {
-      e.preventDefault();
-      var w = window.open(self.mode.downloadUrl());
-      $(w).ready(function() { w.print(); });
-    });
-  },
+      e.preventDefault()
+      var w = window.open(self.mode.downloadUrl())
+      $(w).ready(function() { w.print(); })
+    })
+  }
 
-  bindModeEvents: function() {
-    var self = this;
+  bindModeEvents() {
+    var self = this
 
     $(window).bind({
       'docview-select-cur-page': function() {
-        self.changeMode('inspect');
+        self.changeMode('inspect')
       },
 
       'docview-mode-changed': function() {
-        var dom = self.dom;
-        var mode = self.mode;
+        var dom = self.dom
+        var mode = self.mode
 
         // set mode class
 
         dom.docview
           .removeClass('grid filmstrip inspect flip-book')
-          .addClass(mode.name);
+          .addClass(mode.name)
 
         // set cur page
 
-        var cur = dom.cur;
+        var cur = dom.cur
 
         if (mode.name == 'inspect') {
-          cur.val(mode.index + 1);
-          dom.download.attr('href', mode.downloadUrl());
+          cur.val(mode.index + 1)
+          dom.download.attr('href', mode.downloadUrl())
         } else if (mode.name == 'flip-book') {
           if (mode.index == 0) {
-            cur.val(1);
+            cur.val(1)
           } else {
-            var index_1 = mode.index + (mode.index % 2);
-            var index_2 = index_1 == mode.pages.length ? '' : ' - ' + (index_1 + 1);
-            cur.val(index_1 + index_2);
+            var index_1 = mode.index + (mode.index % 2)
+            var index_2 = index_1 == mode.pages.length ? '' : ' - ' + (index_1 + 1)
+            cur.val(index_1 + index_2)
           }
         } else if (mode.name == 'filmstrip') {
-          var index_1 = mode.getFirstVisiblePage() + 1;
-          var index_2 = index_1 == mode.pages.length ? '' : ' - ' + Math.min(mode.getLastVisiblePage() + 1, mode.pages.length);
-          cur.val(index_1 + index_2);
+          var index_1 = mode.getFirstVisiblePage() + 1
+          var index_2 = index_1 == mode.pages.length ? '' : ' - ' + Math.min(mode.getLastVisiblePage() + 1, mode.pages.length)
+          cur.val(index_1 + index_2)
         }
 
-        cur.val(cur.val() + ' / ' + mode.pages.length);
+        cur.val(cur.val() + ' / ' + mode.pages.length)
 
         // set hash
 
@@ -285,12 +284,12 @@ window.Docview = new Class({
           'page', mode.index + 1,
           'mode', mode.name,
           'zoom', mode.zoom + 1
-        ].join('/');
+        ].join('/')
       }
-    });
-  },
+    })
+  }
 
-  initializeModes: function(params) {
+  initializeModes(params) {
     var data = {
       dom: {
         viewport: this.dom.viewport,
@@ -303,71 +302,71 @@ window.Docview = new Class({
       zooms: params.zooms,
       maxZoom: params.maxZoom,
       pageUrl: params.pageUrl
-    };
+    }
 
     this.modes = {
       'grid': new ModeGrid(data),
       'filmstrip': new ModeFilmstrip(data),
       'inspect': new ModeInspect(data),
       'flip-book': new ModeFlipBook(data)
-    };
-  },
-
-  activateMode: function(params) {
-    var hash = window.location.hash;
-
-    if (hash != '') {
-      var mode = hash.match(/mode\/([\w-]+)/)[1];
-      if (typeof this.modes[mode] == 'undefined') mode = 'grid';
-
-      this.mode       = this.modes[mode];
-      this.mode.index = parseInt(hash.match(/page\/(\d+)/)[1]) - 1;
-      this.mode.zoom  = parseInt(hash.match(/zoom\/(\d+)/)[1]) - 1;
-    } else {
-      this.mode       = this.modes[params.mode];
-      this.mode.index = params.index;
-      this.mode.zoom  = params.zoom;
-    }
-
-    this.mode.activate();
-  },
-
-  changeMode: function(name) {
-    switch (name) {
-      case 'grid':
-        this.modes[name].zoom = 0;
-        break;
-      case 'filmstrip':
-        this.modes[name].zoom = 1;
-        break;
-      case 'inspect':
-        this.modes[name].zoom = 3;
-        break;
-      case 'flip-book':
-        this.modes[name].zoom = 2;
-        break;
-    }
-
-    var index = this.mode.index;
-    this.mode.deactivate();
-    this.mode = this.modes[name];
-    this.mode.index = index;
-    this.mode.activate(true);
-
-    this.moveToolbar();
-  },
-
-  moveToolbar: function() {
-    var scroll = $(window).scrollTop();
-    var offset = this.dom.docview.offset().top;
-    var height = this.dom.docview.height();
-
-    if (scroll > offset && scroll < offset + height) {
-      this.dom.docview.css('padding-top', this.dom.toolbarWrapper.outerHeight(true));
-      this.dom.toolbarWrapper.css({ 'position': 'fixed' });
-    } else {
-      this.dom.docview.css('padding-top', 0);
-      this.dom.toolbarWrapper.css({ 'position': 'relative' });
     }
   }
-});
+
+  activateMode(params) {
+    var hash = window.location.hash
+
+    if (hash != '') {
+      var mode = hash.match(/mode\/([\w-]+)/)[1]
+      if (typeof this.modes[mode] == 'undefined') mode = 'grid'
+
+      this.mode       = this.modes[mode]
+      this.mode.index = parseInt(hash.match(/page\/(\d+)/)[1]) - 1
+      this.mode.zoom  = parseInt(hash.match(/zoom\/(\d+)/)[1]) - 1
+    } else {
+      this.mode       = this.modes[params.mode]
+      this.mode.index = params.index
+      this.mode.zoom  = params.zoom
+    }
+
+    this.mode.activate()
+  }
+
+  changeMode(name) {
+    switch (name) {
+      case 'grid':
+        this.modes[name].zoom = 0
+        break
+      case 'filmstrip':
+        this.modes[name].zoom = 1
+        break
+      case 'inspect':
+        this.modes[name].zoom = 3
+        break
+      case 'flip-book':
+        this.modes[name].zoom = 2
+        break
+    }
+
+    var index = this.mode.index
+    this.mode.deactivate()
+    this.mode = this.modes[name]
+    this.mode.index = index
+    this.mode.activate(true)
+
+    this.moveToolbar()
+  }
+
+  moveToolbar() {
+    var scroll = $(window).scrollTop()
+    var offset = this.dom.docview.offset().top
+    var height = this.dom.docview.height()
+
+    if (scroll > offset && scroll < offset + height) {
+      this.dom.docview.css('padding-top', this.dom.toolbarWrapper.outerHeight(true))
+      this.dom.toolbarWrapper.css({ 'position': 'fixed' })
+    } else {
+      this.dom.docview.css('padding-top', 0)
+      this.dom.toolbarWrapper.css({ 'position': 'relative' })
+    }
+  }
+}
