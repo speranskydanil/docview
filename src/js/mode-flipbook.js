@@ -1,13 +1,13 @@
 Docview.Mode.FlipBook = new Docview.Class({
   parent: Docview.Mode,
 
-  init: function (params) {
+  init: function(params) {
     this.configurate(params);
     this.name = 'flip-book';
     this.queue = new Docview.Queue();
   },
 
-  activate: function () {
+  activate: function(switching) {
     this.setValidZoom();
 
     var self = this;
@@ -28,9 +28,13 @@ Docview.Mode.FlipBook = new Docview.Class({
 
     this.showPages();
     this.redraw();
+
+    if (switching) {
+      $(window).scrollTop(this.curPage().obj.offset().top - 60);
+    }
   },
 
-  deactivate: function () {
+  deactivate: function() {
     this.queue.clear();
 
     this.dom.pages.unbind('click').css('position', 'relative').show();
@@ -40,7 +44,7 @@ Docview.Mode.FlipBook = new Docview.Class({
     this.dom.viewport.top_scrollbar(false);
   },
 
-  zoomIn: function () {
+  zoomIn: function() {
     if (!this.canZoom()) {
       $(window).trigger('docview-access-denied');
       return;
@@ -52,7 +56,7 @@ Docview.Mode.FlipBook = new Docview.Class({
     }
   },
 
-  zoomOut: function () {
+  zoomOut: function() {
     if (this.zoom > this.zoomMin) {
       this.decZoom();
       this.redraw();
@@ -61,7 +65,7 @@ Docview.Mode.FlipBook = new Docview.Class({
 
   animationIsInProgress: false,
 
-  next: function () {
+  next: function() {
     if (this.animationIsInProgress) return;
     if (this.index + (this.index % 2) - 1 + 2 > this.pages.length - 1) return;
 
@@ -79,14 +83,14 @@ Docview.Mode.FlipBook = new Docview.Class({
     if (p4) p4.obj.css('z-index', -1).show();
 
     p2.img.height(this.zooms[this.zoom] * p2.ratio);
-    p2.img.animate({ width: 0 }, 180, function () {
+    p2.img.animate({ width: 0 }, 180, function() {
       p2.obj.hide();
 
       p3.img.css({ width: 0, right: 0 });
       p3.obj.show();
 
       p3.img.height(self.zooms[self.zoom] * p3.ratio);
-      p3.img.animate({ width: self.pageWidth() }, 180, function () {
+      p3.img.animate({ width: self.pageWidth() }, 180, function() {
         if (p1) p1.obj.hide();
 
         if (p4) p4.obj.css('z-index', 'auto');
@@ -101,7 +105,7 @@ Docview.Mode.FlipBook = new Docview.Class({
     });
   },
 
-  prev: function () {
+  prev: function() {
     if (this.animationIsInProgress) return;
     if (this.index + (this.index % 2) - 1 - 1 < 0) return;
 
@@ -121,14 +125,14 @@ Docview.Mode.FlipBook = new Docview.Class({
     p3.img.css('right', 0);
 
     p3.img.height(this.zooms[this.zoom] * p3.ratio);
-    p3.img.animate({ width: 0 }, 180, function () {
+    p3.img.animate({ width: 0 }, 180, function() {
       p3.obj.hide();
 
       p2.img.css('width', 0);
       p2.obj.css('z-index', 1).show();
 
       p2.img.height(self.zooms[self.zoom] * p2.ratio);
-      p2.img.animate({ width: self.pageWidth() }, 180, function () {
+      p2.img.animate({ width: self.pageWidth() }, 180, function() {
         if (p4) p4.obj.hide();
 
         p3.img.removeAttr('style')
@@ -143,7 +147,7 @@ Docview.Mode.FlipBook = new Docview.Class({
     });
   },
 
-  setCurPage: function (index) {
+  setCurPage: function(index) {
     if (isNaN(index)) return;
 
     if (index < 0) index = 0;
@@ -158,7 +162,7 @@ Docview.Mode.FlipBook = new Docview.Class({
     }
   },
 
-  showPages: function () {
+  showPages: function() {
     this.dom.pages.hide();
 
     if (this.index == 0) {
@@ -171,13 +175,13 @@ Docview.Mode.FlipBook = new Docview.Class({
     }
   },
 
-  redraw: function () {
+  redraw: function() {
     this.queue.clear();
     this.resize();
     this.load();
   },
 
-  resize: function () {
+  resize: function() {
     this.resizePages();
 
     this.dom.wrapper.css({
@@ -188,7 +192,7 @@ Docview.Mode.FlipBook = new Docview.Class({
     this.dom.viewport.top_scrollbar();
   },
 
-  load: function () {
+  load: function() {
     var index = Math.max(0, this.index + (this.index % 2) - 1);
 
     this.queue.addPage(this.pages[index], this.zoom);
@@ -208,10 +212,10 @@ Docview.Mode.FlipBook = new Docview.Class({
   }
 });
 
-$.each(['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next'], function (i, name) {
+$.each(['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next'], function(i, name) {
   var func = Docview.Mode.FlipBook.prototype[name];
 
-  Docview.Mode.FlipBook.prototype[name] = function () {
+  Docview.Mode.FlipBook.prototype[name] = function() {
     func.apply(this, arguments);
     $(window).trigger('docview-mode-changed');
   };

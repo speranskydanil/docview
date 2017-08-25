@@ -1,5 +1,5 @@
 Docview.Page = new Docview.Class({
-  init: function (params) {
+  init: function(params) {
     for (var i in params) this[i] = params[i];
 
     this.ratio = this.h / this.w;
@@ -8,7 +8,7 @@ Docview.Page = new Docview.Class({
     this.img = this.obj.find('img');
   },
 
-  url: function (zoom) {
+  url: function(zoom) {
     if (zoom == undefined) {
       return this.img.attr('src');
     } else {
@@ -16,7 +16,7 @@ Docview.Page = new Docview.Class({
     }
   },
 
-  load: function (type, zoom, callback) {
+  load: function(type, zoom, callback) {
     if (type == 'fast') {
       this.img.bind('load', callback).attr('src', this.url(zoom));
     } else {

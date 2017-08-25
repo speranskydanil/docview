@@ -1,25 +1,25 @@
 Docview.Mode.Grid = new Docview.Class({
   parent: Docview.Mode,
 
-  init: function (params) {
+  init: function(params) {
     this.configurate(params);
     this.name = 'grid';
     this.queue = new Docview.Queue();
   },
 
-  activate: function () {
+  activate: function(switching) {
     this.setValidZoom();
 
     var self = this;
 
-    $(window).bind('scroll.docview-grid', function () {
+    $(window).bind('scroll.docview-grid', function() {
       self.queue.clear();
       self.load();
     });
 
     for (var i in this.pages) {
-      (function (page) {
-        page.obj.click(function () {
+      (function(page) {
+        page.obj.click(function() {
           self.selectCurPage(page.index);
           $(window).trigger('docview-select-cur-page');
         });
@@ -28,9 +28,13 @@ Docview.Mode.Grid = new Docview.Class({
 
     this.curPage().obj.addClass('current');
     this.redraw();
+
+    if (switching) {
+      $(window).scrollTop(this.curPage().obj.offset().top - 5);
+    }
   },
 
-  deactivate: function () {
+  deactivate: function() {
     this.queue.clear();
 
     $(window).unbind('scroll.docview-grid');
@@ -39,7 +43,7 @@ Docview.Mode.Grid = new Docview.Class({
     this.curPage().obj.removeClass('current');
   },
 
-  zoomIn: function () {
+  zoomIn: function() {
     if (!this.canZoom()) {
       $(window).trigger('docview-access-denied');
       return;
@@ -51,14 +55,14 @@ Docview.Mode.Grid = new Docview.Class({
     }
   },
 
-  zoomOut: function () {
+  zoomOut: function() {
     if (this.zoom > this.zoomMin) {
       this.decZoom();
       this.redraw();
     }
   },
 
-  selectCurPage: function (index) {
+  selectCurPage: function(index) {
     if (index < 0) index = 0;
     if (index > this.pages.length - 1) index = this.pages.length - 1;
 
@@ -69,13 +73,13 @@ Docview.Mode.Grid = new Docview.Class({
     }
   },
 
-  redraw: function () {
+  redraw: function() {
     this.queue.clear();
     this.resizePages();
     this.load();
   },
 
-  load: function () {
+  load: function() {
     var win = $(window);
 
     var pageHeight = this.pageHeightWithIndent();
@@ -125,10 +129,10 @@ Docview.Mode.Grid = new Docview.Class({
   }
 });
 
-$.each(['activate', 'zoomIn', 'zoomOut'], function (i, name) {
+$.each(['activate', 'zoomIn', 'zoomOut'], function(i, name) {
   var func = Docview.Mode.Grid.prototype[name];
 
-  Docview.Mode.Grid.prototype[name] = function () {
+  Docview.Mode.Grid.prototype[name] = function() {
     func.apply(this, arguments);
     $(window).trigger('docview-mode-changed');
   };

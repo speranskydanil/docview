@@ -28,7 +28,7 @@
 
 .docview .toolbar-wrapper {
   top: 0px;
-  width: 1020px;
+  width: 1200px;
   margin-top: 10px;
   z-index: 950;
 }
@@ -37,7 +37,7 @@
 
 .docview .toolbar {
   float: left;
-  width: 600px;
+  width: 640px;
   height: 34px;
   margin-right: 10px;
   padding: 4px 8px;
@@ -51,7 +51,7 @@
 
 .docview.filmstrip .toolbar,
 .docview.flip-book .toolbar {
-  width: 455px;
+  width: 495px;
 }
 
 .docview .toolbar > .delimiter {
@@ -76,7 +76,7 @@
   height: 24px;
   margin-right: 8px;
   padding: 0px;
-  background: url(docview.png) no-repeat scroll 0px 0px transparent;
+  background: url(<%= asset_path 'docview.png' %>) no-repeat scroll 0px 0px transparent;
   outline: none;
   cursor: pointer;
 }
@@ -153,13 +153,13 @@
 
 .docview .toolbar .paginator {
   float: left;
-  width: 132px;
+  width: 172px;
   margin-right: 8px;
 }
 
 .docview .toolbar .paginator .cur {
   float: left;
-  width: 80px;
+  width: 120px;
   height: 20px;
   margin: 2px;
   padding: 2px 0px;

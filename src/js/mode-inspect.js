@@ -1,13 +1,13 @@
 Docview.Mode.Inspect = new Docview.Class({
   parent: Docview.Mode,
 
-  init: function (params) {
+  init: function(params) {
     this.configurate(params);
     this.name = 'inspect';
     this.queue = new Docview.Queue();
   },
 
-  activate: function () {
+  activate: function(switching) {
     this.setValidZoom();
 
     this.dom.pages.hide();
@@ -18,22 +18,26 @@ Docview.Mode.Inspect = new Docview.Class({
     this.curPage().obj.show();
 
     this.redraw();
+
+    if (switching) {
+      $(window).scrollTop(this.curPage().obj.offset().top - 60);
+    }
   },
 
-  deactivate: function () {
+  deactivate: function() {
     this.queue.clear();
 
     this.dom.pages.unbind('click').show();
 
     this.dom.wrapper.css({ width: '100%', height: 'auto' });
 
-    this.dom.images.rotate(0);
+    // this.dom.images.rotate(0);
     this.dom.images.css('top', 'auto');
 
     this.dom.viewport.top_scrollbar(false);
   },
 
-  zoomIn: function () {
+  zoomIn: function() {
     if (!this.canZoom()) {
       $(window).trigger('docview-access-denied');
       return;
@@ -45,48 +49,44 @@ Docview.Mode.Inspect = new Docview.Class({
     }
   },
 
-  zoomOut: function () {
+  zoomOut: function() {
     if (this.zoom > this.zoomMin) {
       this.decZoom();
       this.redraw();
     }
   },
 
-  next: function () {
+  next: function() {
     this.setCurPage(this.index + 1);
   },
 
-  prev: function () {
+  prev: function() {
     this.setCurPage(this.index - 1);
   },
 
-  rotateLeft: function () {
-    var img = this.curPage().img;
+  rotateLeft: function() {
     var self = this;
-
-    img.rotate({
-      animateTo: Math.round(img.getRotateAngle() / 90) * 90 - 90,
-      duration: 500,
-      callback: function () { self.fitIntoTheFrame() }
-    });
+    this.rotate(self.curPage().img, -90, function() { self.fitIntoTheFrame() });
   },
 
-  rotateRight: function () {
-    var img = this.curPage().img;
+  rotateRight: function() {
     var self = this;
-
-    img.rotate({
-      animateTo: Math.round(img.getRotateAngle() / 90) * 90 + 90,
-      duration: 500,
-      callback: function () { self.fitIntoTheFrame() }
-    });
+    this.rotate(self.curPage().img, 90, function() { self.fitIntoTheFrame() });
   },
 
-  fitIntoTheFrame: function () {
+  rotate: function(img, angle, callback) {
+    img.css('transition', 'transform 0.4s')
+    angle = (img.data('angle') || 0) + angle;
+    img.css('transform', 'rotate(' + angle + 'deg)');
+    img.data('angle', angle);
+    setTimeout(callback, 400);
+  },
+
+  fitIntoTheFrame: function() {
     var img = this.curPage().img;
 
     var horizontal = this.curPage().w > this.curPage().h;
-    var turned = Math.abs(Math.round(img.getRotateAngle() / 90)) % 2 == 1;
+    var turned = Math.abs(Math.round(img.data('angle') / 90)) % 2 == 1;
 
     if (horizontal && turned) {
       img.animate({ 'top': (img.width() - img.height()) / 2 }, 200);
@@ -97,7 +97,7 @@ Docview.Mode.Inspect = new Docview.Class({
 
   animationIsInProgress: false,
 
-  setCurPage: function (index) {
+  setCurPage: function(index) {
     if (isNaN(index)) return;
 
     if (index < 0) index = 0;
@@ -109,8 +109,8 @@ Docview.Mode.Inspect = new Docview.Class({
 
       var self = this;
 
-      this.curPage().obj.fadeOut(100, function () {
-        self.curPage().obj.fadeIn(100, function () {
+      this.curPage().obj.fadeOut(100, function() {
+        self.curPage().obj.fadeIn(100, function() {
           self.animationIsInProgress = false;
         });
       });
@@ -122,14 +122,14 @@ Docview.Mode.Inspect = new Docview.Class({
     }
   },
 
-  redraw: function () {
+  redraw: function() {
     this.queue.clear();
     this.resize();
     this.load();
     this.fitIntoTheFrame()
   },
 
-  resize: function () {
+  resize: function() {
     this.resizePages();
 
     this.dom.wrapper.css({
@@ -140,7 +140,7 @@ Docview.Mode.Inspect = new Docview.Class({
     this.dom.viewport.top_scrollbar();
   },
 
-  load: function () {
+  load: function() {
     this.queue.addPage(this.pages[this.index], this.zoom);
 
     var numberOfImagesOnRight = Math.min(4, this.pages.length - 1 - this.index);
@@ -157,10 +157,10 @@ Docview.Mode.Inspect = new Docview.Class({
   }
 });
 
-$.each(['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next'], function (i, name) {
+$.each(['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next'], function(i, name) {
   var func = Docview.Mode.Inspect.prototype[name];
 
-  Docview.Mode.Inspect.prototype[name] = function () {
+  Docview.Mode.Inspect.prototype[name] = function() {
     func.apply(this, arguments);
     $(window).trigger('docview-mode-changed');
   };

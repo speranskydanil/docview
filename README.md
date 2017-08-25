@@ -8,7 +8,6 @@ Docview is a tool for displaying images.
 
 * [jQuery](http://jquery.com/)
 * [jQuery Mouse Wheel Plugin](https://github.com/brandonaaron/jquery-mousewheel)
-* [jqueryrotate](http://code.google.com/p/jqueryrotate/)
 * [jquery-top-scrollbar](https://github.com/speranskydanil/jquery-top-scrollbar)
 
 ## Features

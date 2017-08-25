@@ -1,18 +1,18 @@
 Docview.Mode.Filmstrip = new Docview.Class({
   parent: Docview.Mode,
 
-  init: function (params) {
+  init: function(params) {
     this.configurate(params);
     this.name = 'filmstrip';
     this.queue = new Docview.Queue();
   },
 
-  activate: function () {
+  activate: function(switching) {
     this.setValidZoom();
 
     var self = this;
 
-    this.dom.viewport.scroll(function () {
+    this.dom.viewport.scroll(function() {
       self.queue.clear();
       self.load();
 
@@ -25,8 +25,8 @@ Docview.Mode.Filmstrip = new Docview.Class({
     });
 
     for (var i in this.pages) {
-      (function (page) {
-        page.obj.click(function () {
+      (function(page) {
+        page.obj.click(function() {
           self.selectCurPage(page.index);
           $(window).trigger('docview-select-cur-page');
         });
@@ -36,10 +36,14 @@ Docview.Mode.Filmstrip = new Docview.Class({
     this.curPage().obj.addClass('current');
     this.redraw();
 
+    if (switching) {
+      $(window).scrollTop(this.curPage().obj.offset().top - 60);
+    }
+
     this.scrollFastToPage(this.index);
   },
 
-  deactivate: function () {
+  deactivate: function() {
     this.queue.clear();
 
     this.dom.viewport.unbind('scroll');
@@ -52,7 +56,7 @@ Docview.Mode.Filmstrip = new Docview.Class({
     this.dom.viewport.top_scrollbar(false);
   },
 
-  zoomIn: function () {
+  zoomIn: function() {
     if (!this.canZoom()) {
       $(window).trigger('docview-access-denied');
       return;
@@ -66,7 +70,7 @@ Docview.Mode.Filmstrip = new Docview.Class({
     }
   },
 
-  zoomOut: function () {
+  zoomOut: function() {
     if (this.zoom > this.zoomMin) {
       this.decZoom();
       this.redraw();
@@ -75,26 +79,26 @@ Docview.Mode.Filmstrip = new Docview.Class({
     }
   },
 
-  next: function () {
+  next: function() {
     this.dom.viewport
       .stop()
       .animate({'scrollLeft': '+=' + this.dom.viewport.width() });
   },
 
-  prev: function () {
+  prev: function() {
     this.dom.viewport
       .stop()
       .animate({'scrollLeft': '-=' + this.dom.viewport.width() });
   },
 
-  setCurPage: function (index) {
+  setCurPage: function(index) {
     if (index < 0) index = 0;
     if (index > this.pages.length - 1) index = this.pages.length - 1;
 
     this.scrollSlowToPage(index);
   },
 
-  selectCurPage: function (index) {
+  selectCurPage: function(index) {
     if (index < 0) index = 0;
     if (index > this.pages.length - 1) index = this.pages.length - 1;
 
@@ -105,43 +109,43 @@ Docview.Mode.Filmstrip = new Docview.Class({
     }
   },
 
-  getFirstVisiblePage: function () {
+  getFirstVisiblePage: function() {
     return Math.floor(
       this.dom.viewport.scrollLeft() /
       this.pageWidthWithIndent()
     );
   },
 
-  getLastVisiblePage: function () {
+  getLastVisiblePage: function() {
     return Math.ceil(
       (this.dom.viewport.width() + this.dom.viewport.scrollLeft()) /
       this.pageWidthWithIndent()
     ) - 1;
   },
 
-  scrollSlowToPage: function (index) {
+  scrollSlowToPage: function(index) {
     this.dom.viewport
       .stop()
       .animate({'scrollLeft': index * this.pageWidthWithIndent()});
   },
 
-  scrollFastToPage: function (index) {
+  scrollFastToPage: function(index) {
     this.dom.viewport.scrollLeft(index * this.pageWidthWithIndent());
   },
 
-  redraw: function () {
+  redraw: function() {
     this.queue.clear();
     this.resize();
     this.load();
   },
 
-  resize: function () {
+  resize: function() {
     this.resizePages();
     this.dom.wrapper.css('width', this.pages.length * this.pageWidthWithIndent());
     this.dom.viewport.top_scrollbar(this.pageHeight() > 400);
   },
 
-  load: function () {
+  load: function() {
     var pageWidth = this.pageWidthWithIndent();
 
     var border = {
@@ -183,10 +187,10 @@ Docview.Mode.Filmstrip = new Docview.Class({
   }
 });
 
-$.each(['activate', 'zoomIn', 'zoomOut'], function (i, name) {
+$.each(['activate', 'zoomIn', 'zoomOut'], function(i, name) {
   var func = Docview.Mode.Filmstrip.prototype[name];
 
-  Docview.Mode.Filmstrip.prototype[name] = function () {
+  Docview.Mode.Filmstrip.prototype[name] = function() {
     func.apply(this, arguments);
     $(window).trigger('docview-mode-changed');
   };

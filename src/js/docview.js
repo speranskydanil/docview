@@ -1,12 +1,12 @@
-var Docview = (function () {
+var Docview = (function() {
   function Class(conf) {
-    var init = conf.init || function () {};
+    var init = conf.init || function() {};
     delete conf.init;
 
-    var parent = conf.parent || function () {};
+    var parent = conf.parent || function() {};
     delete conf.parent;
 
-    var F = function () {};
+    var F = function() {};
     F.prototype = parent.prototype;
     var f = new F();
     for (var fn in conf) f[fn] = conf[fn];
@@ -16,7 +16,7 @@ var Docview = (function () {
   };
 
   var Docview = new Class({
-    init: function (params) {
+    init: function(params) {
       var defaultParams = {
         theme: 'standard',
         translation: {
@@ -49,7 +49,7 @@ var Docview = (function () {
       this.activateMode(params);
     },
 
-    buildDom: function (params) {
+    buildDom: function(params) {
       var t = params.translation;
 
       html =
@@ -149,24 +149,24 @@ var Docview = (function () {
       this.bindModeEvents();
     },
 
-    bindCommonEvents: function () {
+    bindCommonEvents: function() {
       var self = this;
 
-      $(window).scroll(function () {
+      $(window).scroll(function() {
         self.moveToolbar();
       });
 
       // trick for case of zooming
 
-      setInterval(function () {
+      setInterval(function() {
         self.mode.load();
       }, 2000);
     },
 
-    bindToolbarEvents: function () {
+    bindToolbarEvents: function() {
       var self = this;
 
-      this.dom.modes.click(function (e) {
+      this.dom.modes.click(function(e) {
         e.preventDefault();
         self.changeMode($(this).attr('class'));
       });
@@ -179,13 +179,13 @@ var Docview = (function () {
         e.preventDefault();
 
         if (!fullscreen) {
-          $('body > *').each(function () {
+          $('body > *').each(function() {
             $(this).data('docview-display-cache', $(this).css('display'));
             $(this).css('display', 'none');
           });
           docview.appendTo('body').show();
         } else {
-          $('body > *').each(function () {
+          $('body > *').each(function() {
             $(this).css('display', $(this).data('docview-display-cache'));
             $(this).removeData('docview-display-cache');
           });
@@ -195,17 +195,17 @@ var Docview = (function () {
         fullscreen = !fullscreen;
       });
 
-      this.dom.zoomIn.click(function (e) {
+      this.dom.zoomIn.click(function(e) {
         e.preventDefault();
         self.mode.zoomIn();
       });
 
-      this.dom.zoomOut.click(function (e) {
+      this.dom.zoomOut.click(function(e) {
         e.preventDefault();
         self.mode.zoomOut();
       });
 
-      this.dom.dim.click(function (e) {
+      this.dom.dim.click(function(e) {
         e.preventDefault();
         $('body').toggleClass('dark');
       });
@@ -213,6 +213,14 @@ var Docview = (function () {
       this.dom.prev.click(function(e) {
         e.preventDefault();
         self.mode.prev();
+      });
+
+      this.dom.cur.focus(function() {
+        $(this).val('');
+      });
+
+      this.dom.cur.focusout(function() {
+        $(window).trigger('docview-mode-changed');
       });
 
       this.dom.cur.change(function() {
@@ -234,59 +242,66 @@ var Docview = (function () {
         self.mode.rotateRight();
       });
 
-      this.dom.print.click(function (e) {
+      this.dom.print.click(function(e) {
         e.preventDefault();
         var w = window.open(self.mode.downloadUrl());
-        $(w).ready(function () { w.print(); });
+        $(w).ready(function() { w.print(); });
       });
     },
 
-    bindModeEvents: function () {
+    bindModeEvents: function() {
       var self = this;
 
       $(window).bind({
-        'docview-select-cur-page': function () {
+        'docview-select-cur-page': function() {
           self.changeMode('inspect');
         },
 
-        'docview-mode-changed': function () {
+        'docview-mode-changed': function() {
+          var dom = self.dom;
+          var mode = self.mode;
+
           // set mode class
 
-          self.dom.docview
+          dom.docview
             .removeClass('grid filmstrip inspect flip-book')
-            .addClass(self.mode.name);
+            .addClass(mode.name);
 
           // set cur page
 
-          if (self.mode.name == 'inspect') {
-            self.dom.cur.val(self.mode.index + 1);
-            self.dom.download.attr('href', self.mode.downloadUrl());
-          } else if (self.mode.name == 'flip-book') {
-            if (self.mode.index == 0) {
-              self.dom.cur.val(1);
+          var cur = dom.cur;
+
+          if (mode.name == 'inspect') {
+            cur.val(mode.index + 1);
+            dom.download.attr('href', mode.downloadUrl());
+          } else if (mode.name == 'flip-book') {
+            if (mode.index == 0) {
+              cur.val(1);
             } else {
-              var index_1 = self.mode.index + (self.mode.index % 2);
-              var index_2 = index_1 == self.mode.pages.length ? '' : ' - ' + (index_1 + 1);
-              self.dom.cur.val(index_1 + index_2);
+              var index_1 = mode.index + (mode.index % 2);
+              var index_2 = index_1 == mode.pages.length ? '' : ' - ' + (index_1 + 1);
+              cur.val(index_1 + index_2);
             }
-          } else if (self.mode.name == 'filmstrip') {
-            var first = self.mode.getFirstVisiblePage() + 1;
-            var last = self.mode.getLastVisiblePage() + 1;
-            self.dom.cur.val(first + ' - ' + last);
+          } else if (mode.name == 'filmstrip') {
+            var index_1 = mode.getFirstVisiblePage() + 1;
+            var index_2 = index_1 == mode.pages.length ? '' : ' - ' + Math.min(mode.getLastVisiblePage() + 1, mode.pages.length);
+            cur.val(index_1 + index_2);
           }
+
+          cur.val(cur.val() + ' / ' + mode.pages.length);
 
           // set hash
 
           window.location.hash = [
-            'page', self.mode.index + 1,
-            'mode', self.mode.name,
-            'zoom', self.mode.zoom + 1
+            'page', mode.index + 1,
+            'mode', mode.name,
+            'zoom', mode.zoom + 1
           ].join('/');
         }
       });
     },
 
-    initializeModes: function (params) {
+    initializeModes: function(params) {
       var data = {
         dom: {
           viewport: this.dom.viewport,
@@ -309,7 +324,7 @@ var Docview = (function () {
       };
     },
 
-    activateMode: function (params) {
+    activateMode: function(params) {
       var hash = window.location.hash;
 
       if (hash != '') {
@@ -328,7 +343,7 @@ var Docview = (function () {
       this.mode.activate();
     },
 
-    changeMode: function (name) {
+    changeMode: function(name) {
       switch (name) {
         case 'grid':
           this.modes[name].zoom = 0;
@@ -348,12 +363,12 @@ var Docview = (function () {
       this.mode.deactivate();
       this.mode = this.modes[name];
       this.mode.index = index;
-      this.mode.activate();
+      this.mode.activate(true);
 
       this.moveToolbar();
     },
 
-    moveToolbar: function () {
+    moveToolbar: function() {
       var scroll = $(window).scrollTop();
       var offset = this.dom.docview.offset().top;
       var height = this.dom.docview.height();

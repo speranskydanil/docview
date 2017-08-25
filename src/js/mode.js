@@ -1,5 +1,5 @@
 Docview.Mode = new Docview.Class({
-  configurate: function (params) {
+  configurate: function(params) {
     this.dom     = params.dom;
     this.zooms   = params.zooms;
     this.maxZoom = params.maxZoom;
@@ -16,44 +16,44 @@ Docview.Mode = new Docview.Class({
       });
     });
 
-    this.zoomNums = $.map(this.zooms, function (v, k) { return parseInt(k); })
-                     .sort(function (a, b) { return a - b; });
+    this.zoomNums = $.map(this.zooms, function(v, k) { return parseInt(k); })
+                     .sort(function(a, b) { return a - b; });
 
     this.zoomMin = this.zoomNums[0];
     this.zoomMax = this.zoomNums.slice(-1)[0];
   },
 
-  setValidZoom: function () {
+  setValidZoom: function() {
     var self = this;
 
-    var zooms = $.grep(this.zoomNums, function (v) { return v <= self.maxZoom; });
+    var zooms = $.grep(this.zoomNums, function(v) { return v <= self.maxZoom; });
 
-    var difs = $.map(zooms, function (v) { return Math.abs(self.zoom - v); });
+    var difs = $.map(zooms, function(v) { return Math.abs(self.zoom - v); });
 
     this.zoom = this.zoomNums[difs.indexOf(Math.min.apply(Math, difs))];
   },
 
-  canZoom: function () {
+  canZoom: function() {
     return (this.incrementedZoom() || this.zoom) <= this.maxZoom;
   },
 
-  incZoom: function () {
+  incZoom: function() {
     this.zoom = this.incrementedZoom();
   },
 
-  incrementedZoom: function () {
+  incrementedZoom: function() {
     return this.zoomNums[this.zoomNums.indexOf(this.zoom) + 1];
   },
 
-  decZoom: function () {
+  decZoom: function() {
     this.zoom = this.decrementedZoom();
   },
 
-  decrementedZoom: function () {
+  decrementedZoom: function() {
     return this.zoomNums[this.zoomNums.indexOf(this.zoom) - 1];
   },
 
-  resizePages: function () {
+  resizePages: function() {
     this.dom.pages.css({
       width: this.pageWidth(),
       height: this.pageHeight()
@@ -62,15 +62,15 @@ Docview.Mode = new Docview.Class({
     this.dom.images.css('width', this.pageWidth());
   },
 
-  pageWidth: function () {
+  pageWidth: function() {
     return this.zooms[this.zoom];
   },
 
-  pageWidthWithIndent: function () {
-    return this.pageWidth() + 10;
+  pageWidthWithIndent: function() {
+    return this.pageWidth() + 7;
   },
 
-  pageHeight: function () {
+  pageHeight: function() {
     if (!this.cachedMaxPageRatio) {
       var pageRatio = 0;
 
@@ -84,17 +84,17 @@ Docview.Mode = new Docview.Class({
     return Math.ceil(this.cachedMaxPageRatio * this.pageWidth());
   },
 
-  pageHeightWithIndent: function () {
-    return this.pageHeight() + 10;
+  pageHeightWithIndent: function() {
+    return this.pageHeight() + 7;
   },
 
-  curPage: function () {
+  curPage: function() {
     return this.pages[this.index];
   },
 
-  downloadUrl: function () {
+  downloadUrl: function() {
     var self = this;
-    var zoom = $.grep(this.zoomNums, function (v) { return v <= self.maxZoom; }).slice(-1)[0];
+    var zoom = $.grep(this.zoomNums, function(v) { return v <= self.maxZoom; }).slice(-1)[0];
 
     return this.curPage().downloadUrl || this.curPage().url(zoom);
   }

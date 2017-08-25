@@ -1,5 +1,5 @@
 Docview.Queue = new Docview.Class({
-  init: function () {
+  init: function() {
     this.fastQueue = {
       objs: [],
       thread: 0
@@ -32,7 +32,7 @@ Docview.Queue = new Docview.Class({
     this.load('slow');
   },
 
-  load: function (type) {
+  load: function(type) {
     var queue = this[type + 'Queue'];
 
     if (queue.objs.length == 0 ||
@@ -49,7 +49,7 @@ Docview.Queue = new Docview.Class({
     });
   },
 
-  getMaxThread: function (type) {
+  getMaxThread: function(type) {
     var queue = this[type + 'Queue'];
 
     switch (queue.objs[queue.objs.length - 1].zoom) {
