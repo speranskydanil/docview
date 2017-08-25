@@ -1,10 +1,14 @@
-Docview.Mode.Grid = new Docview.Class({
-  parent: Docview.Mode,
+import Class from './class.js'
+import Mode from './mode.js'
+import Queue from './queue.js'
+
+var ModeGrid = new Class({
+  parent: Mode,
 
   init: function(params) {
     this.configurate(params);
     this.name = 'grid';
-    this.queue = new Docview.Queue();
+    this.queue = new Queue();
   },
 
   activate: function(switching) {
@@ -130,11 +134,12 @@ Docview.Mode.Grid = new Docview.Class({
 });
 
 $.each(['activate', 'zoomIn', 'zoomOut'], function(i, name) {
-  var func = Docview.Mode.Grid.prototype[name];
+  var func = ModeGrid.prototype[name];
 
-  Docview.Mode.Grid.prototype[name] = function() {
+  ModeGrid.prototype[name] = function() {
     func.apply(this, arguments);
     $(window).trigger('docview-mode-changed');
   };
 });
 
+export default ModeGrid;

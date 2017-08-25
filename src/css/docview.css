@@ -76,7 +76,7 @@
   height: 24px;
   margin-right: 8px;
   padding: 0px;
-  background: url(<%= asset_path 'docview.png' %>) no-repeat scroll 0px 0px transparent;
+  background: url(../img/docview.png) no-repeat scroll 0px 0px transparent;
   outline: none;
   cursor: pointer;
 }

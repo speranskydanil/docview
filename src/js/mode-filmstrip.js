@@ -1,10 +1,14 @@
-Docview.Mode.Filmstrip = new Docview.Class({
-  parent: Docview.Mode,
+import Class from './class.js'
+import Mode from './mode.js'
+import Queue from './queue.js'
+
+var ModeFilmstrip = new Class({
+  parent: Mode,
 
   init: function(params) {
     this.configurate(params);
     this.name = 'filmstrip';
-    this.queue = new Docview.Queue();
+    this.queue = new Queue();
   },
 
   activate: function(switching) {
@@ -188,11 +192,12 @@ Docview.Mode.Filmstrip = new Docview.Class({
 });
 
 $.each(['activate', 'zoomIn', 'zoomOut'], function(i, name) {
-  var func = Docview.Mode.Filmstrip.prototype[name];
+  var func = ModeFilmstrip.prototype[name];
 
-  Docview.Mode.Filmstrip.prototype[name] = function() {
+  ModeFilmstrip.prototype[name] = function() {
     func.apply(this, arguments);
     $(window).trigger('docview-mode-changed');
   };
 });
 
+export default ModeFilmstrip;

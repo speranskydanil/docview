@@ -1,4 +1,6 @@
-Docview.Page = new Docview.Class({
+import Class from './class.js'
+
+export default new Class({
   init: function(params) {
     for (var i in params) this[i] = params[i];
 
@@ -12,7 +14,7 @@ Docview.Page = new Docview.Class({
     if (zoom == undefined) {
       return this.img.attr('src');
     } else {
-      return Docview.Page.url(this.id, zoom);
+      return this.schema(this.id, zoom);
     }
   },
 
@@ -29,4 +31,3 @@ Docview.Page = new Docview.Class({
     }
   }
 });
-

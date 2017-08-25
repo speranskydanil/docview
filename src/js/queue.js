@@ -1,4 +1,6 @@
-Docview.Queue = new Docview.Class({
+import Class from './class.js'
+
+export default new Class({
   init: function() {
     this.fastQueue = {
       objs: [],
@@ -64,4 +66,3 @@ Docview.Queue = new Docview.Class({
     }
   }
 });
-

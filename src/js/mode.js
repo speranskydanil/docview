@@ -1,13 +1,16 @@
-Docview.Mode = new Docview.Class({
+import Class from './class.js'
+import Page from './page.js'
+
+export default new Class({
   configurate: function(params) {
     this.dom     = params.dom;
     this.zooms   = params.zooms;
     this.maxZoom = params.maxZoom;
 
-    Docview.Page.url = params.pageUrl;
+    Page.prototype.schema = params.pageUrl;
 
     this.pages = $.map(params.pages, function(data, index) {
-      return new Docview.Page({
+      return new Page({
         id: data.id,
         h: data.h,
         w: data.w,
@@ -99,4 +102,3 @@ Docview.Mode = new Docview.Class({
     return this.curPage().downloadUrl || this.curPage().url(zoom);
   }
 });
-

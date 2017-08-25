@@ -1,10 +1,14 @@
-Docview.Mode.Inspect = new Docview.Class({
-  parent: Docview.Mode,
+import Class from './class.js'
+import Mode from './mode.js'
+import Queue from './queue.js'
+
+var ModeInspect = new Class({
+  parent: Mode,
 
   init: function(params) {
     this.configurate(params);
     this.name = 'inspect';
-    this.queue = new Docview.Queue();
+    this.queue = new Queue();
   },
 
   activate: function(switching) {
@@ -158,11 +162,12 @@ Docview.Mode.Inspect = new Docview.Class({
 });
 
 $.each(['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next'], function(i, name) {
-  var func = Docview.Mode.Inspect.prototype[name];
+  var func = ModeInspect.prototype[name];
 
-  Docview.Mode.Inspect.prototype[name] = function() {
+  ModeInspect.prototype[name] = function() {
     func.apply(this, arguments);
     $(window).trigger('docview-mode-changed');
   };
 });
 
+export default ModeInspect;

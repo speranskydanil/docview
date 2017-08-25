@@ -1,10 +1,14 @@
-Docview.Mode.FlipBook = new Docview.Class({
-  parent: Docview.Mode,
+import Class from './class.js'
+import Mode from './mode.js'
+import Queue from './queue.js'
+
+var ModeFlipBook = new Class({
+  parent: Mode,
 
   init: function(params) {
     this.configurate(params);
     this.name = 'flip-book';
-    this.queue = new Docview.Queue();
+    this.queue = new Queue();
   },
 
   activate: function(switching) {
@@ -213,11 +217,12 @@ Docview.Mode.FlipBook = new Docview.Class({
 });
 
 $.each(['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next'], function(i, name) {
-  var func = Docview.Mode.FlipBook.prototype[name];
+  var func = ModeFlipBook.prototype[name];
 
-  Docview.Mode.FlipBook.prototype[name] = function() {
+  ModeFlipBook.prototype[name] = function() {
     func.apply(this, arguments);
     $(window).trigger('docview-mode-changed');
   };
 });
 
+export default ModeFlipBook;
