@@ -1,12 +1,9 @@
-import Mode from './mode.js'
-import Queue from './queue.js'
+import Mode from './mode'
 
 class ModeInspect extends Mode {
   constructor(params) {
-    super()
-    this.configurate(params)
+    super(params)
     this.name = 'inspect'
-    this.queue = new Queue()
     this.animationIsInProgress = false
   }
 
@@ -137,18 +134,18 @@ class ModeInspect extends Mode {
   }
 
   load() {
-    this.queue.addPage(this.pages[this.index], this.zoom)
+    this.queue.add(this.pages[this.index], this.zoom)
 
     var numberOfImagesOnRight = Math.min(4, this.pages.length - 1 - this.index)
 
     for (var i = 1; i <= numberOfImagesOnRight; i += 1) {
-      this.queue.addPage(this.pages[this.index + i], this.zoom)
+      this.queue.add(this.pages[this.index + i], this.zoom)
     }
 
     var numberOfImagesOnLeft = Math.min(4, this.index)
 
     for (var i = 1; i <= numberOfImagesOnLeft; i += 1) {
-      this.queue.addPage(this.pages[this.index - i], this.zoom)
+      this.queue.add(this.pages[this.index - i], this.zoom)
     }
   }
 }

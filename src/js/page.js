@@ -8,22 +8,24 @@ export default class Page {
 
   url(zoom) {
     if (zoom == undefined) {
-      return this.img.attr('src')
+      return this.img.prop('src')
     } else {
       return this.schema(this.id, zoom)
     }
   }
 
-  load(type, zoom, callback) {
-    if (type == 'fast') {
-      return this.img.bind('load', callback).attr('src', this.url(zoom))
+  load(zoom, callback) {
+    if (this.url() == this.url(zoom)) return setTimeout(callback)
+
+    if (this.url() == '') {
+      return this.img.on('load', callback).prop('src', this.url(zoom))
     }
 
     var self = this
 
-    $('<img>').bind('load', function() {
-      self.img.attr('src', $(this).attr('src'))
+    $('<img>').on('load', function() {
+      self.img.prop('src', $(this).prop('src'))
       callback()
-    }).attr('src', this.url(zoom))
+    }).prop('src', this.url(zoom))
   }
 }

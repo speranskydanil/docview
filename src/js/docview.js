@@ -1,7 +1,7 @@
-import ModeGrid from './mode-grid.js'
-import ModeInspect from './mode-inspect.js'
-import ModeFlipBook from './mode-flipbook.js'
-import ModeFilmstrip from './mode-filmstrip.js'
+import ModeGrid from './mode_grid'
+import ModeInspect from './mode_inspect'
+import ModeFlipBook from './mode_flipbook'
+import ModeFilmstrip from './mode_filmstrip'
 
 window.Docview = class Docview {
   constructor(params) {

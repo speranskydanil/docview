@@ -1,12 +1,9 @@
-import Mode from './mode.js'
-import Queue from './queue.js'
+import Mode from './mode'
 
 class ModeGrid extends Mode {
   constructor(params) {
-    super()
-    this.configurate(params)
+    super(params)
     this.name = 'grid'
-    this.queue = new Queue()
   }
 
   activate(switching) {
@@ -107,7 +104,7 @@ class ModeGrid extends Mode {
     var lastPage1 = Math.min((lastRow1 + 1) * pagesInRow, this.pages.length)
 
     for (var i = firstPage1; i < lastPage1; i += 1) {
-      this.queue.addPage(this.pages[i], this.zoom)
+      this.queue.add(this.pages[i], this.zoom)
     }
 
     // add to queue previous pages
@@ -121,7 +118,7 @@ class ModeGrid extends Mode {
     var firstPage2 = Math.min(Math.max(0, firstRow2 * pagesInRow), this.pages.length)
 
     for (var i = firstPage1 - 1; i >= firstPage2; i -= 1) {
-      this.queue.addPage(this.pages[i], this.zoom)
+      this.queue.add(this.pages[i], this.zoom)
     }
   }
 }

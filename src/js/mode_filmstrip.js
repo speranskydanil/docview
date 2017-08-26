@@ -1,12 +1,9 @@
-import Mode from './mode.js'
-import Queue from './queue.js'
+import Mode from './mode'
 
 class ModeFilmstrip extends Mode {
   constructor(params) {
-    super()
-    this.configurate(params)
+    super(params)
     this.name = 'filmstrip'
-    this.queue = new Queue()
   }
 
   activate(switching) {
@@ -162,7 +159,7 @@ class ModeFilmstrip extends Mode {
     var lastPage1 = Math.min(Math.ceil(border1.right / pageWidth), this.pages.length)
 
     for (var i = firstPage1; i < lastPage1; i += 1) {
-      this.queue.addPage(this.pages[i], this.zoom)
+      this.queue.add(this.pages[i], this.zoom)
     }
 
     // add to queue previous pages
@@ -175,7 +172,7 @@ class ModeFilmstrip extends Mode {
     var firstPage2 = Math.min(Math.max(0, Math.floor(border2.left / pageWidth)),this.pages.length)
 
     for (var i = firstPage1 - 1; i >= firstPage2; i -= 1) {
-      this.queue.addPage(this.pages[i], this.zoom)
+      this.queue.add(this.pages[i], this.zoom)
     }
   }
 }

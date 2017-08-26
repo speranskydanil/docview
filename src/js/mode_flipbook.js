@@ -1,12 +1,9 @@
-import Mode from './mode.js'
-import Queue from './queue.js'
+import Mode from './mode'
 
 class ModeFlipBook extends Mode {
   constructor(params) {
-    super()
-    this.configurate(params)
+    super(params)
     this.name = 'flip-book'
-    this.queue = new Queue()
     this.animationIsInProgress = false
   }
 
@@ -191,19 +188,19 @@ class ModeFlipBook extends Mode {
   load() {
     var index = Math.max(0, this.index + (this.index % 2) - 1)
 
-    this.queue.addPage(this.pages[index], this.zoom)
-    if (index + 1 < this.pages.length) this.queue.addPage(this.pages[index + 1], this.zoom)
+    this.queue.add(this.pages[index], this.zoom)
+    if (index + 1 < this.pages.length) this.queue.add(this.pages[index + 1], this.zoom)
 
     var numberOfImagesOnRight = Math.min(8, this.pages.length - index - 2)
 
     for (var i = 1; i <= numberOfImagesOnRight; i += 1) {
-      this.queue.addPage(this.pages[(index + 1) + i], this.zoom)
+      this.queue.add(this.pages[(index + 1) + i], this.zoom)
     }
 
     var numberOfImagesOnLeft = Math.min(8, index)
 
     for (var i = 1; i <= numberOfImagesOnLeft; i += 1) {
-      this.queue.addPage(this.pages[index - i], this.zoom)
+      this.queue.add(this.pages[index - i], this.zoom)
     }
   }
 }

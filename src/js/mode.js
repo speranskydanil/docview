@@ -1,7 +1,8 @@
-import Page from './page.js'
+import Page from './page'
+import PageDownloadQueue from './page_download_queue'
 
 export default class Mode {
-  configurate(params) {
+  constructor(params) {
     this.dom     = params.dom
     this.zooms   = params.zooms
     this.maxZoom = params.maxZoom
@@ -17,6 +18,8 @@ export default class Mode {
         index: index
       })
     })
+
+    this.queue = new PageDownloadQueue()
   }
 
   setValidZoom() {
