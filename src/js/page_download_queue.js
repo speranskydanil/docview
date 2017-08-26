@@ -10,6 +10,7 @@ export default class PageDownloadQueue {
   }
 
   add(page, zoom) {
+    if (page.url() == page.url(zoom)) return
     if (!page.url()) this.fast.add(page, 0)
     this.slow.add(page, zoom)
   }

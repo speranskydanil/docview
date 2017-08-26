@@ -93,7 +93,7 @@ window.Docview = class Docview {
 
     for (var i = 0, l = params.pages.length; i < l; i += 1) {
       htmlPages +=
-        "<div class='page' id='page-" + params.pages[i].id + "'>" +
+        "<div class='page' id='dv-page-" + params.pages[i].id + "'>" +
           "<img src='' oncontextmenu='return false' title='' alt=''>" +
         "</div>"
     }

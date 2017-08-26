@@ -18,18 +18,18 @@ class ModeGrid extends Mode {
 
     for (var i in this.pages) {
       (function(page) {
-        page.obj.click(function() {
+        page.div.click(function() {
           self.selectCurPage(page.index)
           $(window).trigger('docview-select-cur-page')
         })
       })(this.pages[i])
     }
 
-    this.curPage().obj.addClass('current')
+    this.curPage().div.addClass('current')
     this.redraw()
 
     if (switching) {
-      $(window).scrollTop(this.curPage().obj.offset().top - 5)
+      $(window).scrollTop(this.curPage().div.offset().top - 5)
     }
   }
 
@@ -39,7 +39,7 @@ class ModeGrid extends Mode {
     $(window).unbind('scroll.docview-grid')
     this.dom.pages.unbind('click')
 
-    this.curPage().obj.removeClass('current')
+    this.curPage().div.removeClass('current')
   }
 
   zoomIn() {
@@ -61,9 +61,9 @@ class ModeGrid extends Mode {
     if (index > this.pages.length - 1) index = this.pages.length - 1
 
     if (this.index != index) {
-      this.curPage().obj.removeClass('current')
+      this.curPage().div.removeClass('current')
       this.index = index
-      this.curPage().obj.addClass('current')
+      this.curPage().div.addClass('current')
     }
   }
 

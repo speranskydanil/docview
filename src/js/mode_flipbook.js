@@ -14,11 +14,11 @@ class ModeFlipBook extends Mode {
 
     for (var i in this.pages) {
       if (i % 2 == 0) {
-        this.pages[i].obj
+        this.pages[i].div
           .css({ right: 0, top: 0 })
           .click(function() { self.next(); })
       } else {
-        this.pages[i].obj
+        this.pages[i].div
           .css({ left: 0, top: 0 })
           .click(function() { self.prev(); })
       }
@@ -30,7 +30,7 @@ class ModeFlipBook extends Mode {
     this.redraw()
 
     if (switching) {
-      $(window).scrollTop(this.curPage().obj.offset().top - 60)
+      $(window).scrollTop(this.curPage().div.offset().top - 60)
     }
   }
 
@@ -73,20 +73,20 @@ class ModeFlipBook extends Mode {
 
     var self = this
 
-    if (p4) p4.obj.css('z-index', -1).show()
+    if (p4) p4.div.css('z-index', -1).show()
 
     p2.img.height(this.zooms[this.zoom] * p2.ratio)
     p2.img.animate({ width: 0 }, 180, function() {
-      p2.obj.hide()
+      p2.div.hide()
 
       p3.img.css({ width: 0, right: 0 })
-      p3.obj.show()
+      p3.div.show()
 
       p3.img.height(self.zooms[self.zoom] * p3.ratio)
       p3.img.animate({ width: self.pageWidth() }, 180, function() {
-        if (p1) p1.obj.hide()
+        if (p1) p1.div.hide()
 
-        if (p4) p4.obj.css('z-index', 'auto')
+        if (p4) p4.div.css('z-index', 'auto')
         p2.img.removeAttr('style')
         p3.img.removeAttr('style')
 
@@ -113,24 +113,24 @@ class ModeFlipBook extends Mode {
 
     var self = this
 
-    if (p1) p1.obj.show()
+    if (p1) p1.div.show()
 
     p3.img.css('right', 0)
 
     p3.img.height(this.zooms[this.zoom] * p3.ratio)
     p3.img.animate({ width: 0 }, 180, function() {
-      p3.obj.hide()
+      p3.div.hide()
 
       p2.img.css('width', 0)
-      p2.obj.css('z-index', 1).show()
+      p2.div.css('z-index', 1).show()
 
       p2.img.height(self.zooms[self.zoom] * p2.ratio)
       p2.img.animate({ width: self.pageWidth() }, 180, function() {
-        if (p4) p4.obj.hide()
+        if (p4) p4.div.hide()
 
         p3.img.removeAttr('style')
         p2.img.removeAttr('style')
-        p2.obj.css('z-index', 'auto')
+        p2.div.css('z-index', 'auto')
 
         self.setCurPage(self.index - 2)
         $(window).trigger('docview-mode-changed')
@@ -159,12 +159,12 @@ class ModeFlipBook extends Mode {
     this.dom.pages.hide()
 
     if (this.index == 0) {
-      this.pages[this.index].obj.show()
+      this.pages[this.index].div.show()
     } else {
       var index = this.index + (this.index % 2) - 1
-      this.pages[index].obj.show()
+      this.pages[index].div.show()
 
-      if (index + 1 < this.pages.length) this.pages[index + 1].obj.show()
+      if (index + 1 < this.pages.length) this.pages[index + 1].div.show()
     }
   }
 

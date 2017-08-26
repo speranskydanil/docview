@@ -13,14 +13,14 @@ class ModeInspect extends Mode {
     this.dom.pages.hide()
 
     var self = this
-    for (var i in this.pages) this.pages[i].obj.click(function() { self.next(); })
+    for (var i in this.pages) this.pages[i].div.click(function() { self.next(); })
 
-    this.curPage().obj.show()
+    this.curPage().div.show()
 
     this.redraw()
 
     if (switching) {
-      $(window).scrollTop(this.curPage().obj.offset().top - 60)
+      $(window).scrollTop(this.curPage().div.offset().top - 60)
     }
   }
 
@@ -102,8 +102,8 @@ class ModeInspect extends Mode {
 
       var self = this
 
-      this.curPage().obj.fadeOut(100, function() {
-        self.curPage().obj.fadeIn(100, function() {
+      this.curPage().div.fadeOut(100, function() {
+        self.curPage().div.fadeIn(100, function() {
           self.animationIsInProgress = false
         })
       })

@@ -7,17 +7,9 @@ export default class Mode {
     this.zooms   = params.zooms
     this.maxZoom = params.maxZoom
 
-    Page.prototype.schema = params.pageUrl
+    Page.url = params.pageUrl
 
-    this.pages = $.map(params.pages, function(data, index) {
-      return new Page({
-        id: data.id,
-        h: data.h,
-        w: data.w,
-        downloadUrl: data.downloadUrl,
-        index: index
-      })
-    })
+    this.pages = params.pages.map(data => new Page(data))
 
     this.queue = new PageDownloadQueue()
   }
