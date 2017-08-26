@@ -17,42 +17,10 @@ export default class Mode {
         index: index
       })
     })
-
-    this.zoomNums = $.map(this.zooms, function(v, k) { return parseInt(k); })
-                     .sort(function(a, b) { return a - b; })
-
-    this.zoomMin = this.zoomNums[0]
-    this.zoomMax = this.zoomNums.slice(-1)[0]
   }
 
   setValidZoom() {
-    var self = this
-
-    var zooms = $.grep(this.zoomNums, function(v) { return v <= self.maxZoom; })
-
-    var difs = $.map(zooms, function(v) { return Math.abs(self.zoom - v); })
-
-    this.zoom = this.zoomNums[difs.indexOf(Math.min.apply(Math, difs))]
-  }
-
-  canZoom() {
-    return (this.incrementedZoom() || this.zoom) <= this.maxZoom
-  }
-
-  incZoom() {
-    this.zoom = this.incrementedZoom()
-  }
-
-  incrementedZoom() {
-    return this.zoomNums[this.zoomNums.indexOf(this.zoom) + 1]
-  }
-
-  decZoom() {
-    this.zoom = this.decrementedZoom()
-  }
-
-  decrementedZoom() {
-    return this.zoomNums[this.zoomNums.indexOf(this.zoom) - 1]
+    this.zoom = Math.min(this.zoom, this.maxZoom)
   }
 
   resizePages() {
@@ -95,9 +63,6 @@ export default class Mode {
   }
 
   downloadUrl() {
-    var self = this
-    var zoom = $.grep(this.zoomNums, function(v) { return v <= self.maxZoom; }).slice(-1)[0]
-
-    return this.curPage().downloadUrl || this.curPage().url(zoom)
+    return this.curPage().downloadUrl || this.curPage().url(this.maxZoom)
   }
 }

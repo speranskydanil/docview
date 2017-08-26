@@ -41,22 +41,17 @@ class ModeInspect extends Mode {
   }
 
   zoomIn() {
-    if (!this.canZoom()) {
-      $(window).trigger('docview-access-denied')
-      return
-    }
+    if (this.zoom >= this.zooms.length - 1) return $(window).trigger('docview-access-denied')
 
-    if (this.zoom < this.zoomMax) {
-      this.incZoom()
-      this.redraw()
-    }
+    this.zoom++
+    this.redraw()
   }
 
   zoomOut() {
-    if (this.zoom > this.zoomMin) {
-      this.decZoom()
-      this.redraw()
-    }
+    if (this.zoom == 0) return
+
+    this.zoom--
+    this.redraw()
   }
 
   next() {
