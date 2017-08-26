@@ -40,62 +40,62 @@ window.Docview = class Docview {
   buildDom(params) {
     let t = params.translation
 
-    let html =
-      "<div class='docview " + params.theme + "'>" +
-        "<div class='toolbar-wrapper'>" +
-          "<div class='toolbar'>" +
-            "<div class='modes'>" +
-              "<a class='grid' title='" + t.grid + "'></a>" +
-              "<a class='filmstrip' title='" + t.filmstrip + "'></a>" +
-              "<a class='inspect' title='" + t.inspect + "'></a>" +
-              "<a class='flip-book' title='" + t.flipBook + "'></a>" +
-            "</div>" +
-            "<div class='delimiter'></div>" +
-            "<a class='fullscreen' title='" + t.fullscreen + "'></a>" +
-            "<div class='delimiter'></div>" +
-            "<div class='zoom'>" +
-              "<a class='zoom-out' title='" + t.zoomOut + "'></a>" +
-              "<a class='zoom-in' title='" + t.zoomIn + "'></a>" +
-            "</div>" +
-            "<div class='delimiter'></div>" +
-            "<a class='dim' title='" + t.dimTheLights + "'></a>" +
-            "<div class='delimiter delimiter-after-dim'></div>" +
-            "<div class='paginator'>" +
-              "<a class='prev' title='" + t.prevPage + "'></a>" +
-              "<input class='cur' type='text'>" +
-              "<a class='next' title='" + t.nextPage + "'></a>" +
-            "</div>" +
-            "<div class='delimiter delimiter-after-paginator'></div>" +
-            "<div class='rotator'>" +
-              "<a class='left' title='" + t.rotatLeft + "'></a>" +
-              "<a class='right' title='" + t.rotateRight + "'></a>" +
-            "</div>" +
-            "<div class='delimiter delimiter-after-rotator'></div>" +
-            "<a class='download' title='" + t.download + "' target='_blank' download></a>" +
-            "<a class='print' title='" + t.print + "'></a>" +
-          "</div>" +
-          "<div class='toolbar-buttons'>" +
-            (params.buttons || '') +
-          "</div>" +
-          "<div class='clear'></div>" +
-        "</div>" +
-        "<div class='wrapper'>" +
-          "<div class='viewport'>" +
-            "<div class='wrapper'>" +
-              "htmlPages" +
-              "<div class='clear'></div>" +
-            "</div>" +
-          "</div>" +
-        "</div>" +
-      "</div>"
+    let html = `
+      <div class="docview ${params.theme}">
+        <div class="toolbar-wrapper">
+          <div class="toolbar">
+            <div class="modes">
+              <a class="grid" title="${t.grid}"></a>
+              <a class="filmstrip" title="${t.filmstrip}"></a>
+              <a class="inspect" title="${t.inspect}"></a>
+              <a class="flip-book" title="${t.flipBook}"></a>
+            </div>
+            <div class="delimiter"></div>
+            <a class="fullscreen" title="${t.fullscreen}"></a>
+            <div class="delimiter"></div>
+            <div class="zoom">
+              <a class="zoom-out" title="${t.zoomOut}"></a>
+              <a class="zoom-in" title="${t.zoomIn}"></a>
+            </div>
+            <div class="delimiter"></div>
+            <a class="dim" title="${t.dimTheLights}"></a>
+            <div class="delimiter delimiter-after-dim"></div>
+            <div class="paginator">
+              <a class="prev" title="${t.prevPage}"></a>
+              <input class="cur" type="text">
+              <a class="next" title="${t.nextPage}"></a>
+            </div>
+            <div class="delimiter delimiter-after-paginator"></div>
+            <div class="rotator">
+              <a class="left" title="${t.rotatLeft}"></a>
+              <a class="right" title="${t.rotateRight}"></a>
+            </div>
+            <div class="delimiter delimiter-after-rotator"></div>
+            <a class="download" title="${t.download}" target="_blank" download></a>
+            <a class="print" title="${t.print}"></a>
+          </div>
+          <div class="toolbar-buttons">
+            ${(params.buttons || "")}
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="wrapper">
+          <div class="viewport">
+            <div class="wrapper">
+              htmlPages
+              <div class="clear"></div>
+            </div>
+          </div>
+        </div>
+      </div>`
 
     let htmlPages = ''
 
     for (let i = 0, l = params.pages.length; i < l; i += 1) {
-      htmlPages +=
-        "<div class='page' id='dv-page-" + params.pages[i].id + "'>" +
-          "<img src='' oncontextmenu='return false' title='' alt=''>" +
-        "</div>"
+      htmlPages += `
+        <div class="page" id="dv-page-${params.pages[i].id}">
+          <img src="" oncontextmenu="return false" title="" alt="">
+        </div>`
     }
 
     html = html.replace('htmlPages', htmlPages)
@@ -204,8 +204,8 @@ window.Docview = class Docview {
       $(window).trigger('docview-mode-changed')
     })
 
-    this.dom.cur.change(() => {
-      this.mode.setCurPage(parseInt($(this).val()) - 1)
+    this.dom.cur.change(function () {
+      self.mode.setCurPage(parseInt($(this).val()) - 1)
     })
 
     this.dom.next.click((e) => {
