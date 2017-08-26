@@ -12,8 +12,8 @@ class ModeInspect extends Mode {
 
     this.dom.pages.hide()
 
-    var self = this
-    for (var i in this.pages) this.pages[i].div.click(function() { self.next(); })
+    let self = this
+    for (let i in this.pages) this.pages[i].div.click(function() { self.next(); })
 
     this.curPage().div.show()
 
@@ -60,12 +60,12 @@ class ModeInspect extends Mode {
   }
 
   rotateLeft() {
-    var self = this
+    let self = this
     this.rotate(self.curPage().img, -90, function() { self.fitIntoTheFrame() })
   }
 
   rotateRight() {
-    var self = this
+    let self = this
     this.rotate(self.curPage().img, 90, function() { self.fitIntoTheFrame() })
   }
 
@@ -78,10 +78,10 @@ class ModeInspect extends Mode {
   }
 
   fitIntoTheFrame() {
-    var img = this.curPage().img
+    let img = this.curPage().img
 
-    var horizontal = this.curPage().w > this.curPage().h
-    var turned = Math.abs(Math.round(img.data('angle') / 90)) % 2 == 1
+    let horizontal = this.curPage().w > this.curPage().h
+    let turned = Math.abs(Math.round(img.data('angle') / 90)) % 2 == 1
 
     if (horizontal && turned) {
       img.animate({ 'top': (img.width() - img.height()) / 2 }, 200)
@@ -100,7 +100,7 @@ class ModeInspect extends Mode {
       if (this.animationIsInProgress) return
       this.animationIsInProgress = true
 
-      var self = this
+      let self = this
 
       this.curPage().div.fadeOut(100, function() {
         self.curPage().div.fadeIn(100, function() {
@@ -136,22 +136,22 @@ class ModeInspect extends Mode {
   load() {
     this.queue.add(this.pages[this.index], this.zoom)
 
-    var numberOfImagesOnRight = Math.min(4, this.pages.length - 1 - this.index)
+    let numberOfImagesOnRight = Math.min(4, this.pages.length - 1 - this.index)
 
-    for (var i = 1; i <= numberOfImagesOnRight; i += 1) {
+    for (let i = 1; i <= numberOfImagesOnRight; i += 1) {
       this.queue.add(this.pages[this.index + i], this.zoom)
     }
 
-    var numberOfImagesOnLeft = Math.min(4, this.index)
+    let numberOfImagesOnLeft = Math.min(4, this.index)
 
-    for (var i = 1; i <= numberOfImagesOnLeft; i += 1) {
+    for (let i = 1; i <= numberOfImagesOnLeft; i += 1) {
       this.queue.add(this.pages[this.index - i], this.zoom)
     }
   }
 }
 
 $.each(['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next'], function(i, name) {
-  var func = ModeInspect.prototype[name]
+  let func = ModeInspect.prototype[name]
 
   ModeInspect.prototype[name] = function() {
     func.apply(this, arguments)

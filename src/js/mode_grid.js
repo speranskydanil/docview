@@ -9,14 +9,14 @@ class ModeGrid extends Mode {
   activate(switching) {
     this.setValidZoom()
 
-    var self = this
+    let self = this
 
     $(window).bind('scroll.docview-grid', function() {
       self.queue.clear()
       self.load()
     })
 
-    for (var i in this.pages) {
+    for (let i in this.pages) {
       (function(page) {
         page.div.click(function() {
           self.selectCurPage(page.index)
@@ -74,57 +74,57 @@ class ModeGrid extends Mode {
   }
 
   load() {
-    var win = $(window)
+    let win = $(window)
 
-    var pageHeight = this.pageHeightWithIndent()
-    var pagesInRow = Math.floor(this.dom.viewport.width() / this.pageWidthWithIndent())
+    let pageHeight = this.pageHeightWithIndent()
+    let pagesInRow = Math.floor(this.dom.viewport.width() / this.pageWidthWithIndent())
 
-    var viewport = {
+    let viewport = {
       top: win.scrollTop() - this.dom.viewport.offset().top
     }
 
     viewport.bottom = viewport.top + win.height()
 
-    var threshold = {
+    let threshold = {
       top: 3 * pageHeight,
       bottom: 3 * pageHeight
     }
 
     // add to queue active pages and next ones
 
-    var border1 = {
+    let border1 = {
       top: viewport.top,
       bottom: viewport.bottom + threshold.bottom
     }
 
-    var firstRow1 = Math.floor(border1.top / pageHeight)
-    var firstPage1 = Math.min(Math.max(0, firstRow1 * pagesInRow), this.pages.length)
+    let firstRow1 = Math.floor(border1.top / pageHeight)
+    let firstPage1 = Math.min(Math.max(0, firstRow1 * pagesInRow), this.pages.length)
 
-    var lastRow1 = Math.floor(border1.bottom / pageHeight)
-    var lastPage1 = Math.min((lastRow1 + 1) * pagesInRow, this.pages.length)
+    let lastRow1 = Math.floor(border1.bottom / pageHeight)
+    let lastPage1 = Math.min((lastRow1 + 1) * pagesInRow, this.pages.length)
 
-    for (var i = firstPage1; i < lastPage1; i += 1) {
+    for (let i = firstPage1; i < lastPage1; i += 1) {
       this.queue.add(this.pages[i], this.zoom)
     }
 
     // add to queue previous pages
 
-    var border2 = {
+    let border2 = {
       top: viewport.top - threshold.top,
       bottom: viewport.top
     }
 
-    var firstRow2 = Math.floor(border2.top / pageHeight)
-    var firstPage2 = Math.min(Math.max(0, firstRow2 * pagesInRow), this.pages.length)
+    let firstRow2 = Math.floor(border2.top / pageHeight)
+    let firstPage2 = Math.min(Math.max(0, firstRow2 * pagesInRow), this.pages.length)
 
-    for (var i = firstPage1 - 1; i >= firstPage2; i -= 1) {
+    for (let i = firstPage1 - 1; i >= firstPage2; i -= 1) {
       this.queue.add(this.pages[i], this.zoom)
     }
   }
 }
 
 $.each(['activate', 'zoomIn', 'zoomOut'], function(i, name) {
-  var func = ModeGrid.prototype[name]
+  let func = ModeGrid.prototype[name]
 
   ModeGrid.prototype[name] = function() {
     func.apply(this, arguments)

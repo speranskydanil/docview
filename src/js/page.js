@@ -14,7 +14,7 @@ export default class Page {
   load(zoom, callback) {
     if (this.url() == '') return this.img.on('load', callback).attr('src', this.url(zoom))
 
-    var self = this
+    let self = this
 
     $('<img>').on('load', function() {
       self.img.attr('src', $(this).attr('src'))

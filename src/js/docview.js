@@ -5,7 +5,7 @@ import ModeFilmstrip from './mode_filmstrip'
 
 window.Docview = class Docview {
   constructor(params) {
-    var defaultParams = {
+    let defaultParams = {
       theme: 'standard',
       translation: {
         grid: 'Grid',
@@ -38,9 +38,9 @@ window.Docview = class Docview {
   }
 
   buildDom(params) {
-    var t = params.translation
+    let t = params.translation
 
-    var html =
+    let html =
       "<div class='docview " + params.theme + "'>" +
         "<div class='toolbar-wrapper'>" +
           "<div class='toolbar'>" +
@@ -89,9 +89,9 @@ window.Docview = class Docview {
         "</div>" +
       "</div>"
 
-    var htmlPages = ''
+    let htmlPages = ''
 
-    for (var i = 0, l = params.pages.length; i < l; i += 1) {
+    for (let i = 0, l = params.pages.length; i < l; i += 1) {
       htmlPages +=
         "<div class='page' id='dv-page-" + params.pages[i].id + "'>" +
           "<img src='' oncontextmenu='return false' title='' alt=''>" +
@@ -138,7 +138,7 @@ window.Docview = class Docview {
   }
 
   bindCommonEvents() {
-    var self = this
+    let self = this
 
     $(window).scroll(function() {
       self.moveToolbar()
@@ -152,16 +152,16 @@ window.Docview = class Docview {
   }
 
   bindToolbarEvents() {
-    var self = this
+    let self = this
 
     this.dom.modes.click(function(e) {
       e.preventDefault()
       self.changeMode($(this).attr('class'))
     })
 
-    var fullscreen = false
-    var docview = this.dom.docview
-    var parent = docview.parent()
+    let fullscreen = false
+    let docview = this.dom.docview
+    let parent = docview.parent()
 
     this.dom.fullscreen.click(function(e) {
       e.preventDefault()
@@ -232,13 +232,13 @@ window.Docview = class Docview {
 
     this.dom.print.click(function(e) {
       e.preventDefault()
-      var w = window.open(self.mode.downloadUrl())
+      let w = window.open(self.mode.downloadUrl())
       $(w).ready(function() { w.print(); })
     })
   }
 
   bindModeEvents() {
-    var self = this
+    let self = this
 
     $(window).bind({
       'docview-select-cur-page': function() {
@@ -246,8 +246,8 @@ window.Docview = class Docview {
       },
 
       'docview-mode-changed': function() {
-        var dom = self.dom
-        var mode = self.mode
+        let dom = self.dom
+        let mode = self.mode
 
         // set mode class
 
@@ -257,7 +257,7 @@ window.Docview = class Docview {
 
         // set cur page
 
-        var cur = dom.cur
+        let cur = dom.cur
 
         if (mode.name == 'inspect') {
           cur.val(mode.index + 1)
@@ -266,13 +266,13 @@ window.Docview = class Docview {
           if (mode.index == 0) {
             cur.val(1)
           } else {
-            var index_1 = mode.index + (mode.index % 2)
-            var index_2 = index_1 == mode.pages.length ? '' : ' - ' + (index_1 + 1)
+            let index_1 = mode.index + (mode.index % 2)
+            let index_2 = index_1 == mode.pages.length ? '' : ' - ' + (index_1 + 1)
             cur.val(index_1 + index_2)
           }
         } else if (mode.name == 'filmstrip') {
-          var index_1 = mode.getFirstVisiblePage() + 1
-          var index_2 = index_1 == mode.pages.length ? '' : ' - ' + Math.min(mode.getLastVisiblePage() + 1, mode.pages.length)
+          let index_1 = mode.getFirstVisiblePage() + 1
+          let index_2 = index_1 == mode.pages.length ? '' : ' - ' + Math.min(mode.getLastVisiblePage() + 1, mode.pages.length)
           cur.val(index_1 + index_2)
         }
 
@@ -290,7 +290,7 @@ window.Docview = class Docview {
   }
 
   initializeModes(params) {
-    var data = {
+    let data = {
       dom: {
         viewport: this.dom.viewport,
         wrapper: this.dom.wrapper,
@@ -313,10 +313,10 @@ window.Docview = class Docview {
   }
 
   activateMode(params) {
-    var hash = window.location.hash
+    let hash = window.location.hash
 
     if (hash != '') {
-      var mode = hash.match(/mode\/([\w-]+)/)[1]
+      let mode = hash.match(/mode\/([\w-]+)/)[1]
       if (typeof this.modes[mode] == 'undefined') mode = 'grid'
 
       this.mode       = this.modes[mode]
@@ -347,7 +347,7 @@ window.Docview = class Docview {
         break
     }
 
-    var index = this.mode.index
+    let index = this.mode.index
     this.mode.deactivate()
     this.mode = this.modes[name]
     this.mode.index = index
@@ -357,9 +357,9 @@ window.Docview = class Docview {
   }
 
   moveToolbar() {
-    var scroll = $(window).scrollTop()
-    var offset = this.dom.docview.offset().top
-    var height = this.dom.docview.height()
+    let scroll = $(window).scrollTop()
+    let offset = this.dom.docview.offset().top
+    let height = this.dom.docview.height()
 
     if (scroll > offset && scroll < offset + height) {
       this.dom.docview.css('padding-top', this.dom.toolbarWrapper.outerHeight(true))

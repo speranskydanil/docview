@@ -10,9 +10,9 @@ class ModeFlipBook extends Mode {
   activate(switching) {
     this.setValidZoom()
 
-    var self = this
+    let self = this
 
-    for (var i in this.pages) {
+    for (let i in this.pages) {
       if (i % 2 == 0) {
         this.pages[i].div
           .css({ right: 0, top: 0 })
@@ -64,14 +64,14 @@ class ModeFlipBook extends Mode {
 
     this.animationIsInProgress = true
 
-    var index = this.index + (this.index % 2) - 1
+    let index = this.index + (this.index % 2) - 1
 
-    var p1 = this.pages[index]
-    var p2 = this.pages[index + 1]
-    var p3 = this.pages[index + 2]
-    var p4 = this.pages[index + 3]
+    let p1 = this.pages[index]
+    let p2 = this.pages[index + 1]
+    let p3 = this.pages[index + 2]
+    let p4 = this.pages[index + 3]
 
-    var self = this
+    let self = this
 
     if (p4) p4.div.css('z-index', -1).show()
 
@@ -104,14 +104,14 @@ class ModeFlipBook extends Mode {
 
     this.animationIsInProgress = true
 
-    var index = this.index + (this.index % 2) - 1
+    let index = this.index + (this.index % 2) - 1
 
-    var p1 = this.pages[index - 2]
-    var p2 = this.pages[index - 1]
-    var p3 = this.pages[index]
-    var p4 = this.pages[index + 1]
+    let p1 = this.pages[index - 2]
+    let p2 = this.pages[index - 1]
+    let p3 = this.pages[index]
+    let p4 = this.pages[index + 1]
 
-    var self = this
+    let self = this
 
     if (p1) p1.div.show()
 
@@ -161,7 +161,7 @@ class ModeFlipBook extends Mode {
     if (this.index == 0) {
       this.pages[this.index].div.show()
     } else {
-      var index = this.index + (this.index % 2) - 1
+      let index = this.index + (this.index % 2) - 1
       this.pages[index].div.show()
 
       if (index + 1 < this.pages.length) this.pages[index + 1].div.show()
@@ -186,27 +186,27 @@ class ModeFlipBook extends Mode {
   }
 
   load() {
-    var index = Math.max(0, this.index + (this.index % 2) - 1)
+    let index = Math.max(0, this.index + (this.index % 2) - 1)
 
     this.queue.add(this.pages[index], this.zoom)
     if (index + 1 < this.pages.length) this.queue.add(this.pages[index + 1], this.zoom)
 
-    var numberOfImagesOnRight = Math.min(8, this.pages.length - index - 2)
+    let numberOfImagesOnRight = Math.min(8, this.pages.length - index - 2)
 
-    for (var i = 1; i <= numberOfImagesOnRight; i += 1) {
+    for (let i = 1; i <= numberOfImagesOnRight; i += 1) {
       this.queue.add(this.pages[(index + 1) + i], this.zoom)
     }
 
-    var numberOfImagesOnLeft = Math.min(8, index)
+    let numberOfImagesOnLeft = Math.min(8, index)
 
-    for (var i = 1; i <= numberOfImagesOnLeft; i += 1) {
+    for (let i = 1; i <= numberOfImagesOnLeft; i += 1) {
       this.queue.add(this.pages[index - i], this.zoom)
     }
   }
 }
 
 $.each(['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next'], function(i, name) {
-  var func = ModeFlipBook.prototype[name]
+  let func = ModeFlipBook.prototype[name]
 
   ModeFlipBook.prototype[name] = function() {
     func.apply(this, arguments)

@@ -9,7 +9,7 @@ class ModeFilmstrip extends Mode {
   activate(switching) {
     this.setValidZoom()
 
-    var self = this
+    let self = this
 
     this.dom.viewport.scroll(function() {
       self.queue.clear()
@@ -23,7 +23,7 @@ class ModeFilmstrip extends Mode {
       $(this).scrollLeft($(this).scrollLeft() - 50 * dy)
     })
 
-    for (var i in this.pages) {
+    for (let i in this.pages) {
       (function(page) {
         page.div.click(function() {
           self.selectCurPage(page.index)
@@ -136,49 +136,49 @@ class ModeFilmstrip extends Mode {
   }
 
   load() {
-    var pageWidth = this.pageWidthWithIndent()
+    let pageWidth = this.pageWidthWithIndent()
 
-    var border = {
+    let border = {
       left: this.dom.viewport.scrollLeft(),
       right: this.dom.viewport.scrollLeft() + this.dom.viewport.width()
     }
 
-    var threshold = {
+    let threshold = {
       left: 8 * pageWidth,
       right: 8 * pageWidth
     }
 
     // add to queue acive pages and next ones
 
-    var border1 = {
+    let border1 = {
       left: border.left,
       right: border.right + threshold.right
     }
 
-    var firstPage1 = Math.min(Math.max(0, Math.floor(border1.left / pageWidth)), this.pages.length)
-    var lastPage1 = Math.min(Math.ceil(border1.right / pageWidth), this.pages.length)
+    let firstPage1 = Math.min(Math.max(0, Math.floor(border1.left / pageWidth)), this.pages.length)
+    let lastPage1 = Math.min(Math.ceil(border1.right / pageWidth), this.pages.length)
 
-    for (var i = firstPage1; i < lastPage1; i += 1) {
+    for (let i = firstPage1; i < lastPage1; i += 1) {
       this.queue.add(this.pages[i], this.zoom)
     }
 
     // add to queue previous pages
 
-    var border2 = {
+    let border2 = {
       left: border.left - threshold.left,
       right: border.left
     }
 
-    var firstPage2 = Math.min(Math.max(0, Math.floor(border2.left / pageWidth)),this.pages.length)
+    let firstPage2 = Math.min(Math.max(0, Math.floor(border2.left / pageWidth)),this.pages.length)
 
-    for (var i = firstPage1 - 1; i >= firstPage2; i -= 1) {
+    for (let i = firstPage1 - 1; i >= firstPage2; i -= 1) {
       this.queue.add(this.pages[i], this.zoom)
     }
   }
 }
 
 $.each(['activate', 'zoomIn', 'zoomOut'], function(i, name) {
-  var func = ModeFilmstrip.prototype[name]
+  let func = ModeFilmstrip.prototype[name]
 
   ModeFilmstrip.prototype[name] = function() {
     func.apply(this, arguments)
