@@ -36,17 +36,8 @@ export default class Mode {
   }
 
   pageHeight() {
-    if (!this.cachedMaxPageRatio) {
-      let pageRatio = 0
-
-      for (let i in this.pages) {
-        pageRatio = Math.max(pageRatio, this.pages[i].ratio)
-      }
-
-      this.cachedMaxPageRatio = pageRatio
-    }
-
-    return Math.ceil(this.cachedMaxPageRatio * this.pageWidth())
+    this.maxRatio = this.maxRatio || Math.max(...this.pages.map(page => page.ratio))
+    return Math.ceil(this.maxRatio * this.pageWidth())
   }
 
   pageHeightWithIndent() {

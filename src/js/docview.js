@@ -91,9 +91,9 @@ window.Docview = class Docview {
 
     let htmlPages = ''
 
-    for (let i = 0, l = params.pages.length; i < l; i += 1) {
+    for (let page of params.pages) {
       htmlPages += `
-        <div class="page" id="dv-page-${params.pages[i].id}">
+        <div class="page" id="dv-page-${page.id}">
           <img src="" oncontextmenu="return false" title="" alt="">
         </div>`
     }
