@@ -138,17 +138,10 @@ window.Docview = class Docview {
   }
 
   bindCommonEvents() {
-    let self = this
-
-    $(window).scroll(function() {
-      self.moveToolbar()
-    })
+    $(window).scroll(() => this.moveToolbar())
 
     // trick for case of zooming
-
-    setInterval(function() {
-      self.mode.load()
-    }, 2000)
+    setInterval(() => this.mode.load(), 2000)
   }
 
   bindToolbarEvents() {
@@ -183,71 +176,69 @@ window.Docview = class Docview {
       fullscreen = !fullscreen
     })
 
-    this.dom.zoomIn.click(function(e) {
+    this.dom.zoomIn.click((e) => {
       e.preventDefault()
-      self.mode.zoomIn()
+      this.mode.zoomIn()
     })
 
-    this.dom.zoomOut.click(function(e) {
+    this.dom.zoomOut.click((e) => {
       e.preventDefault()
-      self.mode.zoomOut()
+      this.mode.zoomOut()
     })
 
-    this.dom.dim.click(function(e) {
+    this.dom.dim.click((e) => {
       e.preventDefault()
       $('body').toggleClass('dark')
     })
 
-    this.dom.prev.click(function(e) {
+    this.dom.prev.click((e) => {
       e.preventDefault()
-      self.mode.prev()
+      this.mode.prev()
     })
 
     this.dom.cur.focus(function() {
       $(this).val('')
     })
 
-    this.dom.cur.focusout(function() {
+    this.dom.cur.focusout(() => {
       $(window).trigger('docview-mode-changed')
     })
 
-    this.dom.cur.change(function() {
-      self.mode.setCurPage(parseInt($(this).val()) - 1)
+    this.dom.cur.change(() => {
+      this.mode.setCurPage(parseInt($(this).val()) - 1)
     })
 
-    this.dom.next.click(function(e) {
+    this.dom.next.click((e) => {
       e.preventDefault()
-      self.mode.next()
+      this.mode.next()
     })
 
-    this.dom.rotateLeft.click(function(e) {
+    this.dom.rotateLeft.click((e) => {
       e.preventDefault()
-      self.mode.rotateLeft()
+      this.mode.rotateLeft()
     })
 
-    this.dom.rotateRight.click(function(e) {
+    this.dom.rotateRight.click((e) => {
       e.preventDefault()
-      self.mode.rotateRight()
+      this.mode.rotateRight()
     })
 
-    this.dom.print.click(function(e) {
+    this.dom.print.click((e) => {
       e.preventDefault()
-      let w = window.open(self.mode.downloadUrl())
+      let w = window.open(this.mode.downloadUrl())
       $(w).ready(function() { w.print(); })
     })
   }
 
   bindModeEvents() {
-    let self = this
-
     $(window).bind({
-      'docview-select-cur-page': function() {
-        self.changeMode('inspect')
+      'docview-select-cur-page': () => {
+        this.changeMode('inspect')
       },
 
-      'docview-mode-changed': function() {
-        let dom = self.dom
-        let mode = self.mode
+      'docview-mode-changed': () => {
+        let dom = this.dom
+        let mode = this.mode
 
         // set mode class
 

@@ -12,8 +12,7 @@ class ModeInspect extends Mode {
 
     this.dom.pages.hide()
 
-    let self = this
-    for (let i in this.pages) this.pages[i].div.click(function() { self.next(); })
+    for (let page of this.pages) page.div.click(() => this.next())
 
     this.curPage().div.show()
 
@@ -60,13 +59,11 @@ class ModeInspect extends Mode {
   }
 
   rotateLeft() {
-    let self = this
-    this.rotate(self.curPage().img, -90, function() { self.fitIntoTheFrame() })
+    this.rotate(this.curPage().img, -90, () => this.fitIntoTheFrame())
   }
 
   rotateRight() {
-    let self = this
-    this.rotate(self.curPage().img, 90, function() { self.fitIntoTheFrame() })
+    this.rotate(this.curPage().img, 90, () => this.fitIntoTheFrame())
   }
 
   rotate(img, angle, callback) {
@@ -100,11 +97,9 @@ class ModeInspect extends Mode {
       if (this.animationIsInProgress) return
       this.animationIsInProgress = true
 
-      let self = this
-
-      this.curPage().div.fadeOut(100, function() {
-        self.curPage().div.fadeIn(100, function() {
-          self.animationIsInProgress = false
+      this.curPage().div.fadeOut(100, () => {
+        this.curPage().div.fadeIn(100, () => {
+          this.animationIsInProgress = false
         })
       })
 

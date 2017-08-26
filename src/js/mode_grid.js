@@ -9,20 +9,16 @@ class ModeGrid extends Mode {
   activate(switching) {
     this.setValidZoom()
 
-    let self = this
-
-    $(window).bind('scroll.docview-grid', function() {
-      self.queue.clear()
-      self.load()
+    $(window).bind('scroll.docview-grid', () => {
+      this.queue.clear()
+      this.load()
     })
 
-    for (let i in this.pages) {
-      (function(page) {
-        page.div.click(function() {
-          self.selectCurPage(page.index)
-          $(window).trigger('docview-select-cur-page')
-        })
-      })(this.pages[i])
+    for (let page of this.pages) {
+      page.div.click(() => {
+        this.selectCurPage(page.index)
+        $(window).trigger('docview-select-cur-page')
+      })
     }
 
     this.curPage().div.addClass('current')

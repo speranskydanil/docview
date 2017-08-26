@@ -10,17 +10,11 @@ class ModeFlipBook extends Mode {
   activate(switching) {
     this.setValidZoom()
 
-    let self = this
-
-    for (let i in this.pages) {
+    for (let [i, page] of this.pages.entries()) {
       if (i % 2 == 0) {
-        this.pages[i].div
-          .css({ right: 0, top: 0 })
-          .click(function() { self.next(); })
+        page.div.css({ right: 0, top: 0 }).click(() => this.next())
       } else {
-        this.pages[i].div
-          .css({ left: 0, top: 0 })
-          .click(function() { self.prev(); })
+        page.div.css({left: 0, top: 0}).click(() => this.prev())
       }
     }
 
@@ -71,29 +65,27 @@ class ModeFlipBook extends Mode {
     let p3 = this.pages[index + 2]
     let p4 = this.pages[index + 3]
 
-    let self = this
-
     if (p4) p4.div.css('z-index', -1).show()
 
     p2.img.height(this.zooms[this.zoom] * p2.ratio)
-    p2.img.animate({ width: 0 }, 180, function() {
+    p2.img.animate({ width: 0 }, 180, () => {
       p2.div.hide()
 
       p3.img.css({ width: 0, right: 0 })
       p3.div.show()
 
-      p3.img.height(self.zooms[self.zoom] * p3.ratio)
-      p3.img.animate({ width: self.pageWidth() }, 180, function() {
+      p3.img.height(this.zooms[this.zoom] * p3.ratio)
+      p3.img.animate({ width: this.pageWidth() }, 180, () => {
         if (p1) p1.div.hide()
 
         if (p4) p4.div.css('z-index', 'auto')
         p2.img.removeAttr('style')
         p3.img.removeAttr('style')
 
-        self.setCurPage(self.index + 2)
+        this.setCurPage(this.index + 2)
         $(window).trigger('docview-mode-changed')
 
-        self.animationIsInProgress = false
+        this.animationIsInProgress = false
       })
     })
   }
@@ -111,31 +103,29 @@ class ModeFlipBook extends Mode {
     let p3 = this.pages[index]
     let p4 = this.pages[index + 1]
 
-    let self = this
-
     if (p1) p1.div.show()
 
     p3.img.css('right', 0)
 
     p3.img.height(this.zooms[this.zoom] * p3.ratio)
-    p3.img.animate({ width: 0 }, 180, function() {
+    p3.img.animate({ width: 0 }, 180, () => {
       p3.div.hide()
 
       p2.img.css('width', 0)
       p2.div.css('z-index', 1).show()
 
-      p2.img.height(self.zooms[self.zoom] * p2.ratio)
-      p2.img.animate({ width: self.pageWidth() }, 180, function() {
+      p2.img.height(this.zooms[this.zoom] * p2.ratio)
+      p2.img.animate({ width: this.pageWidth() }, 180, () => {
         if (p4) p4.div.hide()
 
         p3.img.removeAttr('style')
         p2.img.removeAttr('style')
         p2.div.css('z-index', 'auto')
 
-        self.setCurPage(self.index - 2)
+        this.setCurPage(this.index - 2)
         $(window).trigger('docview-mode-changed')
 
-        self.animationIsInProgress = false
+        this.animationIsInProgress = false
       })
     })
   }

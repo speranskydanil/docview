@@ -9,11 +9,9 @@ class ModeFilmstrip extends Mode {
   activate(switching) {
     this.setValidZoom()
 
-    let self = this
-
-    this.dom.viewport.scroll(function() {
-      self.queue.clear()
-      self.load()
+    this.dom.viewport.scroll(() => {
+      this.queue.clear()
+      this.load()
 
       $(window).trigger('docview-mode-changed')
     })
@@ -23,13 +21,11 @@ class ModeFilmstrip extends Mode {
       $(this).scrollLeft($(this).scrollLeft() - 50 * dy)
     })
 
-    for (let i in this.pages) {
-      (function(page) {
-        page.div.click(function() {
-          self.selectCurPage(page.index)
-          $(window).trigger('docview-select-cur-page')
-        })
-      })(this.pages[i])
+    for (let page of this.pages) {
+      page.div.click(() => {
+        this.selectCurPage(page.index)
+        $(window).trigger('docview-select-cur-page')
+      })
     }
 
     this.curPage().div.addClass('current')
