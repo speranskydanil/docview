@@ -77,7 +77,7 @@ export default class ModeFlipBook extends Mode {
         p3.img.removeAttr('style')
 
         this.changeIndex(this.index + 2)
-        $(window).trigger('dv_change')
+        $(window).trigger('dv-change')
         this.animation = false
       })
     })
@@ -115,7 +115,7 @@ export default class ModeFlipBook extends Mode {
         p2.div.css('z-index', 'auto')
 
         this.changeIndex(this.index - 2)
-        $(window).trigger('dv_change')
+        $(window).trigger('dv-change')
         this.animation = false
       })
     })

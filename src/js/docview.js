@@ -83,7 +83,7 @@ window.Docview = class Docview {
         <div class="dv-viewport-outter">
           <div class="dv-viewport">
             <div class="dv-viewport-inner dv-clear">
-              ${params.pages.map(page => 
+              ${params.pages.map(page =>
                 `<div class="dv-page dv-page-${page.id}">
                   <img src="" title="" alt="" oncontextmenu="return false">
                 </div>`
@@ -104,8 +104,8 @@ window.Docview = class Docview {
       zoomOut: dv.find('.dv-zoom-out'),
       dim: dv.find('.dv-dim'),
       prev: dv.find('.dv-prev'),
-      cur: dv.find('.dv-cur'),
       next: dv.find('.dv-next'),
+      cur: dv.find('.dv-cur'),
       rotateLeft: dv.find('.dv-rotate-left'),
       rotateRight: dv.find('.dv-rotate-right'),
       download: dv.find('.dv-download'),
@@ -125,9 +125,7 @@ window.Docview = class Docview {
 
   bindCommonEvents() {
     $(window).scroll(() => this.moveToolbar())
-
-    // trick for case of zooming
-    setInterval(() => this.mode.load(), 2000)
+    setInterval(() => this.mode.load(), 2000) // for zoom
   }
 
   bindToolbarEvents() {
@@ -140,46 +138,53 @@ window.Docview = class Docview {
 
     let fullscreen = false
     let dv = this.dom.dv
-    let parent = dv.parent()
+    let div = dv.parent()
 
     this.dom.fullscreen.click(function(e) {
       e.preventDefault()
 
-      if (!fullscreen) {
+      if (fullscreen) {
         $('body > *').each(function() {
-          $(this).data('dv_cache', $(this).css('display'))
-          $(this).css('display', 'none')
+          $(this).css('display', $(this).data('dv-cache'))
+          $(this).removeData('dv-cache')
         })
-        dv.appendTo('body').show()
+
+        dv.appendTo(div)
       } else {
         $('body > *').each(function() {
-          $(this).css('display', $(this).data('dv_cache'))
-          $(this).removeData('dv_cache')
+          $(this).data('dv-cache', $(this).css('display'))
+          $(this).css('display', 'none')
         })
-        dv.appendTo(parent)
+
+        dv.appendTo('body').show()
       }
 
       fullscreen = !fullscreen
     })
 
-    this.dom.zoomIn.click((e) => {
+    this.dom.zoomIn.click(e => {
       e.preventDefault()
       this.mode.zoomIn()
     })
 
-    this.dom.zoomOut.click((e) => {
+    this.dom.zoomOut.click(e => {
       e.preventDefault()
       this.mode.zoomOut()
     })
 
-    this.dom.dim.click((e) => {
+    this.dom.dim.click(e => {
       e.preventDefault()
-      $('body').toggleClass('dark')
+      $(window).trigger('dv-dim')
     })
 
-    this.dom.prev.click((e) => {
+    this.dom.prev.click(e => {
       e.preventDefault()
       this.mode.prev()
+    })
+
+    this.dom.next.click(e => {
+      e.preventDefault()
+      this.mode.next()
     })
 
     this.dom.cur.focus(function() {
@@ -187,7 +192,7 @@ window.Docview = class Docview {
     })
 
     this.dom.cur.focusout(() => {
-      $(window).trigger('dv_change')
+      $(window).trigger('dv-change')
     })
 
     this.dom.cur.change(function () {
@@ -195,74 +200,67 @@ window.Docview = class Docview {
       if (!isNaN(index)) self.mode.changeIndex(index)
     })
 
-    this.dom.next.click((e) => {
-      e.preventDefault()
-      this.mode.next()
-    })
-
-    this.dom.rotateLeft.click((e) => {
+    this.dom.rotateLeft.click(e => {
       e.preventDefault()
       this.mode.rotateLeft()
     })
 
-    this.dom.rotateRight.click((e) => {
+    this.dom.rotateRight.click(e => {
       e.preventDefault()
       this.mode.rotateRight()
     })
 
-    this.dom.print.click((e) => {
+    this.dom.download.click(function(e) {
+      $(this).attr('href', self.mode.downloadUrl)
+    })
+
+    this.dom.print.click(e => {
       e.preventDefault()
       let w = window.open(this.mode.downloadUrl)
-      $(w).ready(function() { w.print(); })
+      $(w).ready(() => w.print())
     })
   }
 
   bindModeEvents() {
     $(window).bind({
-      dv_inspect: () => this.changeMode('inspect'),
+      'dv-inspect': () => this.changeMode('inspect'),
 
-      dv_change: () => {
+      'dv-change': () => {
         let dom = this.dom
         let mode = this.mode
+        let name = Object.keys(this.modes).find(k => this.modes[k] == mode)
 
-        let name = Object.keys(this.modes).find(n => this.modes[n] == mode)
-
-        // set mode class
+        // set class
 
         dom.dv
           .removeClass('dv-grid-mode dv-filmstrip-mode dv-inspect-mode dv-flipbook-mode')
           .addClass(`dv-${name}-mode`)
 
-        // set cur page
+        // set page
 
         let cur = dom.cur
 
         if (name == 'inspect') {
           cur.val(mode.index + 1)
-          dom.download.attr('href', mode.downloadUrl)
         } else if (name == 'flipbook') {
           if (mode.index == 0) {
             cur.val(1)
           } else {
-            let index_1 = mode.index + (mode.index % 2)
+            let index_1 = mode.realIndex + 1
             let index_2 = index_1 == mode.pages.length ? '' : ' - ' + (index_1 + 1)
             cur.val(index_1 + index_2)
           }
         } else if (name == 'filmstrip') {
           let index_1 = mode.firstIndex + 1
-          let index_2 = index_1 == mode.pages.length ? '' : ' - ' + Math.min(mode.lastIndex + 1, mode.pages.length)
+          let index_2 = index_1 == mode.pages.length ? '' : ' - ' + (mode.lastIndex + 1)
           cur.val(index_1 + index_2)
         }
 
-        cur.val(cur.val() + ' / ' + mode.pages.length)
+        cur.val(`${cur.val()} / ${mode.pages.length}`)
 
         // set hash
 
-        window.location.hash = [
-          'page', mode.index + 1,
-          'mode', name,
-          'zoom', mode.zoom + 1
-        ].join('/')
+        window.location.hash = `mode/${name}/page/${mode.index + 1}/zoom/${mode.zoom + 1}`
       }
     })
   }
@@ -276,8 +274,8 @@ window.Docview = class Docview {
         images: this.dom.images
       },
 
-      pages: params.pages,
       zooms: params.zooms,
+      pages: params.pages,
       pageUrl: params.pageUrl
     }
 
@@ -291,22 +289,19 @@ window.Docview = class Docview {
 
   activateMode(params) {
     let hash = window.location.hash
-
-    let mode = null
-    let index = null
-    let zoom = null
+    let name, index, zoom
 
     if (hash != '') {
-      mode = hash.match(/mode\/([\w-]+)/)[1]
+      name = hash.match(/mode\/([\w-]+)/)[1]
       index = parseInt(hash.match(/page\/(\d+)/)[1]) - 1
       zoom  = parseInt(hash.match(/zoom\/(\d+)/)[1]) - 1
     } else {
-      mode = params.mode
+      name = params.mode
       index = params.index
       zoom = params.zoom
     }
 
-    this.mode = this.modes[mode]
+    this.mode = this.modes[name]
     this.mode.activate(index, zoom)
   }
 
@@ -328,10 +323,10 @@ window.Docview = class Docview {
 
     if (scroll > offset && scroll < offset + height) {
       this.dom.dv.css('padding-top', this.dom.toolbar.outerHeight(true))
-      this.dom.toolbar.css({ 'position': 'fixed' })
+      this.dom.toolbar.css({'position': 'fixed'})
     } else {
       this.dom.dv.css('padding-top', 0)
-      this.dom.toolbar.css({ 'position': 'relative' })
+      this.dom.toolbar.css({'position': 'relative'})
     }
   }
 }

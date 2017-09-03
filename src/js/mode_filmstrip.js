@@ -9,14 +9,14 @@ export default class ModeFilmstrip extends Mode {
     for (let page of this.pages) {
       page.div.click(() => {
         this.page = page
-        $(window).trigger('dv_inspect')
+        $(window).trigger('dv-inspect')
       })
     }
 
     this.dom.viewport.scroll(() => {
       this.queue.clear()
       this.load()
-      $(window).trigger('dv_change')
+      $(window).trigger('dv-change')
     })
 
     this.dom.viewport.mousewheel(function(e, d, dx, dy) {
@@ -72,7 +72,7 @@ export default class ModeFilmstrip extends Mode {
 
   get lastIndex() {
     let indent = this.dom.viewport.width() + this.dom.viewport.scrollLeft()
-    return Math.ceil(indent / this.pageWidthWithIndent) - 1
+    return Math.min(Math.ceil(indent / this.pageWidthWithIndent) - 1, this.pages.length - 1)
   }
 
   move(index) {

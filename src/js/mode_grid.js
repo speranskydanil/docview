@@ -9,7 +9,7 @@ export default class ModeGrid extends Mode {
     for (let page of this.pages) {
       page.div.click(() => {
         this.page = page
-        $(window).trigger('dv_inspect')
+        $(window).trigger('dv-inspect')
       })
     }
 

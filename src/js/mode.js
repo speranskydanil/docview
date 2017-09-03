@@ -20,7 +20,7 @@ export default class Mode {
 
       this[name] = function(...args) {
         func.apply(this, args)
-        $(window).trigger('dv_change')
+        $(window).trigger('dv-change')
       }
     }
   }
