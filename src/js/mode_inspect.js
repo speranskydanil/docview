@@ -10,10 +10,9 @@ export default class ModeInspect extends Mode {
     super.activate(index, zoom)
 
     this.dom.pages.hide()
+    this.page.div.show()
 
     for (let page of this.pages) page.div.click(() => this.next())
-
-    this.page.div.show()
 
     this.redraw()
 
@@ -22,15 +21,12 @@ export default class ModeInspect extends Mode {
 
   deactivate() {
     super.deactivate()
-
-    this.dom.pages.unbind('click').show()
-
-    this.dom.wrapper.css({ width: '100%', height: 'auto' })
-
-    // this.dom.images.rotate(0)
-    this.dom.images.css('top', 'auto')
-
+    this.dom.pages.show()
+    this.dom.pages.off('click')
+    this.dom.wrapper.css({width: '100%', height: 'auto'})
     this.dom.viewport.top_scrollbar(false)
+    this.dom.images.css('transform', '')
+    this.dom.images.css('top', 'auto')
   }
 
   zoomIn() {
@@ -53,55 +49,50 @@ export default class ModeInspect extends Mode {
     this.changeIndex(this.index - 1)
   }
 
+  changeIndex(index) {
+    if (this.animation) return
+
+    this.animation = true
+
+    this.page.div.fadeOut(100, () => {
+      this.page.div.fadeIn(100, () => {
+        this.animation = false
+      })
+    })
+
+    this.index = Math.min(Math.max(index, 0), this.pages.length - 1)
+
+    this.queue.clear()
+    this.load()
+  }
+
   rotateLeft() {
-    this.rotate(this.page.img, -90, () => this.fitIntoTheFrame())
+    this.rotate(-90)
   }
 
   rotateRight() {
-    this.rotate(this.page.img, 90, () => this.fitIntoTheFrame())
+    this.rotate(90)
   }
 
-  rotate(img, angle, callback) {
+  rotate(angle) {
+    let img = this.page.img
     img.css('transition', 'transform 0.4s')
     angle = (img.data('angle') || 0) + angle
-    img.css('transform', 'rotate(' + angle + 'deg)')
+    img.css('transform', `rotate(${angle}deg)`)
     img.data('angle', angle)
-    setTimeout(callback, 400)
+    setTimeout(() => this.fit(), 400)
   }
 
-  fitIntoTheFrame() {
+  fit() {
     let img = this.page.img
 
     let horizontal = this.page.w > this.page.h
     let turned = Math.abs(Math.round(img.data('angle') / 90)) % 2 == 1
 
     if (horizontal && turned) {
-      img.animate({ 'top': (img.width() - img.height()) / 2 }, 200)
+      img.animate({'top': (img.width() - img.height()) / 2}, 200)
     } else {
-      img.animate({ 'top': 0 }, 200)
-    }
-  }
-
-  changeIndex(index) {
-    if (isNaN(index)) return
-
-    if (index < 0) index = 0
-    if (index > this.pages.length - 1) index = this.pages.length - 1
-
-    if (this.index != index) {
-      if (this.animation) return
-      this.animation = true
-
-      this.page.div.fadeOut(100, () => {
-        this.page.div.fadeIn(100, () => {
-          this.animation = false
-        })
-      })
-
-      this.index = index
-
-      this.queue.clear()
-      this.load()
+      img.animate({'top': 0}, 200)
     }
   }
 
@@ -109,7 +100,7 @@ export default class ModeInspect extends Mode {
     this.queue.clear()
     this.resize()
     this.load()
-    this.fitIntoTheFrame()
+    this.fit()
   }
 
   resize() {
@@ -126,15 +117,15 @@ export default class ModeInspect extends Mode {
   load() {
     this.queue.add(this.pages[this.index], this.zoom)
 
-    let numberOfImagesOnRight = Math.min(4, this.pages.length - 1 - this.index)
+    let rightImages = Math.min(5, this.pages.length - 1 - this.index)
 
-    for (let i = 1; i <= numberOfImagesOnRight; i += 1) {
+    for (let i = 1; i <= rightImages; i += 1) {
       this.queue.add(this.pages[this.index + i], this.zoom)
     }
 
-    let numberOfImagesOnLeft = Math.min(4, this.index)
+    let leftImages = Math.min(5, this.index)
 
-    for (let i = 1; i <= numberOfImagesOnLeft; i += 1) {
+    for (let i = 1; i <= leftImages; i += 1) {
       this.queue.add(this.pages[this.index - i], this.zoom)
     }
   }

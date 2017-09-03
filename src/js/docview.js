@@ -202,7 +202,8 @@ window.Docview = class Docview {
     })
 
     this.dom.cur.change(function () {
-      self.mode.changeIndex(parseInt($(this).val()) - 1)
+      let index = parseInt($(this).val()) - 1
+      if (!isNaN(index)) self.mode.changeIndex(index)
     })
 
     this.dom.next.click((e) => {

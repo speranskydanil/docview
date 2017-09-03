@@ -126,8 +126,6 @@ export default class ModeFlipBook extends Mode {
   }
 
   changeIndex(index) {
-    if (isNaN(index)) return
-
     if (index < 0) index = 0
     if (index > this.pages.length - 1) index = this.pages.length - 1
 
