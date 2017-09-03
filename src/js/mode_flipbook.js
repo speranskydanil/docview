@@ -7,8 +7,8 @@ class ModeFlipBook extends Mode {
     this.animationIsInProgress = false
   }
 
-  activate(switching) {
-    this.setValidZoom()
+  activate(index, zoom, scroll) {
+    super.activate(index, zoom)
 
     for (let [i, page] of this.pages.entries()) {
       if (i % 2 == 0) {
@@ -23,13 +23,11 @@ class ModeFlipBook extends Mode {
     this.showPages()
     this.redraw()
 
-    if (switching) {
-      $(window).scrollTop(this.curPage().div.offset().top - 60)
-    }
+    if (scroll) this.scroll()
   }
 
   deactivate() {
-    this.queue.clear()
+    super.deactivate()
 
     this.dom.pages.unbind('click').css('position', 'relative').show()
 
@@ -75,7 +73,7 @@ class ModeFlipBook extends Mode {
       p3.div.show()
 
       p3.img.height(this.zooms[this.zoom] * p3.ratio)
-      p3.img.animate({ width: this.pageWidth() }, 180, () => {
+      p3.img.animate({ width: this.pageWidth }, 180, () => {
         if (p1) p1.div.hide()
 
         if (p4) p4.div.css('z-index', 'auto')
@@ -115,7 +113,7 @@ class ModeFlipBook extends Mode {
       p2.div.css('z-index', 1).show()
 
       p2.img.height(this.zooms[this.zoom] * p2.ratio)
-      p2.img.animate({ width: this.pageWidth() }, 180, () => {
+      p2.img.animate({ width: this.pageWidth }, 180, () => {
         if (p4) p4.div.hide()
 
         p3.img.removeAttr('style')
@@ -168,8 +166,8 @@ class ModeFlipBook extends Mode {
     this.resizePages()
 
     this.dom.wrapper.css({
-      width: 2 * this.pageWidth(),
-      height: this.pageHeight()
+      width: 2 * this.pageWidth,
+      height: this.pageHeight
     })
 
     this.dom.viewport.top_scrollbar()

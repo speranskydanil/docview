@@ -25,8 +25,7 @@ window.Docview = class Docview {
       },
       index: 0,
       mode: 'grid',
-      zoom: 0,
-      maxZoom: 0
+      zoom: 0
     }
 
     params = $.extend(true, defaultParams, params)
@@ -225,7 +224,7 @@ window.Docview = class Docview {
 
     this.dom.print.click((e) => {
       e.preventDefault()
-      let w = window.open(this.mode.downloadUrl())
+      let w = window.open(this.mode.downloadUrl)
       $(w).ready(function() { w.print(); })
     })
   }
@@ -252,7 +251,7 @@ window.Docview = class Docview {
 
         if (mode.name == 'inspect') {
           cur.val(mode.index + 1)
-          dom.download.attr('href', mode.downloadUrl())
+          dom.download.attr('href', mode.downloadUrl)
         } else if (mode.name == 'flip-book') {
           if (mode.index == 0) {
             cur.val(1)
@@ -291,7 +290,6 @@ window.Docview = class Docview {
 
       pages: params.pages,
       zooms: params.zooms,
-      maxZoom: params.maxZoom,
       pageUrl: params.pageUrl
     }
 
@@ -306,43 +304,31 @@ window.Docview = class Docview {
   activateMode(params) {
     let hash = window.location.hash
 
-    if (hash != '') {
-      let mode = hash.match(/mode\/([\w-]+)/)[1]
-      if (typeof this.modes[mode] == 'undefined') mode = 'grid'
+    let mode = null
+    let index = null
+    let zoom = null
 
-      this.mode       = this.modes[mode]
-      this.mode.index = parseInt(hash.match(/page\/(\d+)/)[1]) - 1
-      this.mode.zoom  = parseInt(hash.match(/zoom\/(\d+)/)[1]) - 1
+    if (hash != '') {
+      mode = hash.match(/mode\/([\w-]+)/)[1]
+      index = parseInt(hash.match(/page\/(\d+)/)[1]) - 1
+      zoom  = parseInt(hash.match(/zoom\/(\d+)/)[1]) - 1
     } else {
-      this.mode       = this.modes[params.mode]
-      this.mode.index = params.index
-      this.mode.zoom  = params.zoom
+      mode = this.modes[params.mode]
+      index = params.index
+      zoom = params.zoom
     }
 
-    this.mode.activate()
+    this.mode = this.modes[mode]
+    this.mode.activate(index, zoom)
   }
 
   changeMode(name) {
-    switch (name) {
-      case 'grid':
-        this.modes[name].zoom = 0
-        break
-      case 'filmstrip':
-        this.modes[name].zoom = 1
-        break
-      case 'inspect':
-        this.modes[name].zoom = 3
-        break
-      case 'flip-book':
-        this.modes[name].zoom = 2
-        break
-    }
-
     let index = this.mode.index
+    let zoom = {'grid': 0, 'filmstrip': 1, 'inspect': 3, 'flip-book': 2}[name]
+
     this.mode.deactivate()
     this.mode = this.modes[name]
-    this.mode.index = index
-    this.mode.activate(true)
+    this.mode.activate(index, zoom, true)
 
     this.moveToolbar()
   }

@@ -3,52 +3,59 @@ import PageDownloadQueue from './page_download_queue'
 
 export default class Mode {
   constructor(params) {
-    this.dom     = params.dom
-    this.zooms   = params.zooms
-    this.maxZoom = params.maxZoom
+    this.dom = params.dom
 
+    this.pages = params.pages.map(p => new Page(p))
     Page.url = params.pageUrl
 
-    this.pages = params.pages.map(data => new Page(data))
+    this.zooms = params.zooms
 
     this.queue = new PageDownloadQueue()
+
+    this.index = 0
+    this.zoom = 0
   }
 
-  setValidZoom() {
-    this.zoom = Math.min(this.zoom, this.maxZoom)
+  activate(index, zoom) {
+    this.index = Math.min(index, this.pages.length - 1)
+    this.zoom = Math.min(zoom, this.zooms.length - 1)
+  }
+
+  deactivate() {
+    this.queue.clear()
+  }
+
+  scroll() {
+    $(window).scrollTop(this.page.div.offset().top - 5)
   }
 
   resizePages() {
-    this.dom.pages.css({
-      width: this.pageWidth(),
-      height: this.pageHeight()
-    })
-
-    this.dom.images.css('width', this.pageWidth())
+    this.dom.pages.css({width: this.pageWidth, height: this.pageHeight})
+    this.dom.images.css('width', this.pageWidth)
   }
 
-  pageWidth() {
+  get pageWidth() {
     return this.zooms[this.zoom]
   }
 
-  pageWidthWithIndent() {
-    return this.pageWidth() + 7
+  get pageWidthWithIndent() {
+    return this.pageWidth + 7
   }
 
-  pageHeight() {
+  get pageHeight() {
     this.maxRatio = this.maxRatio || Math.max(...this.pages.map(page => page.ratio))
-    return Math.ceil(this.maxRatio * this.pageWidth())
+    return Math.ceil(this.maxRatio * this.pageWidth)
   }
 
-  pageHeightWithIndent() {
-    return this.pageHeight() + 7
+  get pageHeightWithIndent() {
+    return this.pageHeight + 7
   }
 
-  curPage() {
+  get page() {
     return this.pages[this.index]
   }
 
-  downloadUrl() {
-    return this.curPage().downloadUrl || this.curPage().url(this.maxZoom)
+  get downloadUrl() {
+    return this.page.downloadUrl || this.page.url(this.zooms.length - 1)
   }
 }

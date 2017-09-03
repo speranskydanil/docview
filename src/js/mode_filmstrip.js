@@ -6,8 +6,8 @@ class ModeFilmstrip extends Mode {
     this.name = 'filmstrip'
   }
 
-  activate(switching) {
-    this.setValidZoom()
+  activate(index, zoom, scroll) {
+    super.activate(index, zoom)
 
     this.dom.viewport.scroll(() => {
       this.queue.clear()
@@ -28,24 +28,22 @@ class ModeFilmstrip extends Mode {
       })
     }
 
-    this.curPage().div.addClass('current')
+    this.page.div.addClass('current')
     this.redraw()
 
-    if (switching) {
-      $(window).scrollTop(this.curPage().div.offset().top - 60)
-    }
+    if (scroll) this.scroll()
 
     this.scrollFastToPage(this.index)
   }
 
   deactivate() {
-    this.queue.clear()
+    super.deactivate()
 
     this.dom.viewport.unbind('scroll')
     this.dom.viewport.unbind('mousewheel')
     this.dom.pages.unbind('click')
 
-    this.curPage().div.removeClass('current')
+    this.page.div.removeClass('current')
 
     this.dom.wrapper.css('width', '100%')
     this.dom.viewport.top_scrollbar(false)
@@ -89,34 +87,34 @@ class ModeFilmstrip extends Mode {
     if (index > this.pages.length - 1) index = this.pages.length - 1
 
     if (this.index != index) {
-      this.curPage().div.removeClass('current')
+      this.page.div.removeClass('current')
       this.index = index
-      this.curPage().div.addClass('current')
+      this.page.div.addClass('current')
     }
   }
 
   getFirstVisiblePage() {
     return Math.floor(
       this.dom.viewport.scrollLeft() /
-      this.pageWidthWithIndent()
+      this.pageWidthWithIndent
     )
   }
 
   getLastVisiblePage() {
     return Math.ceil(
       (this.dom.viewport.width() + this.dom.viewport.scrollLeft()) /
-      this.pageWidthWithIndent()
+      this.pageWidthWithIndent
     ) - 1
   }
 
   scrollSlowToPage(index) {
     this.dom.viewport
       .stop()
-      .animate({'scrollLeft': index * this.pageWidthWithIndent()})
+      .animate({'scrollLeft': index * this.pageWidthWithIndent})
   }
 
   scrollFastToPage(index) {
-    this.dom.viewport.scrollLeft(index * this.pageWidthWithIndent())
+    this.dom.viewport.scrollLeft(index * this.pageWidthWithIndent)
   }
 
   redraw() {
@@ -127,12 +125,12 @@ class ModeFilmstrip extends Mode {
 
   resize() {
     this.resizePages()
-    this.dom.wrapper.css('width', this.pages.length * this.pageWidthWithIndent())
-    this.dom.viewport.top_scrollbar(this.pageHeight() > 400)
+    this.dom.wrapper.css('width', this.pages.length * this.pageWidthWithIndent)
+    this.dom.viewport.top_scrollbar(this.pageHeight > 400)
   }
 
   load() {
-    let pageWidth = this.pageWidthWithIndent()
+    let pageWidth = this.pageWidthWithIndent
 
     let border = {
       left: this.dom.viewport.scrollLeft(),

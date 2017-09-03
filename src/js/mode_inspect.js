@@ -7,24 +7,22 @@ class ModeInspect extends Mode {
     this.animationIsInProgress = false
   }
 
-  activate(switching) {
-    this.setValidZoom()
+  activate(index, zoom, scroll) {
+    super.activate(index, zoom)
 
     this.dom.pages.hide()
 
     for (let page of this.pages) page.div.click(() => this.next())
 
-    this.curPage().div.show()
+    this.page.div.show()
 
     this.redraw()
 
-    if (switching) {
-      $(window).scrollTop(this.curPage().div.offset().top - 60)
-    }
+    if (scroll) this.scroll()
   }
 
   deactivate() {
-    this.queue.clear()
+    super.deactivate()
 
     this.dom.pages.unbind('click').show()
 
@@ -59,11 +57,11 @@ class ModeInspect extends Mode {
   }
 
   rotateLeft() {
-    this.rotate(this.curPage().img, -90, () => this.fitIntoTheFrame())
+    this.rotate(this.page.img, -90, () => this.fitIntoTheFrame())
   }
 
   rotateRight() {
-    this.rotate(this.curPage().img, 90, () => this.fitIntoTheFrame())
+    this.rotate(this.page.img, 90, () => this.fitIntoTheFrame())
   }
 
   rotate(img, angle, callback) {
@@ -75,9 +73,9 @@ class ModeInspect extends Mode {
   }
 
   fitIntoTheFrame() {
-    let img = this.curPage().img
+    let img = this.page.img
 
-    let horizontal = this.curPage().w > this.curPage().h
+    let horizontal = this.page.w > this.page.h
     let turned = Math.abs(Math.round(img.data('angle') / 90)) % 2 == 1
 
     if (horizontal && turned) {
@@ -97,8 +95,8 @@ class ModeInspect extends Mode {
       if (this.animationIsInProgress) return
       this.animationIsInProgress = true
 
-      this.curPage().div.fadeOut(100, () => {
-        this.curPage().div.fadeIn(100, () => {
+      this.page.div.fadeOut(100, () => {
+        this.page.div.fadeIn(100, () => {
           this.animationIsInProgress = false
         })
       })
@@ -121,8 +119,8 @@ class ModeInspect extends Mode {
     this.resizePages()
 
     this.dom.wrapper.css({
-      width: this.pageWidthWithIndent(),
-      height: Math.max(this.pageWidthWithIndent(), this.pageHeightWithIndent())
+      width: this.pageWidthWithIndent,
+      height: Math.max(this.pageWidthWithIndent, this.pageHeightWithIndent)
     })
 
     this.dom.viewport.top_scrollbar()

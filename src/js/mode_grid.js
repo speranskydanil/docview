@@ -6,8 +6,8 @@ class ModeGrid extends Mode {
     this.name = 'grid'
   }
 
-  activate(switching) {
-    this.setValidZoom()
+  activate(index, zoom, scroll) {
+    super.activate(index, zoom)
 
     $(window).bind('scroll.docview-grid', () => {
       this.queue.clear()
@@ -21,21 +21,19 @@ class ModeGrid extends Mode {
       })
     }
 
-    this.curPage().div.addClass('current')
+    this.page.div.addClass('current')
     this.redraw()
 
-    if (switching) {
-      $(window).scrollTop(this.curPage().div.offset().top - 5)
-    }
+    if (scroll) this.scroll()
   }
 
   deactivate() {
-    this.queue.clear()
+    super.deactivate()
 
     $(window).unbind('scroll.docview-grid')
     this.dom.pages.unbind('click')
 
-    this.curPage().div.removeClass('current')
+    this.page.div.removeClass('current')
   }
 
   zoomIn() {
@@ -57,9 +55,9 @@ class ModeGrid extends Mode {
     if (index > this.pages.length - 1) index = this.pages.length - 1
 
     if (this.index != index) {
-      this.curPage().div.removeClass('current')
+      this.page.div.removeClass('current')
       this.index = index
-      this.curPage().div.addClass('current')
+      this.page.div.addClass('current')
     }
   }
 
@@ -72,8 +70,8 @@ class ModeGrid extends Mode {
   load() {
     let win = $(window)
 
-    let pageHeight = this.pageHeightWithIndent()
-    let pagesInRow = Math.floor(this.dom.viewport.width() / this.pageWidthWithIndent())
+    let pageHeight = this.pageHeightWithIndent
+    let pagesInRow = Math.floor(this.dom.viewport.width() / this.pageWidthWithIndent)
 
     let viewport = {
       top: win.scrollTop() - this.dom.viewport.offset().top
