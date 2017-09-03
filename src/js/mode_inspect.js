@@ -1,6 +1,6 @@
 import Mode from './mode'
 
-class ModeInspect extends Mode {
+export default class ModeInspect extends Mode {
   constructor(params) {
     super(params)
     this.name = 'inspect'
@@ -142,14 +142,3 @@ class ModeInspect extends Mode {
     }
   }
 }
-
-$.each(['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next'], function(i, name) {
-  let func = ModeInspect.prototype[name]
-
-  ModeInspect.prototype[name] = function() {
-    func.apply(this, arguments)
-    $(window).trigger('docview-mode-changed')
-  }
-})
-
-export default ModeInspect

@@ -1,6 +1,6 @@
 import Mode from './mode'
 
-class ModeGrid extends Mode {
+export default class ModeGrid extends Mode {
   constructor(params) {
     super(params)
     this.name = 'grid'
@@ -116,14 +116,3 @@ class ModeGrid extends Mode {
     }
   }
 }
-
-$.each(['activate', 'zoomIn', 'zoomOut'], function(i, name) {
-  let func = ModeGrid.prototype[name]
-
-  ModeGrid.prototype[name] = function() {
-    func.apply(this, arguments)
-    $(window).trigger('docview-mode-changed')
-  }
-})
-
-export default ModeGrid

@@ -14,6 +14,15 @@ export default class Mode {
 
     this.index = 0
     this.zoom = 0
+
+    for (let name of ['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next']) {
+      let func = this[name]
+
+      this[name] = function(...args) {
+        func.apply(this, args)
+        $(window).trigger('docview-mode-changed')
+      }
+    }
   }
 
   activate(index, zoom) {

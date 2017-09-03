@@ -1,6 +1,6 @@
 import Mode from './mode'
 
-class ModeFilmstrip extends Mode {
+export default class ModeFilmstrip extends Mode {
   constructor(params) {
     super(params)
     this.name = 'filmstrip'
@@ -170,14 +170,3 @@ class ModeFilmstrip extends Mode {
     }
   }
 }
-
-$.each(['activate', 'zoomIn', 'zoomOut'], function(i, name) {
-  let func = ModeFilmstrip.prototype[name]
-
-  ModeFilmstrip.prototype[name] = function() {
-    func.apply(this, arguments)
-    $(window).trigger('docview-mode-changed')
-  }
-})
-
-export default ModeFilmstrip

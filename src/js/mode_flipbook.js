@@ -1,6 +1,6 @@
 import Mode from './mode'
 
-class ModeFlipBook extends Mode {
+export default class ModeFlipBook extends Mode {
   constructor(params) {
     super(params)
     this.name = 'flip-book'
@@ -192,14 +192,3 @@ class ModeFlipBook extends Mode {
     }
   }
 }
-
-$.each(['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next'], function(i, name) {
-  let func = ModeFlipBook.prototype[name]
-
-  ModeFlipBook.prototype[name] = function() {
-    func.apply(this, arguments)
-    $(window).trigger('docview-mode-changed')
-  }
-})
-
-export default ModeFlipBook
