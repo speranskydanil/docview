@@ -1,0 +1,14 @@
+{
+  "esversion": 6,
+  "asi": true,
+  "maxcomplexity": 5,
+  "maxdepth": 3,
+  "maxparams": 4,
+  "maxstatements": 10,
+  "undef": true,
+  "unused": true,
+  "varstmt": true,
+  "browser": true,
+  "jquery": true,
+  "loopfunc": true
+}

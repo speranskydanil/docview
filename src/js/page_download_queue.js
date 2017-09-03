@@ -27,7 +27,7 @@ class Queue {
   }
 
   add(page, zoom) {
-    this.items.push({page: page, zoom: zoom})
+    this.items.push({page, zoom})
     this.load()
   }
 

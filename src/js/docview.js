@@ -131,7 +131,7 @@ window.Docview = class Docview {
       .on('selectstart', false)
   }
 
-  bindEvents(params) {
+  bindEvents() {
     this.bindCommonEvents()
     this.bindToolbarEvents()
     this.bindModeEvents()
