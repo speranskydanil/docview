@@ -5,7 +5,7 @@ export default class Mode {
   constructor(params) {
     this.dom = params.dom
 
-    this.pages = params.pages.map(p => new Page(p))
+    this.pages = params.pages.map(p => new Page(p, this.dom.viewport))
     Page.url = params.pageUrl
 
     this.zooms = params.zooms

@@ -92,36 +92,34 @@ window.Docview = class Docview {
 
     for (let page of params.pages) {
       htmlPages += `
-        <div class="page" id="dv-page-${page.id}">
+        <div class="page dv-page-${page.id}">
           <img src="" oncontextmenu="return false" title="" alt="">
         </div>`
     }
 
     html = html.replace('htmlPages', htmlPages)
 
-    params.div.html(html)
+    let dv = $(params.div).html(html).find('.docview')
 
     this.dom = {
-      docview: $('.docview'),
-      toolbarWrapper: $('.docview .toolbar-wrapper'),
-      toolbar: $('.docview .toolbar'),
-      modes: $('.docview .toolbar .modes a'),
-      fullscreen: $('.docview .toolbar .fullscreen'),
-      zoomIn: $('.docview .toolbar .zoom-in'),
-      zoomOut: $('.docview .toolbar .zoom-out'),
-      dim: $('.docview .toolbar .dim'),
-      prev: $('.docview .toolbar .paginator .prev'),
-      cur: $('.docview .toolbar .paginator .cur'),
-      next: $('.docview .toolbar .paginator .next'),
-      rotateLeft: $('.docview .toolbar .rotator .left'),
-      rotateRight: $('.docview .toolbar .rotator .right'),
-      download: $('.docview .toolbar .download'),
-      print: $('.docview .toolbar .print'),
-      toolbarButtons: $('.docview .toolbar-buttons'),
-      viewport: $('.viewport'),
-      wrapper: $('.viewport .wrapper'),
-      pages: $('.viewport .page'),
-      images: $('.viewport .page img')
+      docview: dv,
+      toolbarWrapper: dv.find('.toolbar-wrapper'),
+      modes: dv.find('.modes a'),
+      fullscreen: dv.find('.fullscreen'),
+      zoomIn: dv.find('.zoom-in'),
+      zoomOut: dv.find('.zoom-out'),
+      dim: dv.find('.dim'),
+      prev: dv.find('.prev'),
+      cur: dv.find('.cur'),
+      next: dv.find('.next'),
+      rotateLeft: dv.find('.left'),
+      rotateRight: dv.find('.right'),
+      download: dv.find('.download'),
+      print: dv.find('.print'),
+      viewport: dv.find('.viewport'),
+      wrapper: dv.find('.viewport .wrapper'),
+      pages: dv.find('.page'),
+      images: dv.find('.page img')
     }
 
     this.dom.docview.find('*:not(input)')

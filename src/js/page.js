@@ -1,8 +1,8 @@
 export default class Page {
-  constructor(params) {
+  constructor(params, viewport) {
     Object.assign(this, params)
     this.ratio = this.h / this.w
-    this.div = $(`#dv-page-${this.id}`)
+    this.div = viewport.find(`.dv-page-${this.id}`)
     this.img = this.div.find('img')
     this.index = this.div.parent().children().index(this.div)
   }
