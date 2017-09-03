@@ -4,17 +4,7 @@ export default class ModeFilmstrip extends Mode {
   activate(index, zoom, scroll) {
     super.activate(index, zoom)
 
-    this.dom.viewport.scroll(() => {
-      this.queue.clear()
-      this.load()
-
-      $(window).trigger('dv_change')
-    })
-
-    this.dom.viewport.mousewheel(function(e, d, dx, dy) {
-      e.preventDefault()
-      $(this).scrollLeft($(this).scrollLeft() - 50 * dy)
-    })
+    this.page.div.addClass('current')
 
     for (let page of this.pages) {
       page.div.click(() => {
@@ -23,23 +13,30 @@ export default class ModeFilmstrip extends Mode {
       })
     }
 
-    this.page.div.addClass('current')
+    this.dom.viewport.scroll(() => {
+      this.queue.clear()
+      this.load()
+      $(window).trigger('dv_change')
+    })
+
+    this.dom.viewport.mousewheel(function(e, d, dx, dy) {
+      e.preventDefault()
+      $(this).scrollLeft($(this).scrollLeft() - 50 * dy)
+    })
+
     this.redraw()
 
-    if (scroll) this.scroll()
+    this.move(this.index)
 
-    this.scrollFastToPage(this.index)
+    if (scroll) this.scroll()
   }
 
   deactivate() {
     super.deactivate()
-
-    this.dom.viewport.unbind('scroll')
-    this.dom.viewport.unbind('mousewheel')
-    this.dom.pages.unbind('click')
-
     this.dom.pages.removeClass('current')
-
+    this.dom.pages.off('click')
+    this.dom.viewport.off('scroll')
+    this.dom.viewport.off('mousewheel')
     this.dom.wrapper.css('width', '100%')
     this.dom.viewport.top_scrollbar(false)
   }
@@ -48,56 +45,37 @@ export default class ModeFilmstrip extends Mode {
     if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom')
     this.zoom++
     this.redraw()
-    this.scrollFastToPage(this.getFirstVisiblePage())
   }
 
   zoomOut() {
     if (this.zoom == 0) return
     this.zoom--
     this.redraw()
-    this.scrollFastToPage(this.getFirstVisiblePage())
   }
 
   next() {
-    this.dom.viewport
-      .stop()
-      .animate({'scrollLeft': '+=' + this.dom.viewport.width() })
+    this.dom.viewport.stop().animate({'scrollLeft': `+=${this.dom.viewport.width()}`})
   }
 
   prev() {
-    this.dom.viewport
-      .stop()
-      .animate({'scrollLeft': '-=' + this.dom.viewport.width() })
+    this.dom.viewport.stop().animate({'scrollLeft': `-=${this.dom.viewport.width()}`})
   }
 
-  setCurPage(index) {
-    if (index < 0) index = 0
-    if (index > this.pages.length - 1) index = this.pages.length - 1
-
-    this.scrollSlowToPage(index)
+  changeIndex(index) {
+    index = Math.min(Math.max(index, 0), this.pages.length - 1)
+    this.dom.viewport.stop().animate({'scrollLeft': index * this.pageWidthWithIndent})
   }
 
-  getFirstVisiblePage() {
-    return Math.floor(
-      this.dom.viewport.scrollLeft() /
-      this.pageWidthWithIndent
-    )
+  get firstIndex() {
+    return Math.floor(this.dom.viewport.scrollLeft() / this.pageWidthWithIndent)
   }
 
-  getLastVisiblePage() {
-    return Math.ceil(
-      (this.dom.viewport.width() + this.dom.viewport.scrollLeft()) /
-      this.pageWidthWithIndent
-    ) - 1
+  get lastIndex() {
+    let indent = this.dom.viewport.width() + this.dom.viewport.scrollLeft()
+    return Math.ceil(indent / this.pageWidthWithIndent) - 1
   }
 
-  scrollSlowToPage(index) {
-    this.dom.viewport
-      .stop()
-      .animate({'scrollLeft': index * this.pageWidthWithIndent})
-  }
-
-  scrollFastToPage(index) {
+  move(index) {
     this.dom.viewport.scrollLeft(index * this.pageWidthWithIndent)
   }
 
@@ -110,7 +88,7 @@ export default class ModeFilmstrip extends Mode {
   resize() {
     this.resizePages()
     this.dom.wrapper.css('width', this.pages.length * this.pageWidthWithIndent)
-    this.dom.viewport.top_scrollbar(this.pageHeight > 400)
+    this.dom.viewport.top_scrollbar(this.pageHeight > 384)
   }
 
   load() {
@@ -121,12 +99,9 @@ export default class ModeFilmstrip extends Mode {
       right: this.dom.viewport.scrollLeft() + this.dom.viewport.width()
     }
 
-    let threshold = {
-      left: 8 * pageWidth,
-      right: 8 * pageWidth
-    }
+    let threshold = {left: 7 * pageWidth, right: 7 * pageWidth}
 
-    // add to queue acive pages and next ones
+    // add to queue acive pages and next pages
 
     let border1 = {
       left: border.left,
@@ -147,7 +122,7 @@ export default class ModeFilmstrip extends Mode {
       right: border.left
     }
 
-    let firstPage2 = Math.min(Math.max(0, Math.floor(border2.left / pageWidth)),this.pages.length)
+    let firstPage2 = Math.min(Math.max(0, Math.floor(border2.left / pageWidth)), this.pages.length)
 
     for (let i = firstPage1 - 1; i >= firstPage2; i -= 1) {
       this.queue.add(this.pages[i], this.zoom)

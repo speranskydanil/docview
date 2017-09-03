@@ -46,11 +46,11 @@ export default class ModeInspect extends Mode {
   }
 
   next() {
-    this.setCurPage(this.index + 1)
+    this.changeIndex(this.index + 1)
   }
 
   prev() {
-    this.setCurPage(this.index - 1)
+    this.changeIndex(this.index - 1)
   }
 
   rotateLeft() {
@@ -82,7 +82,7 @@ export default class ModeInspect extends Mode {
     }
   }
 
-  setCurPage(index) {
+  changeIndex(index) {
     if (isNaN(index)) return
 
     if (index < 0) index = 0

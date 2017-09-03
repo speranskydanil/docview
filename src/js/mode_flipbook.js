@@ -77,7 +77,7 @@ export default class ModeFlipBook extends Mode {
         p2.img.removeAttr('style')
         p3.img.removeAttr('style')
 
-        this.setCurPage(this.index + 2)
+        this.changeIndex(this.index + 2)
         $(window).trigger('dv_change')
 
         this.animation = false
@@ -117,7 +117,7 @@ export default class ModeFlipBook extends Mode {
         p2.img.removeAttr('style')
         p2.div.css('z-index', 'auto')
 
-        this.setCurPage(this.index - 2)
+        this.changeIndex(this.index - 2)
         $(window).trigger('dv_change')
 
         this.animation = false
@@ -125,7 +125,7 @@ export default class ModeFlipBook extends Mode {
     })
   }
 
-  setCurPage(index) {
+  changeIndex(index) {
     if (isNaN(index)) return
 
     if (index < 0) index = 0

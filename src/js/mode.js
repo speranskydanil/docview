@@ -15,7 +15,7 @@ export default class Mode {
     this.index = 0
     this.zoom = 0
 
-    for (let name of ['activate', 'zoomIn', 'zoomOut', 'prev', 'setCurPage', 'next']) {
+    for (let name of ['activate', 'zoomIn', 'zoomOut', 'prev', 'next', 'changeIndex']) {
       let func = this[name]
 
       this[name] = function(...args) {

@@ -202,7 +202,7 @@ window.Docview = class Docview {
     })
 
     this.dom.cur.change(function () {
-      self.mode.setCurPage(parseInt($(this).val()) - 1)
+      self.mode.changeIndex(parseInt($(this).val()) - 1)
     })
 
     this.dom.next.click((e) => {
@@ -259,8 +259,8 @@ window.Docview = class Docview {
             cur.val(index_1 + index_2)
           }
         } else if (name == 'filmstrip') {
-          let index_1 = mode.getFirstVisiblePage() + 1
-          let index_2 = index_1 == mode.pages.length ? '' : ' - ' + Math.min(mode.getLastVisiblePage() + 1, mode.pages.length)
+          let index_1 = mode.firstIndex + 1
+          let index_2 = index_1 == mode.pages.length ? '' : ' - ' + Math.min(mode.lastIndex + 1, mode.pages.length)
           cur.val(index_1 + index_2)
         }
 
