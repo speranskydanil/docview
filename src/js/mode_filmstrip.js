@@ -18,7 +18,7 @@ export default class ModeFilmstrip extends Mode {
 
     for (let page of this.pages) {
       page.div.click(() => {
-        this.selectCurPage(page.index)
+        this.select(page)
         $(window).trigger('dv_inspect')
       })
     }
@@ -75,17 +75,6 @@ export default class ModeFilmstrip extends Mode {
     if (index > this.pages.length - 1) index = this.pages.length - 1
 
     this.scrollSlowToPage(index)
-  }
-
-  selectCurPage(index) {
-    if (index < 0) index = 0
-    if (index > this.pages.length - 1) index = this.pages.length - 1
-
-    if (this.index != index) {
-      this.page.div.removeClass('current')
-      this.index = index
-      this.page.div.addClass('current')
-    }
   }
 
   getFirstVisiblePage() {
