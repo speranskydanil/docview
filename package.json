@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Docview is a tool for displaying images.",
   "scripts": {
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "check": "jshint src || true"
   },
   "repository": {
     "type": "git",

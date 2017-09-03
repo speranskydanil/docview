@@ -4,7 +4,7 @@
   "maxcomplexity": 5,
   "maxdepth": 3,
   "maxparams": 4,
-  "maxstatements": 10,
+  "maxstatements": 12,
   "undef": true,
   "unused": true,
   "varstmt": true,
