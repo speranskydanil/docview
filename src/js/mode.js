@@ -64,10 +64,8 @@ export default class Mode {
     return this.pages[this.index]
   }
 
-  select(page) {
-    this.page.div.removeClass('current')
+  set page(page) {
     this.index = page.index
-    this.page.div.addClass('current')
   }
 
   get downloadUrl() {

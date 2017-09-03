@@ -37,14 +37,12 @@ export default class ModeFlipBook extends Mode {
 
   zoomIn() {
     if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom')
-
     this.zoom++
     this.redraw()
   }
 
   zoomOut() {
     if (this.zoom == 0) return
-
     this.zoom--
     this.redraw()
   }

@@ -4,19 +4,20 @@ export default class ModeGrid extends Mode {
   activate(index, zoom, scroll) {
     super.activate(index, zoom)
 
-    $(window).bind('scroll.docview-grid', () => {
-      this.queue.clear()
-      this.load()
-    })
+    this.page.div.addClass('current')
 
     for (let page of this.pages) {
       page.div.click(() => {
-        this.select(page)
+        this.page = page
         $(window).trigger('dv_inspect')
       })
     }
 
-    this.page.div.addClass('current')
+    $(window).on('scroll.dv_grid', () => {
+      this.queue.clear()
+      this.load()
+    })
+
     this.redraw()
 
     if (scroll) this.scroll()
@@ -24,23 +25,19 @@ export default class ModeGrid extends Mode {
 
   deactivate() {
     super.deactivate()
-
-    $(window).unbind('scroll.docview-grid')
-    this.dom.pages.unbind('click')
-
-    this.page.div.removeClass('current')
+    this.dom.pages.removeClass('current')
+    this.dom.pages.off('click')
+    $(window).off('scroll.dv_grid')
   }
 
   zoomIn() {
     if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom')
-
     this.zoom++
     this.redraw()
   }
 
   zoomOut() {
     if (this.zoom == 0) return
-
     this.zoom--
     this.redraw()
   }
@@ -52,23 +49,16 @@ export default class ModeGrid extends Mode {
   }
 
   load() {
-    let win = $(window)
-
     let pageHeight = this.pageHeightWithIndent
     let pagesInRow = Math.floor(this.dom.viewport.width() / this.pageWidthWithIndent)
 
-    let viewport = {
-      top: win.scrollTop() - this.dom.viewport.offset().top
-    }
+    let viewport = {}
+    viewport.top = $(window).scrollTop() - this.dom.viewport.offset().top
+    viewport.bottom = viewport.top + $(window).height()
 
-    viewport.bottom = viewport.top + win.height()
+    let threshold = {top: 3 * pageHeight, bottom: 3 * pageHeight}
 
-    let threshold = {
-      top: 3 * pageHeight,
-      bottom: 3 * pageHeight
-    }
-
-    // add to queue active pages and next ones
+    // add to queue active pages and next pages
 
     let border1 = {
       top: viewport.top,

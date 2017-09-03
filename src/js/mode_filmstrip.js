@@ -18,7 +18,7 @@ export default class ModeFilmstrip extends Mode {
 
     for (let page of this.pages) {
       page.div.click(() => {
-        this.select(page)
+        this.page = page
         $(window).trigger('dv_inspect')
       })
     }
@@ -38,7 +38,7 @@ export default class ModeFilmstrip extends Mode {
     this.dom.viewport.unbind('mousewheel')
     this.dom.pages.unbind('click')
 
-    this.page.div.removeClass('current')
+    this.dom.pages.removeClass('current')
 
     this.dom.wrapper.css('width', '100%')
     this.dom.viewport.top_scrollbar(false)
@@ -46,13 +46,13 @@ export default class ModeFilmstrip extends Mode {
 
   zoomIn() {
     if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom')
-
     this.zoom++
     this.redraw()
     this.scrollFastToPage(this.getFirstVisiblePage())
   }
 
   zoomOut() {
+    if (this.zoom == 0) return
     this.zoom--
     this.redraw()
     this.scrollFastToPage(this.getFirstVisiblePage())
