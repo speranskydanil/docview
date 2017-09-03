@@ -20,7 +20,7 @@ export default class Mode {
 
       this[name] = function(...args) {
         func.apply(this, args)
-        $(window).trigger('docview-mode-changed')
+        $(window).trigger('dv_change')
       }
     }
   }

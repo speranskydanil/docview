@@ -158,14 +158,14 @@ window.Docview = class Docview {
 
       if (!fullscreen) {
         $('body > *').each(function() {
-          $(this).data('docview-display-cache', $(this).css('display'))
+          $(this).data('dv_cache', $(this).css('display'))
           $(this).css('display', 'none')
         })
         docview.appendTo('body').show()
       } else {
         $('body > *').each(function() {
-          $(this).css('display', $(this).data('docview-display-cache'))
-          $(this).removeData('docview-display-cache')
+          $(this).css('display', $(this).data('dv_cache'))
+          $(this).removeData('dv_cache')
         })
         docview.appendTo(parent)
       }
@@ -198,7 +198,7 @@ window.Docview = class Docview {
     })
 
     this.dom.cur.focusout(() => {
-      $(window).trigger('docview-mode-changed')
+      $(window).trigger('dv_change')
     })
 
     this.dom.cur.change(function () {
@@ -229,11 +229,9 @@ window.Docview = class Docview {
 
   bindModeEvents() {
     $(window).bind({
-      'docview-select-cur-page': () => {
-        this.changeMode('inspect')
-      },
+      dv_inspect: () => this.changeMode('inspect'),
 
-      'docview-mode-changed': () => {
+      dv_change: () => {
         let dom = this.dom
         let mode = this.mode
 

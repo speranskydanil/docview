@@ -37,7 +37,7 @@ export default class ModeFlipBook extends Mode {
   }
 
   zoomIn() {
-    if (this.zoom >= this.zooms.length - 1) return $(window).trigger('docview-access-denied')
+    if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom')
 
     this.zoom++
     this.redraw()
@@ -81,7 +81,7 @@ export default class ModeFlipBook extends Mode {
         p3.img.removeAttr('style')
 
         this.setCurPage(this.index + 2)
-        $(window).trigger('docview-mode-changed')
+        $(window).trigger('dv_change')
 
         this.animationIsInProgress = false
       })
@@ -121,7 +121,7 @@ export default class ModeFlipBook extends Mode {
         p2.div.css('z-index', 'auto')
 
         this.setCurPage(this.index - 2)
-        $(window).trigger('docview-mode-changed')
+        $(window).trigger('dv_change')
 
         this.animationIsInProgress = false
       })

@@ -35,7 +35,7 @@ export default class ModeInspect extends Mode {
   }
 
   zoomIn() {
-    if (this.zoom >= this.zooms.length - 1) return $(window).trigger('docview-access-denied')
+    if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom')
 
     this.zoom++
     this.redraw()

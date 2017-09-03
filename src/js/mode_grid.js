@@ -17,7 +17,7 @@ export default class ModeGrid extends Mode {
     for (let page of this.pages) {
       page.div.click(() => {
         this.selectCurPage(page.index)
-        $(window).trigger('docview-select-cur-page')
+        $(window).trigger('dv_inspect')
       })
     }
 
@@ -37,7 +37,7 @@ export default class ModeGrid extends Mode {
   }
 
   zoomIn() {
-    if (this.zoom >= this.zooms.length - 1) return $(window).trigger('docview-access-denied')
+    if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom')
 
     this.zoom++
     this.redraw()

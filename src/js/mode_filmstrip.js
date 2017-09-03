@@ -13,7 +13,7 @@ export default class ModeFilmstrip extends Mode {
       this.queue.clear()
       this.load()
 
-      $(window).trigger('docview-mode-changed')
+      $(window).trigger('dv_change')
     })
 
     this.dom.viewport.mousewheel(function(e, d, dx, dy) {
@@ -24,7 +24,7 @@ export default class ModeFilmstrip extends Mode {
     for (let page of this.pages) {
       page.div.click(() => {
         this.selectCurPage(page.index)
-        $(window).trigger('docview-select-cur-page')
+        $(window).trigger('dv_inspect')
       })
     }
 
@@ -50,7 +50,7 @@ export default class ModeFilmstrip extends Mode {
   }
 
   zoomIn() {
-    if (this.zoom >= this.zooms.length - 1) return $(window).trigger('docview-access-denied')
+    if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom')
 
     this.zoom++
     this.redraw()
