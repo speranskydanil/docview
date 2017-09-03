@@ -235,20 +235,22 @@ window.Docview = class Docview {
         let dom = this.dom
         let mode = this.mode
 
+        let name = Object.keys(this.modes).find(n => this.modes[n] == mode)
+
         // set mode class
 
         dom.docview
           .removeClass('grid filmstrip inspect flip-book')
-          .addClass(mode.name)
+          .addClass(name)
 
         // set cur page
 
         let cur = dom.cur
 
-        if (mode.name == 'inspect') {
+        if (name == 'inspect') {
           cur.val(mode.index + 1)
           dom.download.attr('href', mode.downloadUrl)
-        } else if (mode.name == 'flip-book') {
+        } else if (name == 'flip-book') {
           if (mode.index == 0) {
             cur.val(1)
           } else {
@@ -256,7 +258,7 @@ window.Docview = class Docview {
             let index_2 = index_1 == mode.pages.length ? '' : ' - ' + (index_1 + 1)
             cur.val(index_1 + index_2)
           }
-        } else if (mode.name == 'filmstrip') {
+        } else if (name == 'filmstrip') {
           let index_1 = mode.getFirstVisiblePage() + 1
           let index_2 = index_1 == mode.pages.length ? '' : ' - ' + Math.min(mode.getLastVisiblePage() + 1, mode.pages.length)
           cur.val(index_1 + index_2)
@@ -268,7 +270,7 @@ window.Docview = class Docview {
 
         window.location.hash = [
           'page', mode.index + 1,
-          'mode', mode.name,
+          'mode', name,
           'zoom', mode.zoom + 1
         ].join('/')
       }
@@ -309,7 +311,7 @@ window.Docview = class Docview {
       index = parseInt(hash.match(/page\/(\d+)/)[1]) - 1
       zoom  = parseInt(hash.match(/zoom\/(\d+)/)[1]) - 1
     } else {
-      mode = this.modes[params.mode]
+      mode = params.mode
       index = params.index
       zoom = params.zoom
     }

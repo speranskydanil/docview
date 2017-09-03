@@ -1,11 +1,6 @@
 import Mode from './mode'
 
 export default class ModeGrid extends Mode {
-  constructor(params) {
-    super(params)
-    this.name = 'grid'
-  }
-
   activate(index, zoom, scroll) {
     super.activate(index, zoom)
 

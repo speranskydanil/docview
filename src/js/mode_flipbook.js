@@ -3,8 +3,7 @@ import Mode from './mode'
 export default class ModeFlipBook extends Mode {
   constructor(params) {
     super(params)
-    this.name = 'flip-book'
-    this.animationIsInProgress = false
+    this.animation = false
   }
 
   activate(index, zoom, scroll) {
@@ -51,10 +50,10 @@ export default class ModeFlipBook extends Mode {
   }
 
   next() {
-    if (this.animationIsInProgress) return
+    if (this.animation) return
     if (this.index + (this.index % 2) - 1 + 2 > this.pages.length - 1) return
 
-    this.animationIsInProgress = true
+    this.animation = true
 
     let index = this.index + (this.index % 2) - 1
 
@@ -83,16 +82,16 @@ export default class ModeFlipBook extends Mode {
         this.setCurPage(this.index + 2)
         $(window).trigger('dv_change')
 
-        this.animationIsInProgress = false
+        this.animation = false
       })
     })
   }
 
   prev() {
-    if (this.animationIsInProgress) return
+    if (this.animation) return
     if (this.index + (this.index % 2) - 1 - 1 < 0) return
 
-    this.animationIsInProgress = true
+    this.animation = true
 
     let index = this.index + (this.index % 2) - 1
 
@@ -123,7 +122,7 @@ export default class ModeFlipBook extends Mode {
         this.setCurPage(this.index - 2)
         $(window).trigger('dv_change')
 
-        this.animationIsInProgress = false
+        this.animation = false
       })
     })
   }

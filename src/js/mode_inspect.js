@@ -3,8 +3,7 @@ import Mode from './mode'
 export default class ModeInspect extends Mode {
   constructor(params) {
     super(params)
-    this.name = 'inspect'
-    this.animationIsInProgress = false
+    this.animation = false
   }
 
   activate(index, zoom, scroll) {
@@ -92,12 +91,12 @@ export default class ModeInspect extends Mode {
     if (index > this.pages.length - 1) index = this.pages.length - 1
 
     if (this.index != index) {
-      if (this.animationIsInProgress) return
-      this.animationIsInProgress = true
+      if (this.animation) return
+      this.animation = true
 
       this.page.div.fadeOut(100, () => {
         this.page.div.fadeIn(100, () => {
-          this.animationIsInProgress = false
+          this.animation = false
         })
       })
 

@@ -1,11 +1,6 @@
 import Mode from './mode'
 
 export default class ModeFilmstrip extends Mode {
-  constructor(params) {
-    super(params)
-    this.name = 'filmstrip'
-  }
-
   activate(index, zoom, scroll) {
     super.activate(index, zoom)
 
