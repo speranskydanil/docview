@@ -5,30 +5,32 @@ import ModeFilmstrip from './mode_filmstrip'
 
 window.Docview = class Docview {
   constructor(params) {
-    let defaultParams = {
-      theme: 'standard',
+    params = $.extend(true, {
+      div: null,
       translation: {
         grid: 'Grid',
         filmstrip: 'Filmstrip',
         inspect: 'Inspect',
-        flipBook: 'Flip-book',
+        flipbook: 'Flip-Book',
         fullscreen: 'Fullscreen',
-        zoomOut: 'Zoom out',
-        zoomIn: 'Zoom in',
-        dimTheLights: 'Dim the lights',
-        prevPage: 'Previous page',
-        nextPage: 'Next page',
-        rotateLeft: 'Rotate left',
-        rotateRight: 'Rotate right',
+        zoomOut: 'Zoom Out',
+        zoomIn: 'Zoom In',
+        dim: 'Dim',
+        prevPage: 'Previous Page',
+        nextPage: 'Next Page',
+        rotateLeft: 'Rotate Left',
+        rotateRight: 'Rotate Right',
         download: 'Download',
         print: 'Print'
       },
-      index: 0,
+      zooms: null,
+      pages: null,
+      pageUrl: null,
       mode: 'grid',
-      zoom: 0
-    }
-
-    params = $.extend(true, defaultParams, params)
+      index: 0,
+      zoom: 0,
+      addons: ''
+    }, params)
 
     this.buildDom(params)
     this.bindEvents(params)
@@ -40,92 +42,76 @@ window.Docview = class Docview {
     let t = params.translation
 
     let html = `
-      <div class="docview ${params.theme}">
-        <div class="toolbar-wrapper">
-          <div class="toolbar">
-            <div class="modes">
-              <a class="grid" title="${t.grid}"></a>
-              <a class="filmstrip" title="${t.filmstrip}"></a>
-              <a class="inspect" title="${t.inspect}"></a>
-              <a class="flip-book" title="${t.flipBook}"></a>
+      <div class="dv">
+        <div class="dv-toolbar dv-clear">
+          <div class="dv-panel">
+            <div class="dv-modes">
+              <a class="dv-grid" title="${t.grid}"></a>
+              <a class="dv-filmstrip" title="${t.filmstrip}"></a>
+              <a class="dv-inspect" title="${t.inspect}"></a>
+              <a class="dv-flipbook" title="${t.flipBook}"></a>
             </div>
-            <div class="delimiter"></div>
-            <a class="fullscreen" title="${t.fullscreen}"></a>
-            <div class="delimiter"></div>
-            <div class="zoom">
-              <a class="zoom-out" title="${t.zoomOut}"></a>
-              <a class="zoom-in" title="${t.zoomIn}"></a>
+            <div class="dv-dash"></div>
+            <a class="dv-fullscreen" title="${t.fullscreen}"></a>
+            <div class="dv-dash"></div>
+            <div class="dv-zoom">
+              <a class="dv-zoom-out" title="${t.zoomOut}"></a>
+              <a class="dv-zoom-in" title="${t.zoomIn}"></a>
             </div>
-            <div class="delimiter"></div>
-            <a class="dim" title="${t.dimTheLights}"></a>
-            <div class="delimiter delimiter-after-dim"></div>
-            <div class="paginator">
-              <a class="prev" title="${t.prevPage}"></a>
-              <input class="cur" type="text">
-              <a class="next" title="${t.nextPage}"></a>
+            <div class="dv-dash"></div>
+            <a class="dv-dim" title="${t.dim}"></a>
+            <div class="dv-dash dv-dash-dim"></div>
+            <div class="dv-paginator">
+              <a class="dv-prev" title="${t.prevPage}"></a>
+              <input class="dv-cur" type="text">
+              <a class="dv-next" title="${t.nextPage}"></a>
             </div>
-            <div class="delimiter delimiter-after-paginator"></div>
-            <div class="rotator">
-              <a class="left" title="${t.rotatLeft}"></a>
-              <a class="right" title="${t.rotateRight}"></a>
+            <div class="dv-dash dv-dash-paginator"></div>
+            <div class="dv-rotator">
+              <a class="dv-rotate-left" title="${t.rotatLeft}"></a>
+              <a class="dv-rotate-right" title="${t.rotateRight}"></a>
             </div>
-            <div class="delimiter delimiter-after-rotator"></div>
-            <a class="download" title="${t.download}" target="_blank" download></a>
-            <a class="print" title="${t.print}"></a>
+            <div class="dv-dash dv-dash-rotator"></div>
+            <a class="dv-download" title="${t.download}" target="_blank" download></a>
+            <a class="dv-print" title="${t.print}"></a>
           </div>
-          <div class="toolbar-buttons">
-            ${(params.buttons || "")}
-          </div>
-          <div class="clear"></div>
+          <div class="dv-addons">${(params.addons)}</div>
         </div>
-        <div class="wrapper">
-          <div class="viewport">
-            <div class="wrapper">
-              htmlPages
-              <div class="clear"></div>
+        <div class="dv-viewport-outter">
+          <div class="dv-viewport">
+            <div class="dv-viewport-inner dv-clear">
+              ${params.pages.map(page => 
+                `<div class="dv-page dv-page-${page.id}">
+                  <img src="" title="" alt="" oncontextmenu="return false">
+                </div>`
+              ).join('')}
             </div>
           </div>
         </div>
       </div>`
 
-    let htmlPages = ''
-
-    for (let page of params.pages) {
-      htmlPages += `
-        <div class="page dv-page-${page.id}">
-          <img src="" oncontextmenu="return false" title="" alt="">
-        </div>`
-    }
-
-    html = html.replace('htmlPages', htmlPages)
-
-    let dv = $(params.div).html(html).find('.docview')
+    let dv = $(html).appendTo(params.div)
 
     this.dom = {
-      docview: dv,
-      toolbarWrapper: dv.find('.toolbar-wrapper'),
-      modes: dv.find('.modes a'),
-      fullscreen: dv.find('.fullscreen'),
-      zoomIn: dv.find('.zoom-in'),
-      zoomOut: dv.find('.zoom-out'),
-      dim: dv.find('.dim'),
-      prev: dv.find('.prev'),
-      cur: dv.find('.cur'),
-      next: dv.find('.next'),
-      rotateLeft: dv.find('.left'),
-      rotateRight: dv.find('.right'),
-      download: dv.find('.download'),
-      print: dv.find('.print'),
-      viewport: dv.find('.viewport'),
-      wrapper: dv.find('.viewport .wrapper'),
-      pages: dv.find('.page'),
-      images: dv.find('.page img')
+      dv: dv,
+      toolbar: dv.find('.dv-toolbar'),
+      modes: dv.find('.dv-modes a'),
+      fullscreen: dv.find('.dv-fullscreen'),
+      zoomIn: dv.find('.dv-zoom-in'),
+      zoomOut: dv.find('.dv-zoom-out'),
+      dim: dv.find('.dv-dim'),
+      prev: dv.find('.dv-prev'),
+      cur: dv.find('.dv-cur'),
+      next: dv.find('.dv-next'),
+      rotateLeft: dv.find('.dv-left'),
+      rotateRight: dv.find('.dv-right'),
+      download: dv.find('.dv-download'),
+      print: dv.find('.dv-print'),
+      viewport: dv.find('.dv-viewport'),
+      wrapper: dv.find('.dv-viewport-inner'),
+      pages: dv.find('.dv-page'),
+      images: dv.find('.dv-page img')
     }
-
-    this.dom.docview.find('*:not(input)')
-      .attr('unselectable', 'on')
-      .css('user-select', 'none')
-      .on('selectstart', false)
   }
 
   bindEvents() {
@@ -146,12 +132,12 @@ window.Docview = class Docview {
 
     this.dom.modes.click(function(e) {
       e.preventDefault()
-      self.changeMode($(this).attr('class'))
+      self.changeMode($(this).attr('class').split('-')[1])
     })
 
     let fullscreen = false
-    let docview = this.dom.docview
-    let parent = docview.parent()
+    let dv = this.dom.dv
+    let parent = dv.parent()
 
     this.dom.fullscreen.click(function(e) {
       e.preventDefault()
@@ -161,13 +147,13 @@ window.Docview = class Docview {
           $(this).data('dv_cache', $(this).css('display'))
           $(this).css('display', 'none')
         })
-        docview.appendTo('body').show()
+        dv.appendTo('body').show()
       } else {
         $('body > *').each(function() {
           $(this).css('display', $(this).data('dv_cache'))
           $(this).removeData('dv_cache')
         })
-        docview.appendTo(parent)
+        dv.appendTo(parent)
       }
 
       fullscreen = !fullscreen
@@ -240,9 +226,9 @@ window.Docview = class Docview {
 
         // set mode class
 
-        dom.docview
-          .removeClass('grid filmstrip inspect flip-book')
-          .addClass(name)
+        dom.dv
+          .removeClass('dv-grid-mode dv-filmstrip-mode dv-inspect-mode dv-flipbook-mode')
+          .addClass(`dv-${name}-mode`)
 
         // set cur page
 
@@ -251,7 +237,7 @@ window.Docview = class Docview {
         if (name == 'inspect') {
           cur.val(mode.index + 1)
           dom.download.attr('href', mode.downloadUrl)
-        } else if (name == 'flip-book') {
+        } else if (name == 'flipbook') {
           if (mode.index == 0) {
             cur.val(1)
           } else {
@@ -296,7 +282,7 @@ window.Docview = class Docview {
       'grid': new ModeGrid(data),
       'filmstrip': new ModeFilmstrip(data),
       'inspect': new ModeInspect(data),
-      'flip-book': new ModeFlipBook(data)
+      'flipbook': new ModeFlipBook(data)
     }
   }
 
@@ -323,7 +309,7 @@ window.Docview = class Docview {
 
   changeMode(name) {
     let index = this.mode.index
-    let zoom = {'grid': 0, 'filmstrip': 1, 'inspect': 3, 'flip-book': 2}[name]
+    let zoom = {'grid': 0, 'filmstrip': 1, 'inspect': 3, 'flipbook': 2}[name]
 
     this.mode.deactivate()
     this.mode = this.modes[name]
@@ -334,15 +320,15 @@ window.Docview = class Docview {
 
   moveToolbar() {
     let scroll = $(window).scrollTop()
-    let offset = this.dom.docview.offset().top
-    let height = this.dom.docview.height()
+    let offset = this.dom.dv.offset().top
+    let height = this.dom.dv.height()
 
     if (scroll > offset && scroll < offset + height) {
-      this.dom.docview.css('padding-top', this.dom.toolbarWrapper.outerHeight(true))
-      this.dom.toolbarWrapper.css({ 'position': 'fixed' })
+      this.dom.dv.css('padding-top', this.dom.toolbar.outerHeight(true))
+      this.dom.toolbar.css({ 'position': 'fixed' })
     } else {
-      this.dom.docview.css('padding-top', 0)
-      this.dom.toolbarWrapper.css({ 'position': 'relative' })
+      this.dom.dv.css('padding-top', 0)
+      this.dom.toolbar.css({ 'position': 'relative' })
     }
   }
 }

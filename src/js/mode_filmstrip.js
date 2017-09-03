@@ -4,7 +4,7 @@ export default class ModeFilmstrip extends Mode {
   activate(index, zoom, scroll) {
     super.activate(index, zoom)
 
-    this.page.div.addClass('current')
+    this.page.div.addClass('dv-active')
 
     for (let page of this.pages) {
       page.div.click(() => {
@@ -33,7 +33,7 @@ export default class ModeFilmstrip extends Mode {
 
   deactivate() {
     super.deactivate()
-    this.dom.pages.removeClass('current')
+    this.dom.pages.removeClass('dv-active')
     this.dom.pages.off('click')
     this.dom.viewport.off('scroll')
     this.dom.viewport.off('mousewheel')
