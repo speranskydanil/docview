@@ -21,8 +21,17 @@ module.exports = {
             cacheDirectory: true
           }
         }
+      },
+
+      {
+        test: /\.(css|png)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {name: '[name].[ext]'}
+          }
+        ]
       }
     ]
   }
 }
-

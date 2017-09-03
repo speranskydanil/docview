@@ -1,3 +1,6 @@
+import '../css/docview.css'
+import '../img/docview.png'
+
 import ModeGrid from './mode_grid'
 import ModeInspect from './mode_inspect'
 import ModeFlipBook from './mode_flipbook'
@@ -103,8 +106,8 @@ window.Docview = class Docview {
       prev: dv.find('.dv-prev'),
       cur: dv.find('.dv-cur'),
       next: dv.find('.dv-next'),
-      rotateLeft: dv.find('.dv-left'),
-      rotateRight: dv.find('.dv-right'),
+      rotateLeft: dv.find('.dv-rotate-left'),
+      rotateRight: dv.find('.dv-rotate-right'),
       download: dv.find('.dv-download'),
       print: dv.find('.dv-print'),
       viewport: dv.find('.dv-viewport'),
