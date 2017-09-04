@@ -1,0 +1,329 @@
+/* dv */
+
+.dv {
+  margin-bottom: 20px;
+}
+
+.dv * {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.dv input {
+  user-select: auto;
+}
+
+.dv-clear {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* toolbar */
+
+.dv-toolbar {
+  top: 0px;
+  width: 1200px;
+  margin-top: 10px;
+  z-index: 950;
+}
+
+/* panel */
+
+.dv-panel {
+  float: left;
+  width: 640px;
+  height: 34px;
+  margin-right: 10px;
+  padding: 4px 8px;
+  border: 1px solid black;
+  background: none;
+}
+
+.dv.dv-grid-mode .dv-panel {
+  width: 305px;
+}
+
+.dv.dv-filmstrip-mode .dv-panel,
+.dv.dv-flipbook-mode .dv-panel {
+  width: 495px;
+}
+
+.dv-dash {
+  float: left;
+  width: 1px;
+  height: 24px;
+  margin-right: 8px;
+  background: black;
+}
+
+.dv-modes, .dv-zoom {
+  float: left;
+}
+
+.dv-panel a {
+  display: block;
+  float: left;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  padding: 0px;
+  background: url(docview.png) no-repeat scroll 0px 0px transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.dv-panel .dv-grid {
+  background-position: 0px 0px;
+}
+
+.dv-panel .dv-filmstrip {
+  background-position: -24px 0px;
+}
+
+.dv-panel .dv-inspect {
+  background-position: -48px 0px;
+}
+
+.dv-panel .dv-flipbook {
+  background-position: -72px 0px;
+}
+
+.dv-panel .dv-fullscreen {
+  background-position: -96px 0px;
+}
+
+.dv-panel .dv-zoom-out {
+  background-position: -120px 0px;
+}
+
+.dv-panel .dv-zoom-in {
+  background-position: -144px 0px;
+}
+
+.dv-panel .dv-dim {
+  background-position: -168px 0px;
+}
+
+.dv-grid:hover,
+.dv.dv-grid-mode .dv-grid {
+  background-position: 0px -24px;
+}
+
+.dv-filmstrip:hover,
+.dv.dv-filmstrip-mode .dv-filmstrip {
+  background-position: -24px -24px;
+}
+
+.dv-inspect:hover,
+.dv.dv-inspect-mode .dv-inspect {
+  background-position: -48px -24px;
+}
+
+.dv-flipbook:hover,
+.dv.dv-flipbook-mode .dv-flipbook {
+  background-position: -72px -24px;
+}
+
+.dv-fullscreen:hover {
+  background-position: -96px -24px;
+}
+
+.dv-zoom-out:hover {
+  background-position: -120px -24px;
+}
+
+.dv-zoom-in:hover {
+  background-position: -144px -24px;
+}
+
+.dv-dim:hover {
+  background-position: -168px -24px;
+}
+
+.dv.dv-grid-mode .dv-dash-dim {
+  display: none;
+}
+
+/* paginator */
+
+.dv-paginator {
+  float: left;
+  width: 172px;
+  margin-right: 8px;
+}
+
+.dv-paginator a {
+  margin: 0px;
+}
+
+.dv-cur {
+  float: left;
+  width: 120px;
+  height: 20px;
+  margin: 2px;
+  padding: 2px 0px;
+  border: 1px solid black;
+  font-size: 13px;
+  line-height: 20px;
+  color: black;
+  text-align: center;
+  outline: none;
+}
+
+.dv-paginator .dv-prev {
+  background-position: -192px 0px;
+}
+
+.dv-paginator .dv-next {
+  background-position: -216px 0px;
+}
+
+.dv-prev:hover {
+  background-position: -192px -24px;
+}
+
+.dv-next:hover {
+  background-position: -216px -24px;
+}
+
+.dv.dv-grid-mode .dv-paginator,
+.dv.dv-grid-mode .dv-dash-paginator,
+.dv.dv-filmstrip-mode .dv-dash-paginator,
+.dv.dv-flipbook-mode .dv-dash-paginator {
+  display: none;
+}
+
+/* rotator */
+
+.dv-rotator {
+  display: none;
+  float: left;
+  width: 64px;
+}
+
+.dv-dash-rotator {
+  display: none;
+}
+
+.dv-rotator .dv-rotate-left {
+  background-position: -312px 0px;
+}
+
+.dv-rotator .dv-rotate-right {
+  background-position: -336px 0px;
+}
+
+.dv-rotate-left:hover {
+  background-position: -312px -24px;
+}
+
+.dv-rotate-right:hover {
+  background-position: -336px -24px;
+}
+
+.dv.dv-inspect-mode .dv-rotator,
+.dv.dv-inspect-mode .dv-dash-rotator {
+  display: block;
+}
+
+/* download & print */
+
+.dv-panel .dv-download {
+  display: none;
+  background-position: -384px 0px;
+}
+
+.dv-panel .dv-print {
+  display: none;
+  background-position: -360px 0px;
+}
+
+.dv-download:hover {
+  background-position: -384px -24px;
+}
+
+.dv-print:hover {
+  background-position: -360px -24px;
+}
+
+.dv.dv-inspect-mode .dv-print,
+.dv.dv-inspect-mode .dv-download {
+  display: block;
+}
+
+/* addons */
+
+.dv-addons {
+  float: left;
+}
+
+/* viewport */
+
+.dv-viewport-outter {
+  margin-top: 10px;
+}
+
+.dv-viewport-outter > .top-scrollbar {
+  margin: 20px 0px 10px 0px;
+}
+
+.dv-viewport {
+  padding-bottom: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.dv-viewport-inner {
+  position: relative;
+  margin: 0px auto;
+}
+
+.dv-page {
+  position: relative;
+  float: left;
+  margin: 0px 3px 3px 0px;
+  border: 2px solid transparent;
+  box-sizing: content-box;
+}
+
+.dv-page.dv-active {
+  border-color: black;
+}
+
+.dv-page img {
+  position: absolute;
+  max-width: none;
+}
+
+.dv.dv-flipbook-mode .dv-page {
+  margin: 0px;
+  border: none;
+}
+
+/* theme */
+
+.dv-panel {
+  border: 1px solid #d0d0d0;
+  background: #eee;
+  border-radius: 5px;
+}
+
+.dv-dash {
+  background: #d0d0d0;
+}
+
+.dv-cur {
+  border: 1px solid #d0d0d0;
+  color: #555;
+  border-radius: 5px;
+}
+
+.dv-page.dv-active {
+  border-color: #5be;
+  border-radius: 2px;
+}
+
+.dv-page img {
+  border-radius: 2px;
+}

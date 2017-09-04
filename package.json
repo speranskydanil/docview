@@ -1,21 +1,14 @@
 {
   "name": "docview",
   "version": "1.0.0",
-  "description": "Docview is a tool for displaying images.",
+  "description": "Image viewer for large collections",
+  "repository": "https://github.com/speranskydanil/docview.git",
   "scripts": {
-    "build": "webpack --watch",
-    "check": "jshint src || true"
+    "webpack": "webpack --watch",
+    "jshint": "jshint src || true"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/speranskydanil/docview.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/speranskydanil/docview/issues"
-  },
+  "author": "Danil Speransky <speranskydanil@gmail.com>",
+  "license": "MIT",
   "homepage": "https://github.com/speranskydanil/docview#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",

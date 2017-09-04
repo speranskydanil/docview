@@ -210,7 +210,7 @@ window.Docview = class Docview {
       this.mode.rotateRight()
     })
 
-    this.dom.download.click(function(e) {
+    this.dom.download.click(function() {
       $(this).attr('href', self.mode.downloadUrl)
     })
 
