@@ -8,18 +8,15 @@ Image viewer for large collections
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://rawgit.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"></script>
 <script src="https://rawgit.com/speranskydanil/jquery-top-scrollbar/master/jquery.top_scrollbar.js"></script>
-<script src="http://speranskydanil.github.io/docview/dist/docview.js"><script>
+<script src="http://speranskydanil.github.io/docview/dist/docview.js"></script>
 <div class="docview"></div>
 <scirpt>
 var docview = new Docview({
   div: '.docview',
   zooms: [82, 164, 328, 492, 656, 818, 984, 1146],
-  pages: [
-    {id: 1, w: 1200, h: 1740},
-    ..
-  ],
+  pages: [...Array(20)].map(i => ({id: i + 1, w: 1146, h: 1699})),
   pageUrl: function(id, zoom) {
-    return ['/pages', id, zoom, id + '.jpg'].join('/');
+    return ['/docview/pages', id, zoom, id + '.jpg'].join('/');
   }
 });
 </script>
