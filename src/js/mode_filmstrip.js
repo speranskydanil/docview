@@ -38,7 +38,7 @@ export default class ModeFilmstrip extends Mode {
     this.dom.viewport.off('scroll')
     this.dom.viewport.off('mousewheel')
     this.dom.wrapper.css('width', '100%')
-    this.dom.viewport.top_scrollbar(false)
+    this.dom.viewport.topScrollbar(false)
   }
 
   zoomIn() {
@@ -88,7 +88,7 @@ export default class ModeFilmstrip extends Mode {
   resize() {
     this.resizePages()
     this.dom.wrapper.css('width', this.pages.length * this.pageWidthWithIndent)
-    this.dom.viewport.top_scrollbar(this.pageHeight > 384)
+    this.dom.viewport.topScrollbar(this.pageHeight > 384)
   }
 
   load() {
