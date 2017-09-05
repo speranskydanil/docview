@@ -99,11 +99,11 @@ var docview = new Docview({
 
     zoom: 0
 
-## Screenshots
+### Events
 
-![screen](https://raw.github.com/speranskydanil/docview/master/screen-1.png)
+**dv-change** -- triggered when mode, index or zoom is changed
 
-![screen](https://raw.github.com/speranskydanil/docview/master/screen-2.png)
+**dv-dim** -- triggered when dim button is clicked
 
 **Author (Speransky Danil):**
 [LinkedIn](https://www.linkedin.com/in/speranskydanil) |
