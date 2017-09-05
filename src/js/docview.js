@@ -52,7 +52,7 @@ window.Docview = class Docview {
               <a class="dv-grid" title="${t.grid}"></a>
               <a class="dv-filmstrip" title="${t.filmstrip}"></a>
               <a class="dv-inspect" title="${t.inspect}"></a>
-              <a class="dv-flipbook" title="${t.flipBook}"></a>
+              <a class="dv-flipbook" title="${t.flipbook}"></a>
             </div>
             <div class="dv-dash"></div>
             <a class="dv-fullscreen" title="${t.fullscreen}"></a>
@@ -71,7 +71,7 @@ window.Docview = class Docview {
             </div>
             <div class="dv-dash dv-dash-paginator"></div>
             <div class="dv-rotator">
-              <a class="dv-rotate-left" title="${t.rotatLeft}"></a>
+              <a class="dv-rotate-left" title="${t.rotateLeft}"></a>
               <a class="dv-rotate-right" title="${t.rotateRight}"></a>
             </div>
             <div class="dv-dash dv-dash-rotator"></div>

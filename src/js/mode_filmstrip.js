@@ -42,7 +42,7 @@ export default class ModeFilmstrip extends Mode {
   }
 
   zoomIn() {
-    if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom')
+    if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv-max-zoom')
     this.zoom++
     this.redraw()
   }

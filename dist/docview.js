@@ -1266,7 +1266,7 @@ window.Docview = function () {
     value: function buildDom(params) {
       var t = params.translation;
 
-      var html = '\n      <div class="dv">\n        <div class="dv-toolbar dv-clear">\n          <div class="dv-panel">\n            <div class="dv-modes">\n              <a class="dv-grid" title="' + t.grid + '"></a>\n              <a class="dv-filmstrip" title="' + t.filmstrip + '"></a>\n              <a class="dv-inspect" title="' + t.inspect + '"></a>\n              <a class="dv-flipbook" title="' + t.flipBook + '"></a>\n            </div>\n            <div class="dv-dash"></div>\n            <a class="dv-fullscreen" title="' + t.fullscreen + '"></a>\n            <div class="dv-dash"></div>\n            <div class="dv-zoom">\n              <a class="dv-zoom-out" title="' + t.zoomOut + '"></a>\n              <a class="dv-zoom-in" title="' + t.zoomIn + '"></a>\n            </div>\n            <div class="dv-dash"></div>\n            <a class="dv-dim" title="' + t.dim + '"></a>\n            <div class="dv-dash dv-dash-dim"></div>\n            <div class="dv-paginator">\n              <a class="dv-prev" title="' + t.prevPage + '"></a>\n              <input class="dv-cur" type="text">\n              <a class="dv-next" title="' + t.nextPage + '"></a>\n            </div>\n            <div class="dv-dash dv-dash-paginator"></div>\n            <div class="dv-rotator">\n              <a class="dv-rotate-left" title="' + t.rotatLeft + '"></a>\n              <a class="dv-rotate-right" title="' + t.rotateRight + '"></a>\n            </div>\n            <div class="dv-dash dv-dash-rotator"></div>\n            <a class="dv-download" title="' + t.download + '" target="_blank" download></a>\n            <a class="dv-print" title="' + t.print + '"></a>\n          </div>\n          <div class="dv-addons">' + params.addons + '</div>\n        </div>\n        <div class="dv-viewport-outter">\n          <div class="dv-viewport">\n            <div class="dv-viewport-inner dv-clear">\n              ' + params.pages.map(function (page) {
+      var html = '\n      <div class="dv">\n        <div class="dv-toolbar dv-clear">\n          <div class="dv-panel">\n            <div class="dv-modes">\n              <a class="dv-grid" title="' + t.grid + '"></a>\n              <a class="dv-filmstrip" title="' + t.filmstrip + '"></a>\n              <a class="dv-inspect" title="' + t.inspect + '"></a>\n              <a class="dv-flipbook" title="' + t.flipbook + '"></a>\n            </div>\n            <div class="dv-dash"></div>\n            <a class="dv-fullscreen" title="' + t.fullscreen + '"></a>\n            <div class="dv-dash"></div>\n            <div class="dv-zoom">\n              <a class="dv-zoom-out" title="' + t.zoomOut + '"></a>\n              <a class="dv-zoom-in" title="' + t.zoomIn + '"></a>\n            </div>\n            <div class="dv-dash"></div>\n            <a class="dv-dim" title="' + t.dim + '"></a>\n            <div class="dv-dash dv-dash-dim"></div>\n            <div class="dv-paginator">\n              <a class="dv-prev" title="' + t.prevPage + '"></a>\n              <input class="dv-cur" type="text">\n              <a class="dv-next" title="' + t.nextPage + '"></a>\n            </div>\n            <div class="dv-dash dv-dash-paginator"></div>\n            <div class="dv-rotator">\n              <a class="dv-rotate-left" title="' + t.rotateLeft + '"></a>\n              <a class="dv-rotate-right" title="' + t.rotateRight + '"></a>\n            </div>\n            <div class="dv-dash dv-dash-rotator"></div>\n            <a class="dv-download" title="' + t.download + '" target="_blank" download></a>\n            <a class="dv-print" title="' + t.print + '"></a>\n          </div>\n          <div class="dv-addons">' + params.addons + '</div>\n        </div>\n        <div class="dv-viewport-outter">\n          <div class="dv-viewport">\n            <div class="dv-viewport-inner dv-clear">\n              ' + params.pages.map(function (page) {
         return '<div class="dv-page dv-page-' + page.id + '">\n                  <img src="" title="" alt="" oncontextmenu="return false">\n                </div>';
       }).join('') + '\n            </div>\n          </div>\n        </div>\n      </div>';
 
@@ -1767,7 +1767,7 @@ var ModeGrid = function (_Mode) {
   }, {
     key: 'zoomIn',
     value: function zoomIn() {
-      if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom');
+      if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv-max-zoom');
       this.zoom++;
       this.redraw();
     }
@@ -3014,7 +3014,7 @@ var ModeInspect = function (_Mode) {
   }, {
     key: 'zoomIn',
     value: function zoomIn() {
-      if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom');
+      if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv-max-zoom');
       this.zoom++;
       this.redraw();
     }
@@ -3263,7 +3263,7 @@ var ModeFlipBook = function (_Mode) {
   }, {
     key: 'zoomIn',
     value: function zoomIn() {
-      if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom');
+      if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv-max-zoom');
       this.zoom++;
       this.redraw();
     }
@@ -3630,7 +3630,7 @@ var ModeFilmstrip = function (_Mode) {
   }, {
     key: 'zoomIn',
     value: function zoomIn() {
-      if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv_max_zoom');
+      if (this.zoom >= this.zooms.length - 1) return $(window).trigger('dv-max-zoom');
       this.zoom++;
       this.redraw();
     }
