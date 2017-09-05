@@ -35,7 +35,7 @@ export default class Mode {
   }
 
   scroll() {
-    $(window).scrollTop(this.page.div.offset().top - 5)
+    $(window).scrollTop(this.page.div.offset().top - 60)
   }
 
   resizePages() {

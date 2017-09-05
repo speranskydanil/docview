@@ -608,7 +608,7 @@ var Mode = function () {
   }, {
     key: 'scroll',
     value: function scroll() {
-      $(window).scrollTop(this.page.div.offset().top - 5);
+      $(window).scrollTop(this.page.div.offset().top - 60);
     }
   }, {
     key: 'resizePages',
