@@ -2,26 +2,79 @@
 
 <html>
   <head>
+    <meta charset="utf-8">
+    <title>Docview</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../dist/docview.css" rel="stylesheet">
+
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+        font-size: 16px;
+      }
+
+      .wrapper {
+        position: relative;
+        min-height: 100%;
+      }
+
+      header {
+        padding: 20px;
+        background: #005500;
+        background-image: url(bg.png);
+        font-size: 40px;
+        color: white;
+        text-align: center;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        background: #efe;
+        background-image: url(bg.png);
+        text-align: center;
+      }
+
+      main {
+        padding: 20px 0px 0px 82px;
+      }
+    </style>
+
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://rawgit.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"></script>
     <script src="https://rawgit.com/speranskydanil/jquery-top-scrollbar/master/jquery.top_scrollbar.js"></script>
     <script src="../dist/docview.js"></script>
-    <link href="../dist/docview.css" rel="stylesheet">
+
+    <script>
+      $(document).ready(function() {
+        var docview = new Docview({
+          div: '.docview',
+          zooms: [82, 164, 328, 492, 656, 818, 984, 1146],
+          pages: [...new Array(20)].map((_, id) => ({id, w: 1146, h: 1699})),
+          pageUrl: function(id, zoom) {
+            var id = (id % 20) + 1;
+            return ['http://speranskydanil.github.io/docview/public/pages/', id, zoom, id + '.jpg'].join('/');
+          }
+        });
+      });
+    </script>
   </head>
 
   <body>
-    <div class="docview"></div>
+    <div class="wrapper">
+      <header>Docview</header>
 
-    <script>
-      new Docview({
-        div: '.docview',
-        zooms: [82, 164, 328, 492, 656, 818, 984, 1146],
-        pages: [...new Array(200)].map((_, id) => ({id, w: 1146, h: 1699})),
-        pageUrl: function(id, zoom) {
-          var id = (id % 20) + 1
-          return 'http://speranskydanil.github.io/docview/pages/' + id + '/' + zoom + '/' + id + '.jpg'
-        }
-      })
-    </script>
+      <main class="container">
+        <div class="docview"></div>
+      <main>
+
+      <footer>Danil Speransky</footer>
+    </div>
   </body>
 </html>
