@@ -16,9 +16,10 @@
       new Docview({
         div: '.docview',
         zooms: [82, 164, 328, 492, 656, 818, 984, 1146],
-        pages: new Array(200).fill(0).map((_, id) => ({id, w: 1146, h: 1540})),
+        pages: [...new Array(200)].map((_, id) => ({id, w: 1146, h: 1699})),
         pageUrl: function(id, zoom) {
-          return 'https://raw.githubusercontent.com/speranskydanil/docview/gh-pages/data/' + (id % 10) + '/' + zoom + '.jpg'
+          var id = (id % 20) + 1
+          return 'http://speranskydanil.github.io/docview/pages/' + id + '/' + zoom + '/' + id + '.jpg'
         }
       })
     </script>
