@@ -3007,7 +3007,7 @@ var ModeInspect = function (_Mode) {
       this.dom.pages.show();
       this.dom.pages.off('click');
       this.dom.wrapper.css({ width: '100%', height: 'auto' });
-      this.dom.viewport.top_scrollbar(false);
+      this.dom.viewport.topScrollbar(false);
       this.dom.images.css('transform', '');
       this.dom.images.css('top', 'auto');
     }
@@ -3111,7 +3111,7 @@ var ModeInspect = function (_Mode) {
         height: Math.max(this.pageWidthWithIndent, this.pageHeightWithIndent)
       });
 
-      this.dom.viewport.top_scrollbar();
+      this.dom.viewport.topScrollbar();
     }
   }, {
     key: 'load',
@@ -3258,7 +3258,7 @@ var ModeFlipBook = function (_Mode) {
       this.dom.pages.css('position', 'relative');
       this.dom.pages.off('click');
       this.dom.wrapper.css({ width: '100%', height: 'auto' });
-      this.dom.viewport.top_scrollbar(false);
+      this.dom.viewport.topScrollbar(false);
     }
   }, {
     key: 'zoomIn',
@@ -3384,7 +3384,7 @@ var ModeFlipBook = function (_Mode) {
     value: function resize() {
       this.resizePages();
       this.dom.wrapper.css({ width: 2 * this.pageWidth, height: this.pageHeight });
-      this.dom.viewport.top_scrollbar();
+      this.dom.viewport.topScrollbar();
     }
   }, {
     key: 'load',
