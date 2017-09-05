@@ -101,9 +101,9 @@ var docview = new Docview({
 
 ### Events
 
-**dv-change** -- triggered when mode, index or zoom is changed
+**dv-change** - triggered when mode, index or zoom is changed
 
-**dv-dim** -- triggered when dim button is clicked
+**dv-dim** - triggered when dim button is clicked
 
 **Author (Speransky Danil):**
 [LinkedIn](https://www.linkedin.com/in/speranskydanil) |
