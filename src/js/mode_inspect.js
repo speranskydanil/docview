@@ -24,7 +24,7 @@ export default class ModeInspect extends Mode {
     this.dom.pages.show()
     this.dom.pages.off('click')
     this.dom.wrapper.css({width: '100%', height: 'auto'})
-    this.dom.viewport.top_scrollbar(false)
+    this.dom.viewport.topScrollbar(false)
     this.dom.images.css('transform', '')
     this.dom.images.css('top', 'auto')
   }
@@ -111,7 +111,7 @@ export default class ModeInspect extends Mode {
       height: Math.max(this.pageWidthWithIndent, this.pageHeightWithIndent)
     })
 
-    this.dom.viewport.top_scrollbar()
+    this.dom.viewport.topScrollbar()
   }
 
   load() {
