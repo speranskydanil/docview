@@ -3625,7 +3625,7 @@ var ModeFilmstrip = function (_Mode) {
       this.dom.viewport.off('scroll');
       this.dom.viewport.off('mousewheel');
       this.dom.wrapper.css('width', '100%');
-      this.dom.viewport.top_scrollbar(false);
+      this.dom.viewport.topScrollbar(false);
     }
   }, {
     key: 'zoomIn',
@@ -3674,7 +3674,7 @@ var ModeFilmstrip = function (_Mode) {
     value: function resize() {
       this.resizePages();
       this.dom.wrapper.css('width', this.pages.length * this.pageWidthWithIndent);
-      this.dom.viewport.top_scrollbar(this.pageHeight > 384);
+      this.dom.viewport.topScrollbar(this.pageHeight > 384);
     }
   }, {
     key: 'load',
