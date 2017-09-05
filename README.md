@@ -3,12 +3,13 @@
 Image viewer for large collections
 
 <link href="http://speranskydanil.github.io/docview/dist/docview.css" rel="stylesheet">
+<link href="http://speranskydanil.github.io/docview/public/docview.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://rawgit.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"></script>
 <script src="https://rawgit.com/speranskydanil/jquery-top-scrollbar/master/jquery.top_scrollbar.js"></script>
 <script src="http://speranskydanil.github.io/docview/dist/docview.js"></script>
 <div class="docview"></div>
-<script src="http://speranskydanil.github.io/docview/pages/docview.js"></script>
+<script src="http://speranskydanil.github.io/docview/public/docview.js"></script>
 
 ## Dependencies
 
