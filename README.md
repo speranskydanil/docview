@@ -2,24 +2,13 @@
 
 Image viewer for large collections
 
-[DEMO](http://speranskydanil.github.io/docview)
-
 <link href="http://speranskydanil.github.io/docview/dist/docview.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://rawgit.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"></script>
 <script src="https://rawgit.com/speranskydanil/jquery-top-scrollbar/master/jquery.top_scrollbar.js"></script>
 <script src="http://speranskydanil.github.io/docview/dist/docview.js"></script>
 <div class="docview"></div>
-<scirpt>
-var docview = new Docview({
-  div: '.docview',
-  zooms: [82, 164, 328, 492, 656, 818, 984, 1146],
-  pages: [...Array(20)].map(i => ({id: i + 1, w: 1146, h: 1699})),
-  pageUrl: function(id, zoom) {
-    return ['/docview/pages', id, zoom, id + '.jpg'].join('/');
-  }
-});
-</script>
+<script src="http://speranskydanil.github.io/docview/docview.js"></script>
 
 ## Dependencies
 
