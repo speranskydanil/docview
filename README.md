@@ -8,7 +8,7 @@ Image viewer for large collections
 <script src="https://rawgit.com/speranskydanil/jquery-top-scrollbar/master/jquery.top_scrollbar.js"></script>
 <script src="http://speranskydanil.github.io/docview/dist/docview.js"></script>
 <div class="docview"></div>
-<script src="http://speranskydanil.github.io/docview/docview.js"></script>
+<script src="http://speranskydanil.github.io/docview/pages/docview.js"></script>
 
 ## Dependencies
 
