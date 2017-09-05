@@ -1,142 +1,103 @@
 # Docview
 
-Docview is a tool for displaying images.
+Image viewer for large collections
 
 [DEMO](http://speranskydanil.github.io/docview)
 
 ## Dependencies
 
-* [jQuery](http://jquery.com/)
-* [jQuery Mouse Wheel Plugin](https://github.com/brandonaaron/jquery-mousewheel)
+* [jQuery](http://jquery.com)
+* [jQuery Mouse Wheel](https://github.com/brandonaaron/jquery-mousewheel)
 * [jquery-top-scrollbar](https://github.com/speranskydanil/jquery-top-scrollbar)
 
 ## Features
 
-* Grid, Filmstrip, Inspect, Flip-Book modes are available.
-* Fullscreen.
-* Zooming.
-* Dim the lights (adds `dark` class to body).
-* Next and Prev buttons, setting current page.
-* Rotating (in the Inspect mode).
-* Download and Print buttons (in the Inspect mode).
+* Grid, Filmstrip, Inspect and Flip-Book modes
+* Fullscreen mode
+* Zooming pages
+* Switching pages
+* Rotating pages
+* Download & Print
 * Intellectual loading of images, determining the viewport, and loading only what you are looking at.
-* Nice UX.
+* Nice UX
 
 ## Usage
 
 ### Basic
 
 ```html
-<link rel="stylesheet" href="docview.css">
+<link href="docview.css" rel="stylesheet">
 <script src="docview.js"></script>
-
-<div class="galery"></div>
+<div class="docview"></div>
 ```
 
 ```javascript
-new Docview({
-  div: $('.galery'),
+var docview = new Docview({
+  div: '.docview',
+  zooms: [82, 164, 328, 492, 656, 818, 984, 1146],
   pages: [
-    { id: 0, w: 1146, h: 1540 },
-    { id: 1, w: 1146, h: 1540 },
-    { id: 2, w: 1146, h: 1540 },
-    { id: 3, w: 1146, h: 1540 },
-    { id: 4, w: 1146, h: 1540 },
-    { id: 5, w: 1146, h: 1540 },
-    { id: 6, w: 1146, h: 1540 },
-    { id: 7, w: 1146, h: 1540 },
-    { id: 8, w: 1146, h: 1540 },
-    { id: 9, w: 1146, h: 1540 }
+    {id: 1, w: 1200, h: 1740},
+    ..
   ],
-  zooms: {
-    0: 82,
-    1: 164,
-    2: 328,
-    3: 492,
-    4: 656,
-    5: 818,
-    6: 984,
-    7: 1146
-  },
-  maxZoom: 8,
   pageUrl: function(id, zoom) {
-    return ['/pages', id, zoom].join('/') + '.jpg';
+    return ['/pages', id, zoom, id + '.jpg'].join('/');
   }
 });
 ```
 
-### Params
+### Options
 
-**div** - div in which the Docview will be placed.<br>
-`div: $('.galery')`
+**div** - container for Docview<br>
 
-**theme** - the look, possible values: 'standard', 'simple', 'dark'; 'standard' - is the default value.<br>
-`theme: 'standard'`
+    div: '.docview'
 
-**translation** - you can change text for tooltips, the default values are written below.
+**translation** - you can change text for tooltips, the default values are written below
 
     translation: {
       grid: 'Grid',
       filmstrip: 'Filmstrip',
       inspect: 'Inspect',
-      flipBook: 'Flip-book',
+      flipbook: 'Flip-Book',
       fullscreen: 'Fullscreen',
-      zoomOut: 'Zoom out',
-      zoomIn: 'Zoom in',
-      dimTheLights: 'Dim the lights',
-      prevPage: 'Previous page',
-      nextPage: 'Next page',
-      rotateLeft: 'Rotate left',
-      rotateRight: 'Rotate right',
+      zoomOut: 'Zoom Out',
+      zoomIn: 'Zoom In',
+      dim: 'Dim',
+      prevPage: 'Previous Page',
+      nextPage: 'Next Page',
+      rotateLeft: 'Rotate Left',
+      rotateRight: 'Rotate Right',
       download: 'Download',
       print: 'Print'
     }
 
-**index** - initial page; default value: 0.<br>
-`index: 0`
+**zooms** - widths for zooms
 
-**mode** - initial mode; possible values: 'grid', 'filmstrip', 'inspect', 'flip-book'; default value: 'grid'.<br>
-`mode: 'grid'`
+      zooms: [82, 164, 328, 492, 656, 818, 984, 1146]
 
-**zoom** - initial zoom; default value: 0.<br>
-`zoom: 0`
+**pages** - pages to display; id, width and height have to be specified
 
-**pages** - pages to display; id, width and height should be specified.
+    pages: [
+      {id: 1, w: 1200, h: 1740},
+      ..
+    ]
 
-      pages: [
-        { id: 0, w: 1146, h: 1540 },
-        { id: 1, w: 1146, h: 1540 },
-        { id: 2, w: 1146, h: 1540 },
-        { id: 3, w: 1146, h: 1540 },
-        { id: 4, w: 1146, h: 1540 },
-        { id: 5, w: 1146, h: 1540 },
-        { id: 6, w: 1146, h: 1540 },
-        { id: 7, w: 1146, h: 1540 },
-        { id: 8, w: 1146, h: 1540 },
-        { id: 9, w: 1146, h: 1540 }
-      ]
-
-**zooms** - possible zooms; key - number of a zoom, value - width of the zoom.
-
-      zooms: {
-        0: 82,
-        1: 164,
-        2: 328,
-        3: 492,
-        4: 656,
-        5: 818,
-        6: 984,
-        7: 1146
-      }
-
-**maxZoom** - the allowed max zoom; event `docview-access-denied` will be sent when trying to access a zoom greater then that.<br>
-`maxZoom: 8`
-
-**pageUrl** - function which should return url for a page by it's id and zoom.
+**pageUrl** - function which returns url for a page by it's id and zoom
 
     pageUrl: function(id, zoom) {
       return ['./data', parseInt(id) % 10, zoom + '.jpg'].join('/');
     }
+
+**mode** - initial mode ('grid' (default), 'filmstrip', 'inspect', 'flip-book')
+
+    mode: 'grid'
+
+**index** - initial page, default 0
+
+    index: 0
+
+**zoom** - initial zoom, default 0
+
+    zoom: 0
 
 ## Screenshots
 
@@ -144,12 +105,7 @@ new Docview({
 
 ![screen](https://raw.github.com/speranskydanil/docview/master/screen-2.png)
 
-![screen](https://raw.github.com/speranskydanil/docview/master/screen-3.png)
-
-![screen](https://raw.github.com/speranskydanil/docview/master/screen-4.png)
-
 **Author (Speransky Danil):**
-[LinkedIn](http://ru.linkedin.com/in/speranskydanil/en) |
-[GitHub](https://github.com/speranskydanil?tab=repositories) |
-[StackOverflow](http://stackoverflow.com/users/1550807/speransky-danil)
-
+[LinkedIn](https://www.linkedin.com/in/speranskydanil) |
+[GitHub](https://github.com/speranskydanil) |
+[StackOverflow](https://stackoverflow.com/users/1550807/danil-speransky?tab=profile)
